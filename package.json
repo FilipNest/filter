@@ -1,0 +1,16 @@
+{
+  "name": "musicalwords",
+  "version": "1.0.0",
+  "description": "",
+  "main": "core.js",
+  "author": "FilipNest",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "handlebars": "^4.0.5",
+    "hashids": "^1.1.1",
+    "nedb": "^1.8.0",
+    "ws": "^1.1.1"
+  }
+}

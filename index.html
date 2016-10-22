@@ -1,0 +1,22 @@
+<h1>{{room}}</h1>
+
+<form method="POST">
+
+  <input name="words" />
+  <input type="submit" />
+
+</form>
+
+<ul>
+
+  {{#each messages}}
+
+  <li><small><span class="author">{{this.author}}</span>@<span class="date">{{this.date}}</span></small>
+    <br /><span class="message"><strong>{{this.words}}</strong></span>
+    <br />
+    <span><small>#{{this.id}}</small></span>
+  </li>
+
+  {{/each}}
+
+</ul>
