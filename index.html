@@ -1,8 +1,9 @@
-<h1>{{room}}</h1>
+<h1>{{#each tags}} {{this}} {{/each}}</h1>
 
-<form method="POST">
+<form method="POST" action="/">
 
   <input name="words" />
+  <input hidden name="tags" value="{{tagsJSON}}"/>
   <input type="submit" />
 
 </form>

@@ -47,30 +47,41 @@ app.use(function (req, res, next) {
 
 var fs = require("fs");
 
-app.get("/", function (req, res) {
+app.use(express.static('static'));
 
-  res.send("Home");
+app.get("/:tags?", function (req, res) {
 
-});
+  var tags;
 
-app.get("/:room", function (req, res) {
+  if (!req.params.tags) {
+
+    tags = ["*"];
+
+  } else {
+
+    tags = req.params.tags.split(",");
+
+  }
 
   var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
 
   var template = Handlebars.compile(templateFile);
 
   db.find({
-    room: req.params.room
+    tags: {
+      $in: tags
+    }
   }).sort({
     date: -1
   }).exec(function (err, messages) {
 
     res.send(template({
       messages: messages,
-      "room": req.params.room
+      tags: tags,
+      tagsJSON: JSON.stringify(tags)
     }));
 
-  });
+  })
 
 });
 
@@ -78,18 +89,18 @@ var messageCount = 0;
 
 // Post message (eventually to an id of an artist or genre)
 
-app.post("/:room", function (req, res) {
+app.post("/:tags?", function (req, res) {
 
   var post = req.body;
 
-  if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 140) {
+  if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
 
     var message = {
       words: req.body.words,
       author: req.session.user,
       id: hashids.encode(messageCount),
       date: Date.now(),
-      room: req.params.room
+      tags: JSON.parse(req.body.tags)
     }
 
     db.insert(message, function (err, newDoc) {
