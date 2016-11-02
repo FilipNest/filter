@@ -51,15 +51,40 @@ app.use(express.static('static'));
 
 app.get("/:tags?", function (req, res) {
 
-  var tags;
+  var search;
 
   if (!req.params.tags) {
 
-    tags = ["*"];
+    search = {};
 
   } else {
 
-    tags = req.params.tags.split(",");
+    var parsedTags = req.params.tags.split(",");
+
+    parsedTags.forEach(function (tag) {
+
+      var positive = [];
+      var negative = [];
+
+      // Check if first character is exclamation point, therefore negate
+
+      if (tag[0] === "!") {
+
+        negative.push(tag.substring(1));
+
+      } else {
+
+        positive.push(tag);
+
+      }
+
+      search = {
+        tags: {
+          $in: positive
+        }
+      }
+
+    })
 
   }
 
@@ -67,18 +92,13 @@ app.get("/:tags?", function (req, res) {
 
   var template = Handlebars.compile(templateFile);
 
-  db.find({
-    tags: {
-      $in: tags
-    }
-  }).sort({
+  db.find(search).sort({
     date: -1
   }).exec(function (err, messages) {
 
     res.send(template({
       messages: messages,
-      tags: tags,
-      tagsJSON: JSON.stringify(tags)
+      tags: req.params.tags
     }));
 
   })
@@ -95,19 +115,21 @@ app.post("/:tags?", function (req, res) {
 
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
 
+    var tags = req.body.tags.split(",");
+
     var message = {
       words: req.body.words,
       author: req.session.user,
       id: hashids.encode(messageCount),
       date: Date.now(),
-      tags: JSON.parse(req.body.tags)
+      tags: tags
     }
 
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
 
-      res.redirect("/" + req.params.room);
+      res.redirect("/" + req.params.tags);
 
     });
 
