@@ -5,7 +5,7 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
   <script src="/meta/files/libraries/tagsinput/jquery.tagsinput.js"></script>
-
+  
   <link rel="stylesheet" href="/meta/files/libraries/tagsinput/jquery.tagsinput.css">
 
   <link rel="stylesheet" href="/meta/files/style.css" />
@@ -27,22 +27,7 @@
 
 <br />
   
-  <div>{{#unless messages}} No messages. Add some. {{/unless}}</div>
-
-  <ul id="chat">
-
-    {{#each messages}}
-
-    <li><small><span class="author">By {{this.author}}</span> - <span class="date">{{this.date}}</span></small>
-      <br /><span class="message"><strong>{{this.words}}</strong></span>
-      <br />
-      <span>{{this.tags}} + {{this.id}}</span>
-      <br />
-    </li>
-    <hr />
-    <br /> {{/each}}
-
-  </ul>
+  MESSAGES
 
   <form autocomplete="off" method="POST">
 

@@ -98,8 +98,11 @@ app.get("/:tags?", function (req, res) {
   }
 
   var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
+  var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
 
   var template = Handlebars.compile(templateFile);
+  var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+
 
   db.find(search).sort({
     date: -1
@@ -113,11 +116,18 @@ app.get("/:tags?", function (req, res) {
 
     messages.reverse();
 
-    res.send(template({
-      messages: messages,
+    var output = template({
       tagsJSON: req.params.tags,
       tags: req.params.tags ? req.params.tags.split(",") : null
-    }));
+    });
+
+    var messageBlock = messagesTemplate({
+      messages: messages,
+    });
+
+    output = output.replace("MESSAGES", messageBlock);
+
+    res.send(output);
 
   });
 

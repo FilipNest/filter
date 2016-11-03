@@ -1,0 +1,16 @@
+<div>{{#unless messages}} No messages. Add some. {{/unless}}</div>
+
+  <ul id="chat">
+
+    {{#each messages}}
+
+    <li><small><span class="author">By {{this.author}}</span> - <span class="date">{{this.date}}</span></small>
+      <br /><span class="message"><strong>{{this.words}}</strong></span>
+      <br />
+      <span>{{this.tags}} + {{this.id}}</span>
+      <br />
+    </li>
+    <hr />
+    <br /> {{/each}}
+
+  </ul>
