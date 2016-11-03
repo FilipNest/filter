@@ -8,13 +8,13 @@ body {
   margin: 0px;
   margin: auto;
 }
-.taggle_list {
-  background-color: darkseagreen;
-}
 #chat {
   background-color: aliceblue;
   max-height: 300px;
   overflow-y: scroll;
+}
+#tags_tagsinput {
+  box-sizing: border-box;
 }
 #chat li {
   box-sizing: border-box;
@@ -24,4 +24,15 @@ body {
 }
 #chat ul {
   padding: 0px;
+}
+input,
+textarea {
+  padding: 0.5em;
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 1em;
+}
+button {
+  display: block;
+  width: 100%;
 }

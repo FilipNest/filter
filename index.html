@@ -22,8 +22,12 @@
 
   <h1>*</h1> {{/if}}
 
-  <input id="tags" value="{{tagsJSON}}"/>
+  <input id="tags" value="{{tagsJSON}}" />
   <button onclick=refresh()>Change</button>
+
+<br />
+  
+  <div>{{#unless messages}} No messages. Add some. {{/unless}}</div>
 
   <ul id="chat">
 
@@ -40,11 +44,11 @@
 
   </ul>
 
-  <form method="POST">
+  <form autocomplete="off" method="POST">
 
-    <input name="words" />
+    <textarea name="words"></textarea>
     <input hidden name="tags" value="{{tagsJSON}}" />
-    <input type="submit" />
+    <button type="submit">Post</button>
 
   </form>
 </body>

@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   }
 
-  $('#tags').tagsInput({});
+  $('#tags').tagsInput({
+    width: "100%",
+    defaultText: "Add filters"
+  });
 
 });
