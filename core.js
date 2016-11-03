@@ -48,72 +48,56 @@ app.use(function (req, res, next) {
 
 var fs = require("fs");
 
-app.get("/:tags?", function (req, res) {
+var messagesFromTags = function (tags) {
 
-  var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
-  var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
+  return new Promise(function (resolve, reject) {
 
-  var template = Handlebars.compile(templateFile);
-  var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+    var search;
 
-  var searchFromTags = function (tags) {
+    if (!tags || tags === "") {
 
-    return new Promise(function (resolve, reject) {
+      search = {};
 
-      var search;
+    } else {
 
-      if (!tags || tags === "") {
+      var parsedTags = tags.split(",");
 
-        search = {};
+      parsedTags.forEach(function (tag) {
 
-      } else {
+        var positive = [];
+        var negative = [];
 
-        var parsedTags = tags.split(",");
+        // Check if first character is exclamation point, therefore negate
 
-        parsedTags.forEach(function (tag) {
+        if (tag[0] === "!") {
 
-          var positive = [];
-          var negative = [];
+          negative.push(tag.substring(1));
 
-          // Check if first character is exclamation point, therefore negate
+        } else {
 
-          if (tag[0] === "!") {
+          positive.push(tag);
 
-            negative.push(tag.substring(1));
+        }
 
-          } else {
-
-            positive.push(tag);
-
-          }
-
-          search = {
-            $and: [{
-                tags: {
-                  $in: positive
-                }
+        search = {
+          $and: [{
+              tags: {
+                $in: positive
+              }
                 },
-              {
-                $not: {
-                  tags: {
-                    $in: negative
-                  }
+            {
+              $not: {
+                tags: {
+                  $in: negative
                 }
+              }
                 }]
 
-          };
+        };
 
-        });
+      });
 
-      }
-
-      resolve(search);
-
-    })
-
-  };
-
-  searchFromTags(req.params.tags).then(function (search) {
+    }
 
     db.find(search).sort({
       date: -1
@@ -127,30 +111,56 @@ app.get("/:tags?", function (req, res) {
 
       messages.reverse();
 
-      var output = template({
-        tagsJSON: req.params.tags,
-        tags: req.params.tags ? req.params.tags.split(",") : null
-      });
-
-      var messageBlock = messagesTemplate({
-        messages: messages,
-      });
-
-      output = output.replace("MESSAGES", messageBlock);
-
-      res.send(output);
+      resolve(messages);
 
     });
 
   })
 
+};
+
+app.get("/:tags?", function (req, res) {
+
+  var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
+  var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
+
+  var template = Handlebars.compile(templateFile);
+  var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+
+  messagesFromTags(req.params.tags).then(function (messages) {
+
+    var output = template({
+      tagsJSON: req.params.tags,
+      tags: req.params.tags ? req.params.tags.split(",") : null
+    });
+
+    var messageBlock = messagesTemplate({
+      messages: messages,
+    });
+
+    output = output.replace("MESSAGES", messageBlock);
+
+    res.send(output);
+
+  })
+
 });
+
+app.get("/meta/refresh/:tags?", function (req, res) {
+
+  messagesFromTags(req.params.tags).then(function (search) {
+
+
+
+
+
+  })
+
+})
 
 app.use('/meta/files', express.static('static'));
 
 var messageCount = 0;
-
-// Post message (eventually to an id of an artist or genre)
 
 app.post("/:tags?", function (req, res) {
 
