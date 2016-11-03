@@ -1,4 +1,8 @@
-<div>{{#unless messages}} No messages. Add some. {{/unless}}</div>
+<section id="messages">
+  
+  {{#unless messages}}
+  <div> No messages. Add some. </div>
+  {{/unless}}
 
   <ul id="chat">
 
@@ -14,3 +18,5 @@
     <br /> {{/each}}
 
   </ul>
+
+</section>

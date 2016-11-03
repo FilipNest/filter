@@ -1,12 +1,45 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-  var chatWindow = $("#chat")[0];
+  window.sendMessage = function () {
 
-  chatWindow.scrollTop = chatWindow.scrollHeight;
+    var datastring = $("#postmessage").serialize();
+    $.ajax({
+      type: "POST",
+      url: document.location.href,
+      data: datastring,
+      success: function (data) {
+
+        document.location.href = document.location.href;
+
+      },
+      error: function () {
+        alert('error handing here');
+      }
+    });
+
+  };
+
+  var scrollTop = function () {
+
+    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
+  };
+
+  scrollTop();
+
+  var stateObject = {};
 
   window.refresh = function () {
 
-    document.location.href = "/" + $('#tags').val();
+    $.get("/meta/refresh/" + $('#tags').val(), function (result) {
+
+      $("#messages")[0].innerHTML = result;
+
+      scrollTop();
+
+      history.pushState(stateObject, $('#tags').val(), $('#tags').val());
+
+    })
 
   }
 
@@ -20,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $('#tags').tagsInput({
     width: "100%",
-    defaultText: "Add filters"
+    onChange: window.refresh
   });
 
 });

@@ -148,11 +148,17 @@ app.get("/:tags?", function (req, res) {
 
 app.get("/meta/refresh/:tags?", function (req, res) {
 
-  messagesFromTags(req.params.tags).then(function (search) {
+  messagesFromTags(req.params.tags).then(function (messages) {
 
+    var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
 
+    var messagesTemplate = Handlebars.compile(messagesTemplateFile);
 
+    var messageBlock = messagesTemplate({
+      messages: messages,
+    });
 
+    res.send(messageBlock);
 
   })
 
@@ -163,7 +169,7 @@ app.use('/meta/files', express.static('static'));
 var messageCount = 0;
 
 app.post("/:tags?", function (req, res) {
-
+  
   var post = req.body;
 
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {

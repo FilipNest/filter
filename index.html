@@ -23,13 +23,12 @@
   <h1>*</h1> {{/if}}
 
   <input id="tags" value="{{tagsJSON}}" />
-  <button onclick=refresh()>Change</button>
 
 <br />
   
   MESSAGES
 
-  <form autocomplete="off" method="POST">
+  <form id="postmessage" autocomplete="off" method="POST">
 
     <textarea name="words"></textarea>
     <input hidden name="tags" value="{{tagsJSON}}" />
