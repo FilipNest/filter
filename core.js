@@ -50,86 +50,99 @@ var fs = require("fs");
 
 app.get("/:tags?", function (req, res) {
 
-  var search;
-
-  if (!req.params.tags) {
-
-    search = {};
-
-  } else {
-
-    var parsedTags = req.params.tags.split(",");
-
-    parsedTags.forEach(function (tag) {
-
-      var positive = [];
-      var negative = [];
-
-      // Check if first character is exclamation point, therefore negate
-
-      if (tag[0] === "!") {
-
-        negative.push(tag.substring(1));
-
-      } else {
-
-        positive.push(tag);
-
-      }
-
-      search = {
-        $and: [{
-            tags: {
-              $in: positive
-            }
-                },
-          {
-            $not: {
-              tags: {
-                $in: negative
-              }
-            }
-                }]
-
-      };
-
-    });
-
-  }
-
   var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
   var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
 
   var template = Handlebars.compile(templateFile);
   var messagesTemplate = Handlebars.compile(messagesTemplateFile);
 
+  var searchFromTags = function (tags) {
 
-  db.find(search).sort({
-    date: -1
-  }).exec(function (err, messages) {
+    return new Promise(function (resolve, reject) {
 
-    messages.forEach(function (message) {
+      var search;
 
-      message.date = moment(message.date).format("ddd, hA");
+      if (!tags || tags === "") {
+
+        search = {};
+
+      } else {
+
+        var parsedTags = tags.split(",");
+
+        parsedTags.forEach(function (tag) {
+
+          var positive = [];
+          var negative = [];
+
+          // Check if first character is exclamation point, therefore negate
+
+          if (tag[0] === "!") {
+
+            negative.push(tag.substring(1));
+
+          } else {
+
+            positive.push(tag);
+
+          }
+
+          search = {
+            $and: [{
+                tags: {
+                  $in: positive
+                }
+                },
+              {
+                $not: {
+                  tags: {
+                    $in: negative
+                  }
+                }
+                }]
+
+          };
+
+        });
+
+      }
+
+      resolve(search);
+
+    })
+
+  };
+
+  searchFromTags(req.params.tags).then(function (search) {
+
+    db.find(search).sort({
+      date: -1
+    }).exec(function (err, messages) {
+
+      messages.forEach(function (message) {
+
+        message.date = moment(message.date).format("ddd, hA");
+
+      });
+
+      messages.reverse();
+
+      var output = template({
+        tagsJSON: req.params.tags,
+        tags: req.params.tags ? req.params.tags.split(",") : null
+      });
+
+      var messageBlock = messagesTemplate({
+        messages: messages,
+      });
+
+      output = output.replace("MESSAGES", messageBlock);
+
+      res.send(output);
 
     });
 
-    messages.reverse();
-
-    var output = template({
-      tagsJSON: req.params.tags,
-      tags: req.params.tags ? req.params.tags.split(",") : null
-    });
-
-    var messageBlock = messagesTemplate({
-      messages: messages,
-    });
-
-    output = output.replace("MESSAGES", messageBlock);
-
-    res.send(output);
-
-  });
+  })
 
 });
 
@@ -158,6 +171,12 @@ app.post("/:tags?", function (req, res) {
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
+
+      if (!req.params.tags) {
+
+        req.params.tags = "";
+
+      }
 
       res.redirect("/" + req.params.tags);
 
