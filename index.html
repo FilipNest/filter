@@ -3,7 +3,7 @@
 <form method="POST">
 
   <input name="words" />
-  <input hidden name="tags" value="{{tags}}"/>
+  <input hidden name="tags" value="{{tags}}" />
   <input type="submit" />
 
 </form>
@@ -16,8 +16,9 @@
     <br /><span class="message"><strong>{{this.words}}</strong></span>
     <br />
     <span><small>#{{this.id}}</small></span>
+    <span>{{tags}}</span>
   </li>
-
-  {{/each}}
+  <hr />
+  <br /> {{/each}}
 
 </ul>

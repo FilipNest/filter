@@ -79,9 +79,19 @@ app.get("/:tags?", function (req, res) {
       }
 
       search = {
-        tags: {
-          $in: positive
-        }
+        $and: [{
+            tags: {
+              $in: positive
+            }
+                },
+          {
+            $not: {
+              tags: {
+                $in: negative
+              }
+            }
+                }]
+
       }
 
     })
