@@ -30,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
-
       $("#tagField").val(currentTags);
 
       if (currentTags) {

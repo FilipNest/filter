@@ -62,10 +62,10 @@ var messagesFromTags = function (tags) {
 
       var parsedTags = tags.split(",");
 
-      parsedTags.forEach(function (tag) {
+      var positive = [];
+      var negative = [];
 
-        var positive = [];
-        var negative = [];
+      parsedTags.forEach(function (tag) {
 
         // Check if first character is exclamation point, therefore negate
 
@@ -80,24 +80,39 @@ var messagesFromTags = function (tags) {
         }
 
         search = {
-          $and: [{
-              tags: {
-                $in: positive
-              }
-                },
-            {
-              $not: {
-                tags: {
-                  $in: negative
-                }
-              }
-                }]
-
+          "$and": [],
+          "$not": []
         };
+
+        positive.forEach(function (item) {
+
+          search["$and"].push({
+            tags: {
+              $elemMatch: item
+            }
+          })
+
+        })
+
+        negative.forEach(function (item) {
+
+          search["$not"].push({
+            tags: {
+              $elemMatch: item
+            }
+          })
+
+        })
 
       });
 
     }
+
+    var util = require("util");
+
+    console.log(util.inspect(search, {
+      depth: 10
+    }))
 
     db.find(search).sort({
       date: -1
@@ -169,7 +184,7 @@ app.use('/meta/files', express.static('static'));
 var messageCount = 0;
 
 app.post("/:tags?", function (req, res) {
-  
+
   var post = req.body;
 
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
