@@ -1,5 +1,6 @@
 var Datastore = require('nedb');
 var Handlebars = require('handlebars');
+var moment = require("moment");
 
 var db = new Datastore({
   filename: 'words.db',
@@ -18,9 +19,9 @@ var server = require('http').createServer(),
 
 app.use(bodyParser.urlencoded({
   extended: false
-}))
+}));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 var session = require('express-session');
 
@@ -28,7 +29,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true
-}))
+}));
 
 var Hashids = require('hashids');
 var hashids = new Hashids();
@@ -46,8 +47,6 @@ app.use(function (req, res, next) {
 });
 
 var fs = require("fs");
-
-app.use(express.static('static'));
 
 app.get("/:tags?", function (req, res) {
 
@@ -92,9 +91,9 @@ app.get("/:tags?", function (req, res) {
             }
                 }]
 
-      }
+      };
 
-    })
+    });
 
   }
 
@@ -106,14 +105,25 @@ app.get("/:tags?", function (req, res) {
     date: -1
   }).exec(function (err, messages) {
 
+    messages.forEach(function (message) {
+
+      message.date = moment(message.date).format("ddd, hA");
+
+    });
+
+    messages.reverse();
+
     res.send(template({
       messages: messages,
-      tags: req.params.tags
+      tagsJSON: req.params.tags,
+      tags: req.params.tags ? req.params.tags.split(",") : null
     }));
 
-  })
+  });
 
 });
+
+app.use('/meta/files', express.static('static'));
 
 var messageCount = 0;
 
@@ -133,7 +143,7 @@ app.post("/:tags?", function (req, res) {
       id: hashids.encode(messageCount),
       date: Date.now(),
       tags: tags
-    }
+    };
 
     db.insert(message, function (err, newDoc) {
 

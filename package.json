@@ -10,6 +10,7 @@
     "express-session": "^1.14.1",
     "handlebars": "^4.0.5",
     "hashids": "^1.1.1",
+    "moment": "^2.15.2",
     "nedb": "^1.8.0",
     "ws": "^1.1.1"
   }

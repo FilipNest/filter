@@ -1,0 +1,27 @@
+html,
+body {
+  width: 500px;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: monospace;
+  padding: 0px;
+  margin: 0px;
+  margin: auto;
+}
+.taggle_list {
+  background-color: darkseagreen;
+}
+#chat {
+  background-color: aliceblue;
+  max-height: 300px;
+  overflow-y: scroll;
+}
+#chat li {
+  box-sizing: border-box;
+  padding: 5px;
+  display: block;
+  list-style: none;
+}
+#chat ul {
+  padding: 0px;
+}

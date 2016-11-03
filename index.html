@@ -1,24 +1,52 @@
-<h1>{{tags}}</h1>
+<html>
 
-<form method="POST">
+<head>
 
-  <input name="words" />
-  <input hidden name="tags" value="{{tags}}" />
-  <input type="submit" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
-</form>
+  <script src="/meta/files/libraries/tagsinput/jquery.tagsinput.js"></script>
 
-<ul>
+  <link rel="stylesheet" href="/meta/files/libraries/tagsinput/jquery.tagsinput.css">
 
-  {{#each messages}}
+  <link rel="stylesheet" href="/meta/files/style.css" />
 
-  <li><small><span class="author">{{this.author}}</span>@<span class="date">{{this.date}}</span></small>
-    <br /><span class="message"><strong>{{this.words}}</strong></span>
-    <br />
-    <span><small>#{{this.id}}</small></span>
-    <span>{{tags}}</span>
-  </li>
-  <hr />
-  <br /> {{/each}}
+  <script src="/meta/files/filter.js"></script>
 
-</ul>
+</head>
+
+<body>
+
+  {{#if tags}}
+
+  <h1>{{tagsJSON}}</h1> {{else}}
+
+  <h1>*</h1> {{/if}}
+
+  <input id="tags" value="{{tagsJSON}}"/>
+  <button onclick=refresh()>Change</button>
+
+  <ul id="chat">
+
+    {{#each messages}}
+
+    <li><small><span class="author">By {{this.author}}</span> - <span class="date">{{this.date}}</span></small>
+      <br /><span class="message"><strong>{{this.words}}</strong></span>
+      <br />
+      <span>{{this.tags}} + {{this.id}}</span>
+      <br />
+    </li>
+    <hr />
+    <br /> {{/each}}
+
+  </ul>
+
+  <form method="POST">
+
+    <input name="words" />
+    <input hidden name="tags" value="{{tagsJSON}}" />
+    <input type="submit" />
+
+  </form>
+</body>
+
+</html>
