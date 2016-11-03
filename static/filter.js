@@ -1,24 +1,5 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-  window.sendMessage = function () {
-
-    var datastring = $("#postmessage").serialize();
-    $.ajax({
-      type: "POST",
-      url: document.location.href,
-      data: datastring,
-      success: function (data) {
-
-        document.location.href = document.location.href;
-
-      },
-      error: function () {
-        alert('error handing here');
-      }
-    });
-
-  };
-
   var scrollTop = function () {
 
     $('#chat').scrollTop($('#chat')[0].scrollHeight);
@@ -31,13 +12,36 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.refresh = function () {
 
+    var currentTags = $('#tags').val();
+
     $.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
       $("#messages")[0].innerHTML = result;
 
       scrollTop();
 
-      history.pushState(stateObject, $('#tags').val(), $('#tags').val());
+      if (!currentTags) {
+
+        history.pushState(stateObject, currentTags, "/");
+
+      } else {
+
+        history.pushState(stateObject, currentTags, currentTags);
+
+      }
+
+
+      $("#tagField").val(currentTags);
+
+      if (currentTags) {
+
+        $("h1").text(currentTags);
+
+      } else {
+
+        $("h1").text("*");
+
+      }
 
     })
 
@@ -53,7 +57,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $('#tags').tagsInput({
     width: "100%",
-    onChange: window.refresh
+    onRemoveTag: window.refresh,
+    onAddTag: window.refresh
   });
 
 });
