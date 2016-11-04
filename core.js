@@ -10,7 +10,6 @@ var db = new Datastore({
 var util = require("util");
 
 var debug = function (thing) {
-
   console.log(util.inspect(thing, {
     depth: 10
   }))
@@ -225,10 +224,24 @@ app.post("/:tags?", function (req, res) {
 
     var tags = req.body.tags.split(",");
 
+    var id = hashids.encode(messageCount);
+
+    if (tags.indexOf(req.session.user) === -1) {
+
+      tags.push(req.session.user);
+
+    }
+
+    if (tags.indexOf(id) === -1) {
+
+      tags.push(id);
+
+    }
+
     var message = {
       words: req.body.words,
       author: req.session.user,
-      id: hashids.encode(messageCount),
+      id: id,
       date: Date.now(),
       tags: tags
     };
