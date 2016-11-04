@@ -58,8 +58,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $('#tags').tagsInput({
     width: "100%",
-    onRemoveTag: window.refresh,
-    onAddTag: window.refresh
+    onChange: window.refresh(),
+    onBeforeAddTag: function (tag) {
+
+      function isValid(str) {
+        return /^\w+$/.test(str);
+      }
+
+      if (!isValid(tag)) {
+        
+        return false;
+
+      } else {
+        
+        return true;
+
+      }
+
+    }
   });
 
   // Websocket stuff
