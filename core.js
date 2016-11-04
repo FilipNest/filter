@@ -7,6 +7,16 @@ var db = new Datastore({
   autoload: true
 });
 
+var util = require("util");
+
+var debug = function (thing) {
+
+  console.log(util.inspect(thing, {
+    depth: 10
+  }))
+
+}
+
 var server = require('http').createServer(),
   WebSocketServer = require('ws').Server,
   wss = new WebSocketServer({
@@ -45,6 +55,8 @@ app.use(function (req, res, next) {
   next();
 
 });
+
+app.use(express.static('static'));
 
 var fs = require("fs");
 
@@ -107,13 +119,7 @@ var messagesFromTags = function (tags) {
       });
 
     }
-
-    var util = require("util");
-
-    console.log(util.inspect(search, {
-      depth: 10
-    }))
-
+    
     db.find(search).sort({
       date: -1
     }).exec(function (err, messages) {
@@ -178,8 +184,6 @@ app.get("/meta/refresh/:tags?", function (req, res) {
   })
 
 })
-
-app.use('/meta/files', express.static('static'));
 
 var messageCount = 0;
 
