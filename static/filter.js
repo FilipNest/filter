@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-  var scrollTop = function () {
+  window.scrollTop = function () {
 
     $('#chat').scrollTop($('#chat')[0].scrollHeight);
 
@@ -42,6 +42,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
+      window.pair();
+
     })
 
   }
@@ -59,5 +61,64 @@ document.addEventListener("DOMContentLoaded", function (event) {
     onRemoveTag: window.refresh,
     onAddTag: window.refresh
   });
+
+  // Websocket stuff
+
+  if (window.WebSocket) {
+
+    var connectSocket = function () {
+
+      var websocket;
+
+      window.pair = function () {
+
+        var message = {
+          type: "pair",
+          tags: document.location.pathname
+        };
+
+        websocket.send(JSON.stringify(message));
+
+      };
+
+      if (window.location.protocol === "https:") {
+
+        websocket = new WebSocket("wss://" + document.location.host);
+
+      } else {
+
+        websocket = new WebSocket("ws://" + document.location.host);
+
+      }
+
+      websocket.onmessage = function (evt) {
+
+        if (evt.data) {
+
+          $("#chat").append(evt.data);
+          window.scrollTop();
+
+        };
+
+      }
+
+      websocket.onopen = function () {
+
+        window.pair();
+
+      };
+
+      websocket.onclose = function (close) {
+
+        setTimeout(function () {
+          connectSocket();
+        }, 2000);
+
+      };
+
+    }
+
+    connectSocket();
+  }
 
 });

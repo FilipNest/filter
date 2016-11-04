@@ -19,7 +19,7 @@ var debug = function (thing) {
 
 var server = require('http').createServer(),
   WebSocketServer = require('ws').Server,
-  wss = new WebSocketServer({
+  ws = new WebSocketServer({
     server: server
   }),
   express = require('express'),
@@ -119,7 +119,7 @@ var messagesFromTags = function (tags) {
       });
 
     }
-    
+
     db.find(search).sort({
       date: -1
     }).exec(function (err, messages) {
@@ -144,9 +144,11 @@ app.get("/:tags?", function (req, res) {
 
   var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
   var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
+  var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
 
   var template = Handlebars.compile(templateFile);
   var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+  var messageTemplate = Handlebars.compile(messageTemplateFile);
 
   messagesFromTags(req.params.tags).then(function (messages) {
 
@@ -158,6 +160,18 @@ app.get("/:tags?", function (req, res) {
     var messageBlock = messagesTemplate({
       messages: messages,
     });
+
+    var innerBlock = "";
+
+    messages.forEach(function (message) {
+
+      innerBlock += messageTemplate({
+        message: message
+      });
+
+    });
+
+    messageBlock = messageBlock.replace("MESSAGE", innerBlock);
 
     output = output.replace("MESSAGES", messageBlock);
 
@@ -172,12 +186,25 @@ app.get("/meta/refresh/:tags?", function (req, res) {
   messagesFromTags(req.params.tags).then(function (messages) {
 
     var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
-
     var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+    var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
+    var messageTemplate = Handlebars.compile(messageTemplateFile);
 
     var messageBlock = messagesTemplate({
       messages: messages,
     });
+
+    var innerBlock = "";
+
+    messages.forEach(function (message) {
+
+      innerBlock += messageTemplate({
+        message: message
+      });
+
+    });
+
+    messageBlock = messageBlock.replace("MESSAGE", innerBlock);
 
     res.send(messageBlock);
 
@@ -188,6 +215,9 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 var messageCount = 0;
 
 app.post("/:tags?", function (req, res) {
+
+  var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
+  var messageTemplate = Handlebars.compile(messageTemplateFile);
 
   var post = req.body;
 
@@ -213,6 +243,36 @@ app.post("/:tags?", function (req, res) {
 
       }
 
+      Object.keys(sockets).forEach(function (id) {
+
+        var subscription = sockets[id].subscription;
+
+        var send = true;
+
+        subscription.forEach(function (tag) {
+
+          if (tag.length) {
+
+            if (tags.indexOf(tag) === -1) {
+
+              send = false;
+
+            }
+
+          }
+
+        })
+
+        if (send) {
+
+          sockets[id].send(messageTemplate({
+            message: message
+          }));
+
+        }
+
+      })
+
       res.redirect("/" + req.params.tags);
 
     });
@@ -225,13 +285,65 @@ app.post("/:tags?", function (req, res) {
 
 });
 
-wss.on('connection', function (ws) {
+var uuid = require('node-uuid');
+
+var sockets = {};
+
+ws.on('connection', function (ws) {
+
+  ws.id = uuid.v1();
+
+  sockets[ws.id] = ws;
 
   ws.on('message', function (message) {
-    console.log('received: %s', message);
+
+    try {
+
+      var subscription = [];
+
+      message = JSON.parse(message);
+
+      if (message.type === "pair" && message.tags) {
+
+        var tags = message.tags.substring(1);
+
+        if (tags === "") {
+
+
+
+        } else {
+
+          subscription = tags.split(",")
+
+        }
+
+        ws.subscription = subscription;
+
+      }
+
+    } catch (e) {
+
+      console.log(e);
+
+    }
+
   });
 
-  ws.send('something');
+  ws.on("close", function () {
+
+    try {
+
+      delete sockets[ws.id];
+
+    } catch (e) {
+
+      // Not stored
+
+    }
+
+  });
+
+  //  ws.send('something');
 
 });
 
