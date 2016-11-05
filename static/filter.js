@@ -91,7 +91,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
-    }
+    },
+    onRemoveTag: window.refresh,
+    onAddTag: window.refresh
   });
 
   // Websocket stuff
