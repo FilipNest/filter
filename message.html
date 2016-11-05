@@ -1,8 +1,6 @@
-<li><small><span class="author">By {{message.author}}</span> - <span class="date">{{message.date}}</span></small>
-  <br /><span class="message"><big>{{message.words}}</big></span>
+<li>
+  <small class="author">By {{message.author}}</small> - <small class="date">{{message.date}}</small>
   <br />
-  <span><small>Context: <a href="/{{message.tags}}">{{message.tags}}</a></small></span>
-  <br />
+  <big class="message">{{message.words}}</big>{{#if message.tags}}<small>+<a href="/{{message.tags}}">{{message.tags}}</a></small> {{/if}}
 </li>
 <hr />
-<br />

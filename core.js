@@ -55,6 +55,29 @@ app.use(function (req, res, next) {
 
 });
 
+var messageParse = function (message, currentTags) {
+
+  message.reply = JSON.parse(JSON.stringify(message.tags));
+
+  message.reply.push(message.author);
+  message.reply.push(message.id);
+
+  message.tags.forEach(function (tag, index) {
+
+    if (currentTags.indexOf(tag) !== -1) {
+
+      delete message.tags[index];
+
+    }
+
+  })
+
+  message.date = moment(message.date).format("ddd, hA");
+
+  return message;
+
+}
+
 app.use(express.static('static'));
 
 var fs = require("fs");
@@ -62,6 +85,8 @@ var fs = require("fs");
 var messagesFromTags = function (tags) {
 
   return new Promise(function (resolve, reject) {
+
+    var currentTags = [];
 
     var search;
 
@@ -117,6 +142,8 @@ var messagesFromTags = function (tags) {
 
       });
 
+      currentTags = positive;
+
     }
 
     db.find(search).sort({
@@ -125,9 +152,10 @@ var messagesFromTags = function (tags) {
 
       messages.forEach(function (message) {
 
-        message.date = moment(message.date).format("ddd, hA");
+        message = messageParse(message, currentTags)
 
       });
+
 
       messages.reverse();
 
@@ -226,17 +254,15 @@ app.post("/:tags?", function (req, res) {
 
     var id = hashids.encode(messageCount);
 
-    if (tags.indexOf(req.session.user) === -1) {
+    tags.forEach(function (currentTag, index) {
 
-      tags.push(req.session.user);
+      if (!currentTag.length) {
 
-    }
+        tags.splice(index, 1)
 
-    if (tags.indexOf(id) === -1) {
+      }
 
-      tags.push(id);
-
-    }
+    })
 
     var message = {
       words: req.body.words,
