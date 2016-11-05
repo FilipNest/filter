@@ -1,6 +1,7 @@
 <li>
   <small class="author">By {{message.author}}</small> - <small class="date">{{message.date}}</small>
   <br />
-  <big class="message">{{message.words}}</big>{{#if message.tags}}<small>+<a href="/{{message.tags}}">{{message.tags}}</a></small> {{/if}}
+  <big class="message">{{message.words}}</big>{{#if message.tags}}<small>+{{message.tags}}</small> {{/if}}
+  <br /><a href="/{{message.reply}}">Reply</a>
 </li>
 <hr />

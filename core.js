@@ -59,19 +59,12 @@ var messageParse = function (message, currentTags) {
 
   message.reply = JSON.parse(JSON.stringify(message.tags));
 
-  message.reply.push(message.author);
-  message.reply.push(message.id);
+  message.tags = message.tags.filter(function (item) {
 
-  message.tags.forEach(function (tag, index) {
-
-    if (currentTags.indexOf(tag) !== -1) {
-
-      delete message.tags[index];
-
-    }
+    return item !== message.author && item !== message.id && currentTags.indexOf(item) === -1;
 
   })
-
+  
   message.date = moment(message.date).format("ddd, hA");
 
   return message;
@@ -278,6 +271,13 @@ app.post("/:tags?", function (req, res) {
       tags: tags
     };
 
+    message.tags.push(message.author);
+    message.tags.push(message.id);
+
+    message.tags = message.tags.filter(function (item, pos, self) {
+      return self.indexOf(item) == pos;
+    })
+
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
@@ -311,7 +311,7 @@ app.post("/:tags?", function (req, res) {
         if (send) {
 
           sockets[id].send(messageTemplate({
-            message: message
+            message: messageParse(message, message.tags)
           }));
 
         }
