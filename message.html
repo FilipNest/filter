@@ -1,7 +1,7 @@
 <li>
-  <small class="author">By {{message.author}}</small> - <small class="date">{{message.date}}</small>
+  <small class="author">By <a href="/{{message.author}}">{{message.author}}</a></small> - <small class="date">{{message.date}}</small>
   <br />
   <big class="message">{{message.words}}</big>
-  <br />{{#if message.tags}}<a href="/{{message.parent}}">Deeper (+{{message.tags}})</a> {{/if}}<a href="/{{message.reply}}">Reply</a>
+  <br />{{#if message.tags}}<a href="/{{message.parent}}">Context (+{{message.tags}})</a> {{/if}}<a href="/{{message.reply}}">Reply</a>
 </li>
 <hr />
