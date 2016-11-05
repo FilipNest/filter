@@ -130,6 +130,12 @@ var messagesFromTags = function (tags) {
 
         })
 
+        search["$not"].push({
+          tags: {
+            $size: 0
+          }
+        })
+
         negative.forEach(function (item) {
 
           search["$not"].push({
