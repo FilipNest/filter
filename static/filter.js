@@ -1,5 +1,21 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  $("#postmessage").submit(function (e) {
+
+    var data = $("#postmessage").serialize();
+
+    $.post(document.location.href, data, function () {
+
+      $("#words").val("");;
+
+    })
+
+    e.preventDefault();
+
+    return false;
+
+  })
+
   window.scrollTop = function () {
 
     $('#chat').scrollTop($('#chat')[0].scrollHeight);
@@ -66,11 +82,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
 
       if (!isValid(tag)) {
-        
+
         return false;
 
       } else {
-        
+
         return true;
 
       }
@@ -135,6 +151,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
     }
 
     connectSocket();
+  }
+
+  $("#words").focus();
+
+  document.getElementById("words").onkeyup = function (e) {
+    e = e || event;
+    if (e.keyCode === 13 && !e.shiftKey) {
+
+      $("#postmessage").submit();
+
+    }
+    return true;
   }
 
 });
