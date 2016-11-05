@@ -57,8 +57,16 @@ app.use(function (req, res, next) {
 
 var messageParse = function (message, currentTags) {
 
+  // Reply is all tags
+  
   message.reply = JSON.parse(JSON.stringify(message.tags));
+  
+  message.parent = message.tags.filter(function (item) {
 
+    return item !== message.author && item !== message.id;
+
+  })
+  
   message.tags = message.tags.filter(function (item) {
 
     return item !== message.author && item !== message.id && currentTags.indexOf(item) === -1;
