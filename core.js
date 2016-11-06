@@ -47,7 +47,7 @@ app.use(function (req, res, next) {
 
   if (!req.session.user) {
 
-    req.session.user = hashids.encode(Date.now());
+    req.session.user = "user-" + hashids.encode(Date.now());
 
   }
 
@@ -73,7 +73,7 @@ var messageParse = function (message, currentTags) {
 
   })
   
-  message.date = moment(message.date).format("ddd, hA");
+  message.date = moment(message.date).format("D/MM/YY @ HH:mm");
 
   return message;
 

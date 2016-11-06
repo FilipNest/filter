@@ -7,23 +7,51 @@ body {
   padding: 0px;
   margin: 0px;
   margin: auto;
+  color:#333333;
+}
+a:link,
+a:visited {
+  color: inherit;
 }
 #chat {
-  background-color: aliceblue;
   max-height: 300px;
   overflow-y: scroll;
+  box-sizing: border-box;
 }
 #tags_tagsinput {
   box-sizing: border-box;
 }
 #chat li {
   box-sizing: border-box;
-  padding: 5px;
   display: block;
+  padding: 10px;
   list-style: none;
 }
-#chat ul {
-  padding: 0px;
+ul#chat {
+  margin: 0px;
+  padding: 5px 0 5px 0;
+}
+#chat li:nth-child(odd) {
+  border-style: solid;
+  border-width: 1px;
+}
+#chat li:nth-child(even) {
+  border-style: solid;
+  border-width: 0px 1px 0px 1px;
+}
+.message-info {
+  font-size: 80%;
+}
+.message-author {
+  font-weight: bold;
+}
+.message {
+  font-family: georgia;
+  padding: 10px 0 10px 0;
+}
+.message-actions {
+  text-align: right;
+  font-size: 80%;
 }
 input,
 textarea {
