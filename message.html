@@ -1,6 +1,4 @@
 <li>
-  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a> </span><span class="message-date">{{message.date}}</span> {{#if message.tags}}<a class="message-new-tags" href="/{{message.parent}}">+{{message.tags}}</a>{{/if}}</div>
+  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a> </span><span class="message-date">{{message.date}}</span> {{#if message.tags}}<a class="message-new-tags" href="/{{message.parent}}">+{{message.tags}}</a>{{/if}} <a class="reply" href="/{{message.reply}}">Reply</a></div>
   <div class="message">{{message.words}}</div>
-  <div class="message-actions"><a class="reply" href="/{{message.reply}}">Reply</a></div>
-
 </li>
