@@ -75,6 +75,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $('#tags').tagsInput({
     width: "100%",
     onChange: window.refresh(),
+    defaultText: "Context...",
     onBeforeAddTag: function (tag) {
 
       function isValid(str) {

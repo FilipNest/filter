@@ -259,6 +259,24 @@ app.post("/:tags?", function (req, res) {
 
     var tags = req.body.tags.split(",");
 
+    var wordsInMessage = req.body.words.split(" ").forEach(function (word) {
+
+      if (word[0] === "#") {
+
+        var tag = word.substring(1);
+
+        tags.push(tag);
+
+      }
+
+    });
+
+    tags.forEach(function (tag, index) {
+
+      tags[index] = tag.replace(/\W/g, '');
+
+    })
+
     var id = hashids.encode(messageCount);
 
     tags.forEach(function (currentTag, index) {
@@ -319,7 +337,7 @@ app.post("/:tags?", function (req, res) {
         if (send) {
 
           sockets[id].send(messageTemplate({
-            message: messageParse(message, message.tags)
+            message: messageParse(message, sockets[id].subscription)
           }));
 
         }
@@ -369,7 +387,7 @@ ws.on('connection', function (ws) {
           tags = tags.split(",")
 
           tags.forEach(function (tag, index) {
-            
+
             tags[index] = decodeURI(tag);
 
           })
