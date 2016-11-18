@@ -2,6 +2,15 @@
   box-sizing: border-box;
   max-width: 100%;
 }
+.icon {
+  opacity: 0.5;
+  height: 15px;
+  width: auto;
+  margin-right: 10px;
+}
+.icon:hover {
+  opacity: 1;
+}
 html,
 body {
   background-color: #333333;
@@ -19,7 +28,7 @@ a:link,
 a:visited {
   color: inherit;
 }
-#vote {
+.vote {
   clear: both;
   width: 10%;
   text-align: center;

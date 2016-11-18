@@ -12,3 +12,10 @@ word (must include this word)
 * "http://filter.social/happy,!people"
 
 Would return messages tagged with happy if they were not tagged with people.
+
+### Credits
+
+#### Icons (via Noun Project)
+
+* Reply icon by Jan-Christoph Borchardt
+* Filter icon by Nimal Raj
