@@ -73,7 +73,7 @@ var messageParse = function (message, currentTags, currentUser) {
 
   })
 
-  
+
   message.date = moment(message.date).fromNow();
 
   // Check if person has upvoted
@@ -315,7 +315,11 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
 })
 
-var messageCount = 0;
+var messageCount = 0
+
+db.count({}, function (err, count) {
+  messageCount = count;
+});
 
 app.post("/:tags?", function (req, res) {
 

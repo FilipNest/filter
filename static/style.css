@@ -26,6 +26,7 @@ a:visited {
   float: right;
 }
 #chat li {
+  border-radius: 5px;
   background-color: white;
   padding: 10px;
   margin-bottom: 5px;
@@ -66,6 +67,8 @@ ul#chat {
   text-align: center;
 }
 .tagsinput {
+  margin-top: 2px;
+  border-radius: 10px;
   max-width: 500px;
   display: inline-block;
 }
