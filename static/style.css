@@ -11,6 +11,10 @@ body {
   margin: auto;
   color: #333333;
 }
+button[disabled=disabled],
+button:disabled {
+  opacity: 0.2;
+}
 a:link,
 a:visited {
   color: inherit;

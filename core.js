@@ -55,7 +55,7 @@ app.use(function (req, res, next) {
 
 });
 
-var messageParse = function (message, currentTags) {
+var messageParse = function (message, currentTags, currentUser) {
 
   // Reply is all tags
 
@@ -75,6 +75,20 @@ var messageParse = function (message, currentTags) {
 
   message.date = moment(message.date).format("D/MM/YY @ HH:mm");
 
+  // Check if person has upvoted
+
+  if (message.upvoted.indexOf(currentUser) !== -1) {
+
+    message.votedUp = true;
+
+  }
+
+  if (message.downvoted.indexOf(currentUser) !== -1) {
+
+    message.votedDown = true;
+
+  }
+
   return message;
 
 }
@@ -83,7 +97,7 @@ app.use(express.static('static'));
 
 var fs = require("fs");
 
-var messagesFromTags = function (tags) {
+var messagesFromTags = function (tags, user) {
 
   return new Promise(function (resolve, reject) {
 
@@ -159,7 +173,7 @@ var messagesFromTags = function (tags) {
 
       messages.forEach(function (message) {
 
-        message = messageParse(message, currentTags)
+        message = messageParse(message, currentTags, user)
 
       });
 
@@ -184,7 +198,7 @@ app.get("/:tags?", function (req, res) {
   var messagesTemplate = Handlebars.compile(messagesTemplateFile);
   var messageTemplate = Handlebars.compile(messageTemplateFile);
 
-  messagesFromTags(req.params.tags).then(function (messages) {
+  messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
 
     var output = template({
       tagsJSON: req.params.tags,
@@ -233,8 +247,6 @@ app.post("/points/:message", function (req, res) {
       upsert: true
     }, function (updated) {
 
-      console.log(updated);
-
       res.redirect("/" + req.body.current);
 
     });
@@ -268,7 +280,7 @@ app.post("/points/:message", function (req, res) {
 
 app.get("/meta/refresh/:tags?", function (req, res) {
 
-  messagesFromTags(req.params.tags).then(function (messages) {
+  messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
 
     var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
     var messagesTemplate = Handlebars.compile(messagesTemplateFile);
@@ -392,7 +404,7 @@ app.post("/:tags?", function (req, res) {
         if (send) {
 
           sockets[id].send(messageTemplate({
-            message: messageParse(message, sockets[id].subscription)
+            message: messageParse(message, sockets[id].subscription, id)
           }));
 
         }
