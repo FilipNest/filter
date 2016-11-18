@@ -60,14 +60,6 @@ ul#chat {
 #postmessage button {
   height: 30%;
 }
-#chat li:nth-child(odd) .message-content {
-  border-style: solid;
-  border-width: 1px;
-}
-#chat li:nth-child(even) .message-content {
-  border-style: solid;
-  border-width: 0px 1px 0px 1px;
-}
 #tag-container {
   position: fixed;
   left: 0px;
@@ -81,10 +73,17 @@ ul#chat {
   max-width: 500px;
   display: inline-block;
 }
-.message-info {
-  font-size: 50%;
+.message-date {
+  color: grey;
+  font-size:50%;
+}
+.message-tag {font-style: italic;}
+.message-context {
+  font-size:70%;
+  padding-top: 10px;
 }
 .message-author {
+  font-size:70%;
   font-weight: bold;
 }
 .message {

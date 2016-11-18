@@ -1,6 +1,12 @@
 <li>
-  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a> </span><span class="message-date">{{message.date}}</span> {{#if message.tags}} +{{message.tags}} {{/if}}
+  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a></span>
+    <span class="message-date">{{message.date}}</span> {{#if message.tags}}
+    <div class="message-context"> + {{#each message.tags}}<span class="message-tag">{{this}} </span>{{/each}}
+
+    </div>{{/if}}
   </div>
+
+
   <form class="vote" method="post" action="/points/{{message.id}}">
 
     <input type="hidden" name="current" value="{{tags}}" /> {{#unless message.votedUp}}
@@ -30,7 +36,7 @@
   <div class="actions">
     <a class="reply" title="reply" href="/{{message.reply}}"><img class="icon" src="/icons/reply.svg" /></a>
     {{#if message.tags}}
-    <a class="message-new-tags" href="/{{message.parent}}"><img class="icon" src="/icons/filter.svg" /></a>
+    <a class="message-new-tags" title="filter" href="/{{message.parent}}"><img class="icon" src="/icons/filter.svg" /></a>
     {{/if}}
   </div>
 </li>
