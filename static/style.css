@@ -68,22 +68,24 @@ ul#chat {
   text-align: center;
 }
 .tagsinput {
-  margin-top: 2px;
-  border-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
   max-width: 500px;
   display: inline-block;
 }
 .message-date {
   color: grey;
-  font-size:50%;
+  font-size: 50%;
 }
-.message-tag {font-style: italic;}
+.message-tag {
+  font-style: italic;
+}
 .message-context {
-  font-size:70%;
+  font-size: 70%;
   padding-top: 10px;
 }
 .message-author {
-  font-size:70%;
+  font-size: 70%;
   font-weight: bold;
 }
 .message {
