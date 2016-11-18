@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     $.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
-      $("#messages")[0].innerHTML = result;
+      $("#chat")[0].outerHTML = result;
 
       scrollTop();
 
