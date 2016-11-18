@@ -77,15 +77,19 @@ var messageParse = function (message, currentTags, currentUser) {
 
   // Check if person has upvoted
 
-  if (message.upvoted.indexOf(currentUser) !== -1) {
+  if (message.upvoted && message.downvoted) {
 
-    message.votedUp = true;
+    if (message.upvoted.indexOf(currentUser) !== -1) {
 
-  }
+      message.votedUp = true;
 
-  if (message.downvoted.indexOf(currentUser) !== -1) {
+    }
 
-    message.votedDown = true;
+    if (message.downvoted.indexOf(currentUser) !== -1) {
+
+      message.votedDown = true;
+
+    }
 
   }
 
