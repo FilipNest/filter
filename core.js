@@ -193,6 +193,7 @@ app.get("/:tags?", function (req, res) {
 
     var messageBlock = messagesTemplate({
       messages: messages,
+      tags: req.params.tags
     });
 
     var innerBlock = "";
@@ -215,6 +216,56 @@ app.get("/:tags?", function (req, res) {
 
 });
 
+app.post("/points/:message", function (req, res) {
+
+  if (req.body.direction === "+") {
+
+    db.update({
+      id: req.params.message,
+    }, {
+      $inc: {
+        points: 1
+      },
+      $push: {
+        upvoted: req.session.user
+      }
+    }, {
+      upsert: true
+    }, function (updated) {
+
+      console.log(updated);
+
+      res.redirect("/" + req.body.current);
+
+    });
+
+  } else if (req.body.direction === "-") {
+
+    db.update({
+      id: req.params.message,
+    }, {
+      $inc: {
+        points: -1
+      },
+      $push: {
+        downvoted: req.session.user
+      }
+    }, {
+      upsert: true
+    }, function () {
+
+      res.redirect("/" + req.body.current);
+
+    });
+
+  } else {
+
+    res.status(400).send("Invalid points value")
+
+  }
+
+});
+
 app.get("/meta/refresh/:tags?", function (req, res) {
 
   messagesFromTags(req.params.tags).then(function (messages) {
@@ -226,6 +277,7 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
     var messageBlock = messagesTemplate({
       messages: messages,
+      tags: req.params.tags
     });
 
     var innerBlock = "";
@@ -270,7 +322,7 @@ app.post("/:tags?", function (req, res) {
       }
 
     });
-    
+
     tags.forEach(function (tag, index) {
 
       tags[index] = tag.replace(/\W/g, '');
@@ -294,7 +346,10 @@ app.post("/:tags?", function (req, res) {
       author: req.session.user,
       id: id,
       date: Date.now(),
-      tags: tags
+      tags: tags,
+      points: 0,
+      upvoted: [],
+      downvoted: []
     };
 
     message.tags.push(message.author);
