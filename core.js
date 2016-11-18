@@ -73,7 +73,8 @@ var messageParse = function (message, currentTags, currentUser) {
 
   })
 
-  message.date = moment(message.date).format("D/MM/YY @ HH:mm");
+  
+  message.date = moment(message.date).fromNow();
 
   // Check if person has upvoted
 

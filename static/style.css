@@ -21,7 +21,7 @@ a:visited {
 }
 #vote {
   clear:both;
-  width: 50px;
+  width: 10%;
   text-align: center;
   float: right;
 }
@@ -30,6 +30,7 @@ a:visited {
   overflow-y: scroll;
 }
 #chat li {
+  margin: 5px;
   display: block;
   list-style: none;
 }
@@ -52,8 +53,10 @@ ul#chat {
   font-weight: bold;
 }
 .message {
+  line-height: 1.3em;
   font-family: georgia;
   padding: 10px 0 10px 0;
+  width:90%;
 }
 input,
 textarea {

@@ -1,5 +1,5 @@
 <li>
-  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a> </span><span class="message-date">{{message.date}}</span> {{#if message.tags}}<a class="message-new-tags" href="/{{message.parent}}">+{{message.tags}}</a>{{/if}} <a class="reply" href="/{{message.reply}}">Reply</a></div>
+  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a> </span><span class="message-date">{{message.date}}</span> {{#if message.tags}} +{{message.tags}} <a class="message-new-tags" href="/{{message.parent}}">Join</a>{{/if}} <a class="reply" href="/{{message.reply}}">Reply</a></div>
   <form id="vote" method="post" action="/points/{{message.id}}">
     
     <input type="hidden" name="current" value="{{tags}}"/>
