@@ -4,7 +4,7 @@
 
 <head>
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  <script src="/libraries/jquery/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 
   <script src="/libraries/tagsinput/jquery.tagsinput.js"></script>
 
@@ -17,9 +17,11 @@
 
 <body>
 
-  <input id="tags" value="{{tagsJSON}}" />
-
-  <br /> MESSAGES
+  <div id="tag-container">
+    <input id="tags" value="{{tagsJSON}}" />
+  </div>
+ 
+  MESSAGES
 
   <form id="postmessage" autocomplete="off" method="POST">
 

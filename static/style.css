@@ -4,10 +4,10 @@
 }
 html,
 body {
+  background-color: #333333;
   width: 500px;
   font-family: monospace;
-  padding: 10px;
-  margin: 0px;
+  padding: 0px;
   margin: auto;
   color: #333333;
 }
@@ -20,23 +20,35 @@ a:visited {
   color: inherit;
 }
 #vote {
-  clear:both;
+  clear: both;
   width: 10%;
   text-align: center;
   float: right;
 }
-#chat {
-  max-height: 300px;
-  overflow-y: scroll;
-}
 #chat li {
-  margin: 5px;
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  padding-bottom: 20px;
   display: block;
   list-style: none;
 }
 ul#chat {
   margin: 0px;
+  margin-top: 110px;
+  overflow-y: scroll;
   padding: 5px 0 5px 0;
+  max-height: calc(100vh - 200px);
+}
+#postmessage {
+  height: 70px;
+}
+#postmessage textarea {
+  height: 70%
+}
+#postmessage button {
+  height: 30%;
 }
 #chat li:nth-child(odd) .message-content {
   border-style: solid;
@@ -45,6 +57,17 @@ ul#chat {
 #chat li:nth-child(even) .message-content {
   border-style: solid;
   border-width: 0px 1px 0px 1px;
+}
+#tag-container {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  text-align: center;
+}
+.tagsinput {
+  max-width: 500px;
+  display: inline-block;
 }
 .message-info {
   font-size: 50%;
@@ -56,7 +79,8 @@ ul#chat {
   line-height: 1.3em;
   font-family: georgia;
   padding: 10px 0 10px 0;
-  width:90%;
+  width: 85%;
+  font-size: 1.2em;
 }
 input,
 textarea {
