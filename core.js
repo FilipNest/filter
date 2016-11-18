@@ -270,7 +270,7 @@ app.post("/:tags?", function (req, res) {
       }
 
     });
-
+    
     tags.forEach(function (tag, index) {
 
       tags[index] = tag.replace(/\W/g, '');
@@ -356,7 +356,7 @@ app.post("/:tags?", function (req, res) {
 
 });
 
-var uuid = require('node-uuid');
+var uuid = require('uuid');
 
 var sockets = {};
 
