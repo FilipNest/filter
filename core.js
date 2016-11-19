@@ -139,8 +139,7 @@ var messagesFromTags = function (tags, user) {
         }
 
         search = {
-          "$and": [],
-          "$not": []
+          "$and": []
         };
 
         positive.forEach(function (item) {
@@ -153,17 +152,13 @@ var messagesFromTags = function (tags, user) {
 
         })
 
-        search["$not"].push({
-          tags: {
-            $size: 0
-          }
-        })
-
         negative.forEach(function (item) {
 
-          search["$not"].push({
-            tags: {
-              $elemMatch: item
+          search["$and"].push({
+            $not: {
+              tags: {
+                $elemMatch: negative[0]
+              }
             }
           })
 
@@ -175,9 +170,19 @@ var messagesFromTags = function (tags, user) {
 
     }
 
+    debug(search);
+
     db.find(search).sort({
       date: -1
     }).exec(function (err, messages) {
+
+      if (err) {
+
+        debug(err);
+
+        return resolve([]);
+
+      }
 
       messages.forEach(function (message, index) {
 
