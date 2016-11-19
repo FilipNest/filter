@@ -249,7 +249,7 @@ var messagesFromTags = function (tags, user) {
 
     }
 
-//    debug(search);
+    //    debug(search);
 
     db.find(search).sort({
       date: -1
@@ -467,6 +467,12 @@ app.post("/:tags?", function (req, res) {
       return self.indexOf(item) == pos;
     })
 
+    message.tags = message.tags.map(function (element) {
+
+      return element.toLowerCase();
+
+    })
+    
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
