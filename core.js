@@ -433,7 +433,7 @@ app.post("/:tags?", function (req, res) {
 
     tags.forEach(function (tag, index) {
 
-      tags[index] = tag.replace(/\W/g, '-');
+      tags[index] = tag.replace(/[^a-zA-Z0-9]/, '-');
 
     })
 

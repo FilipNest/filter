@@ -79,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     tagValidator: function (tag) {
 
       function isValid(str) {
-        return /^\w+$/.test(str);
+        return /^[a-z\d\-_]+$/i.test(str);
       }
 
       if (!isValid(tag)) {
