@@ -73,19 +73,6 @@ var flash = require('express-flash');
 
 app.use(flash());
 
-passport.serializeUser(function (user, done) {
-  done(null, user.username);
-});
-
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
-
-app.use(passport.initialize());
-app.use(passport.session());
-
 app.use(bodyParser.json());
 
 var session = require('express-session');
@@ -97,6 +84,22 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+
+passport.serializeUser(function (user, done) {
+  done(null, user.username);
+});
+
+passport.deserializeUser(function (id, done) {
+  users.findOne({
+    username: id
+  }, function (err, user) {
+    done(err, user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // Create new user
 
@@ -133,10 +136,6 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
-  } else {
-    
-    console.log(req.session.passport);
-    
   }
 
   if (!req.session.user) {
