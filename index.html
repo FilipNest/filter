@@ -27,7 +27,7 @@
 
     <textarea id="words" name="words"></textarea>
     <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
-    <button type="submit">Post</button>
+    <button type="submit">Post as {{req.session.user}}</button>
 
   </form>
 
