@@ -137,7 +137,7 @@ app.use(function (req, res, next) {
 
   if (!req.session.user) {
 
-    req.session.user = "user-" + hashids.encode(Date.now());
+    req.session.user = hashids.encode(Date.now());
 
   }
 
@@ -418,12 +418,14 @@ app.get("/:tags?", function (req, res) {
 
     var output = template({
       tagsJSON: req.params.tags,
-      tags: req.params.tags ? req.params.tags.split(",") : null
+      tags: req.params.tags ? req.params.tags.split(",") : null,
+      req: req
     });
 
     var messageBlock = messagesTemplate({
       messages: messages,
-      tags: req.params.tags
+      tags: req.params.tags,
+      req: req
     });
 
     var innerBlock = "";
@@ -431,7 +433,8 @@ app.get("/:tags?", function (req, res) {
     messages.forEach(function (message) {
 
       innerBlock += messageTemplate({
-        message: message
+        message: message,
+        req: req
       });
 
     });
@@ -519,7 +522,8 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
     var messageBlock = messagesTemplate({
       messages: messages,
-      tags: req.params.tags
+      tags: req.params.tags,
+      req: req
     });
 
     var innerBlock = "";
@@ -527,7 +531,8 @@ app.get("/meta/refresh/:tags?", function (req, res) {
     messages.forEach(function (message) {
 
       innerBlock += messageTemplate({
-        message: message
+        message: message,
+        req: req
       });
 
     });
