@@ -2,6 +2,10 @@ var Datastore = require('nedb');
 var Handlebars = require('handlebars');
 var moment = require("moment");
 
+var linkify = require('linkifyjs');
+require('linkifyjs/plugins/hashtag')(linkify); // optional 
+var linkifyHtml = require('linkifyjs/html');
+
 var db = new Datastore({
   filename: 'words.db',
   autoload: true
@@ -55,11 +59,36 @@ app.use(function (req, res, next) {
 
 });
 
+var sanitizeHtml = require('sanitize-html');
+
+linkify.options.defaults.formatHref = function (href, type) {
+
+  if (type === "hashtag") {
+
+    href = href.substring(1);
+
+  }
+
+  return href;
+
+};
+
 var messageParse = function (rawMessage, currentTags, currentUser) {
 
   var message = {}
 
   Object.assign(message, rawMessage);
+
+  // Sanitise
+
+  message.words = sanitizeHtml(message.words, {
+    allowedTags: ['b', 'i', 'em', 'strong'],
+    allowedAttributes: {}
+  });
+
+  // Parse links in words
+
+  message.words = linkifyHtml(message.words);
 
   // Reply is all tags
 
