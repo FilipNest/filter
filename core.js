@@ -11,7 +11,36 @@ var db = new Datastore({
   autoload: true
 });
 
+var users = new Datastore({
+  filename: 'users.db',
+  autoload: true
+});
+
 var util = require("util");
+var passport = require('passport'),
+  LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy(
+  function (username, password, done) {
+    users.findOne({
+      username: username
+    }, function (err, user) {
+      if (err) {
+        return done(err);
+      }
+      if (!user) {
+        return done(null, false, {
+          message: 'Incorrect username.'
+        });
+      }
+      if (user.password !== password) {
+        return done(null, false, {
+          message: 'Incorrect password.'
+        });
+      }
+      return done(null, user);
+    });
+  }));
 
 var debug = function (thing) {
   console.log(util.inspect(thing, {
@@ -34,6 +63,23 @@ app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+var flash = require('express-flash');
+
+app.use(flash());
+
+passport.serializeUser(function (user, done) {
+  done(null, user.username);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.json());
 
 var session = require('express-session');
@@ -44,10 +90,40 @@ app.use(session({
   saveUninitialized: true
 }));
 
+// Create new user
+
+app.post("/meta/newUser", function (req, res) {
+
+  if (!req.body.username || !req.body.password || !req.body.email) {
+
+    return res.redirect("/meta/login");
+
+  }
+
+  var account = {
+    username: req.body.username.toLowerCase(),
+    password: req.body.password,
+    email: req.body.email.toLowerCase()
+  }
+
+  users.insert(account, function (err, newDoc) {
+
+    res.redirect("/");
+
+  });
+
+});
+
 var Hashids = require('hashids');
 var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
+
+  if (req.session.passport && req.session.passport.user) {
+
+    req.session.user = req.session.passport.user;
+
+  }
 
   if (!req.session.user) {
 
@@ -400,6 +476,20 @@ app.post("/points/:message", function (req, res) {
     res.status(400).send("Invalid points value")
 
   }
+
+});
+
+app.post('/meta/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/meta/login',
+    failureFlash: true
+  })
+);
+
+app.get("/meta/login", function (req, res) {
+
+  res.sendFile(__dirname + "/login.html");
 
 });
 
