@@ -103,6 +103,16 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 var specialFilters = {};
 
+specialFilters["points"] = function (value) {
+
+  return {
+    "points": {
+      "$gt": value - 1
+    }
+  }
+
+};
+
 app.use(express.static('static'));
 
 var fs = require("fs");
@@ -157,7 +167,7 @@ var messagesFromTags = function (tags, user) {
       };
 
       special.forEach(function (item) {
-        
+
         if (specialFilters[item.type]) {
 
           search["$and"].push(specialFilters[item.type](item.value));
@@ -192,7 +202,7 @@ var messagesFromTags = function (tags, user) {
 
     }
 
-    //    debug(search);
+//    debug(search);
 
     db.find(search).sort({
       date: -1

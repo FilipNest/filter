@@ -11,6 +11,7 @@ URLs are also fairly simple being a comma separated list of filters.
 ## Special filters
 
 `!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
+`points:value` only shows posts with points greater or equal to the value field. So `points:10` would only show posts with points greater or equal to 10.
 
 ## Automatically added tags
 
@@ -32,8 +33,6 @@ Aside from changing the context, you can add extra tags by prefixing words with 
 ## Points
 
 Messages can be voted up or down (or both currently, not sure if bug/feature).
-
-Eventually a special filter will allow people to filter messages by how many points they have.
 
 ## Credits
 
