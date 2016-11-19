@@ -101,6 +101,8 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 }
 
+var specialFilters = {};
+
 app.use(express.static('static'));
 
 var fs = require("fs");
@@ -123,12 +125,22 @@ var messagesFromTags = function (tags, user) {
 
       var positive = [];
       var negative = [];
+      var special = [];
+
+      var specialOptions = ["points", "upvoted", "downvoted", "author"];
 
       parsedTags.forEach(function (tag) {
 
-        // Check if first character is exclamation point, therefore negate
+        if (tag.split(":").length > 1) {
 
-        if (tag[0] === "!") {
+          var specialTag = tag.split(":");
+
+          special.push({
+            type: specialTag[0],
+            value: specialTag[1]
+          })
+
+        } else if (tag[0] === "!") {
 
           negative.push(tag.substring(1));
 
@@ -138,39 +150,49 @@ var messagesFromTags = function (tags, user) {
 
         }
 
-        search = {
-          "$and": []
-        };
+      });
 
-        positive.forEach(function (item) {
+      search = {
+        "$and": []
+      };
 
-          search["$and"].push({
-            tags: {
-              $elemMatch: item
-            }
-          })
+      special.forEach(function (item) {
+        
+        if (specialFilters[item.type]) {
 
-        })
+          search["$and"].push(specialFilters[item.type](item.value));
 
-        negative.forEach(function (item) {
-
-          search["$and"].push({
-            $not: {
-              tags: {
-                $elemMatch: negative[0]
-              }
-            }
-          })
-
-        })
+        }
 
       });
+
+      positive.forEach(function (item) {
+
+        search["$and"].push({
+          tags: {
+            $elemMatch: item
+          }
+        })
+
+      })
+
+      negative.forEach(function (item) {
+
+        search["$and"].push({
+          $not: {
+            tags: {
+              $elemMatch: negative[0]
+            }
+          }
+        })
+
+      })
 
       currentTags = positive;
 
     }
 
-    debug(search);
+    //    debug(search);
 
     db.find(search).sort({
       date: -1
