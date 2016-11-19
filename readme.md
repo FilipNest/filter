@@ -1,5 +1,7 @@
 # Filter (devname)
 
+_Development site currently at [filter.filipnest.com](http://filter.filipnest.com)_
+
 Discussion with context. Each post has some tags assigned to it, some are automatic, other are chosen, all can act as filters.
 
 The filter box at the top can be used to add tags to the current context. Only messages with those tags will appear. Also, any message entered will get these tags automatically.
