@@ -1,7 +1,10 @@
 * {
   box-sizing: border-box;
   max-width: 100%;
-   -webkit-overflow-scrolling: touch;
+  -webkit-overflow-scrolling: touch;
+}
+.points {
+  padding: 3px;
 }
 .icon {
   opacity: 0.5;
@@ -35,7 +38,7 @@ a:visited {
   top: -10px;
 }
 .vote button {
-  padding:0px;
+  padding: 0px;
   margin: auto;
   width: 30px;
   height: 30px;
