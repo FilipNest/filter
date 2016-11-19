@@ -133,6 +133,10 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
+  } else {
+    
+    console.log(req.session.passport);
+    
   }
 
   if (!req.session.user) {
