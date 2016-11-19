@@ -116,6 +116,8 @@ app.post("/meta/newUser", function (req, res) {
 
   users.insert(account, function (err, newDoc) {
 
+    req.session.user = req.body.username;
+
     res.redirect("/");
 
   });
