@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   window.refresh = function () {
 
     var currentTags = $('#tags').val();
-
+    
     $.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
       $("#chat")[0].outerHTML = result;
@@ -83,6 +83,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
 
       if (!isValid(tag)) {
+        
+        console.log("hi");
 
         return false;
 

@@ -169,9 +169,9 @@ var messagesFromTags = function (tags, user) {
 
       parsedTags.forEach(function (tag) {
 
-        if (tag.split(":").length > 1) {
+        if (tag.split("~").length > 1) {
 
-          var specialTag = tag.split(":");
+          var specialTag = tag.split("~");
 
           special.push({
             type: specialTag[0],
