@@ -149,11 +149,16 @@ linkify.options.defaults.formatHref = function (href, type) {
 
 };
 
+var typogr = require('typogr');
+
 var messageParse = function (rawMessage, currentTags, currentUser) {
 
   var message = {}
 
   Object.assign(message, rawMessage);
+
+  // Typographic extras
+  message.words = typogr(message.words).typogrify();
 
   // Sanitise
 

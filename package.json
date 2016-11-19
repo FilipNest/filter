@@ -17,6 +17,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "sanitize-html": "^1.13.0",
+    "typogr": "^0.6.6",
     "uuid": "^3.0.0",
     "ws": "^1.1.1"
   }
