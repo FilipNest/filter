@@ -10,8 +10,8 @@ URLs are also fairly simple being a comma separated list of filters.
 
 ## Special filters
 
-`!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
-`points:value` only shows posts with points greater or equal to the value field. So `points:10` would only show posts with points greater or equal to 10.
+* `!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
+* `points:value` only shows posts with points greater or equal to the value field. So `points:10` would only show posts with points greater or equal to 10.
 
 ## Automatically added tags
 
