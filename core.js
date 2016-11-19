@@ -165,7 +165,11 @@ var messagesFromTags = function (tags, user) {
       var negative = [];
       var special = [];
 
-      var specialOptions = ["points", "upvoted", "downvoted", "author"];
+      parsedTags = parsedTags.map(function (item) {
+
+        return item.toLowerCase();
+
+      })
 
       parsedTags.forEach(function (tag) {
 
@@ -472,7 +476,7 @@ app.post("/:tags?", function (req, res) {
       return element.toLowerCase();
 
     })
-    
+
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
@@ -560,6 +564,12 @@ ws.on('connection', function (ws) {
             tags[index] = decodeURI(tag);
 
           })
+
+          tags = tags.map(function (tag) {
+
+            return tag.toLowerCase();
+
+          });
 
           subscription = tags;
 
