@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   window.refresh = function () {
 
     var currentTags = $('#tags').val();
-    
+
     $.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
       $("#chat")[0].outerHTML = result;
@@ -76,15 +76,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
     width: "100%",
     onChange: window.refresh(),
     defaultText: "Filter...",
-    onBeforeAddTag: function (tag) {
+    tagValidator: function (tag) {
 
       function isValid(str) {
         return /^\w+$/.test(str);
       }
 
       if (!isValid(tag)) {
-        
-        console.log("hi");
+
 
         return false;
 

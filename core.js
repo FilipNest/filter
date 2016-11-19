@@ -249,7 +249,7 @@ var messagesFromTags = function (tags, user) {
 
     }
 
-    debug(search);
+//    debug(search);
 
     db.find(search).sort({
       date: -1
@@ -433,7 +433,7 @@ app.post("/:tags?", function (req, res) {
 
     tags.forEach(function (tag, index) {
 
-      tags[index] = tag.replace(/\W/g, '');
+      tags[index] = tag.replace(/\W/g, '-');
 
     })
 
