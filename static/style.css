@@ -21,10 +21,6 @@ body {
   margin: auto;
   color: #333333;
 }
-button[disabled=disabled],
-button:disabled {
-  opacity: 0.2;
-}
 a:link,
 a:visited {
   color: inherit;
@@ -34,6 +30,34 @@ a:visited {
   width: 10%;
   text-align: center;
   float: right;
+  position: relative;
+  top: -10px;
+}
+.vote button {
+  margin: auto;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 30px;
+  background-color: #333333;
+  color: white;
+  border-style: none;
+  text-align: center;
+  opacity: 0.5;
+  font-size: 100%;
+}
+.vote button:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+button[disabled=disabled],
+button:disabled {
+  opacity: 0.2;
+}
+button[disabled=disabled]:hover,
+button:disabled:hover {
+  opacity: 0.2;
+  cursor: initial;
 }
 #chat li {
   border-radius: 5px;
@@ -45,12 +69,9 @@ a:visited {
   display: block;
   list-style: none;
 }
-#chat li:last-child {
-  margin-bottom: 0px;
-}
 ul#chat {
   z-index: 0;
-  margin: 0 0 10px 0;
+  margin: 0 0 5px 0;
   width: 100%;
   padding: 0px;
   padding-top: 110px;
