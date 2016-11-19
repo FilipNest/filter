@@ -423,7 +423,9 @@ app.post("/:tags?", function (req, res) {
 
     var tags = req.body.tags.split(",");
 
-    var wordsInMessage = req.body.words.split(" ").forEach(function (word) {
+    var wordsInMessage = req.body.words.replace(/\n/g, " ").split(" ");
+
+    wordsInMessage.forEach(function (word) {
 
       if (word[0] === "#") {
 
