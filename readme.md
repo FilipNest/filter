@@ -8,6 +8,10 @@ The filter box at the top can be used to add tags to the current context. Only m
 
 URLs are also fairly simple being a comma separated list of filters.
 
+## Special filters
+
+`!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
+
 ## Automatically added tags
 
 * The userid of the author
