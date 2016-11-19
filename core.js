@@ -113,6 +113,14 @@ specialFilters["points"] = function (value) {
 
 };
 
+specialFilters["author"] = function (value) {
+
+  return {
+    "author": value
+  }
+
+};
+
 app.use(express.static('static'));
 
 var fs = require("fs");
@@ -202,7 +210,7 @@ var messagesFromTags = function (tags, user) {
 
     }
 
-//    debug(search);
+    //    debug(search);
 
     db.find(search).sort({
       date: -1
