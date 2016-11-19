@@ -12,7 +12,7 @@ URLs are also fairly simple being a comma separated list of filters.
 
 ## Formatting messages
 
-Bold and italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags will be turned into filter links. Everything else will be stripped out.
+Italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags will be turned into filter links. Everything else will be stripped out.
 
 ## Automatically added tags
 
