@@ -10,6 +10,10 @@ The filter box at the top can be used to add tags to the current context. Only m
 
 URLs are also fairly simple being a comma separated list of filters.
 
+## Formatting messages
+
+Bold and italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags will be turned into filter links. Everything else will be stripped out.
+
 ## Automatically added tags
 
 * The userid of the author
