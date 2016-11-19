@@ -50,13 +50,14 @@ a:visited {
 ul#chat {
   margin: 0 0 10px 0;
   margin-top: 110px;
-  width:100%;
+  width: 100%;
   padding: 0px;
   overflow-y: scroll;
-  max-height: calc(100vh - 215px);
+  max-height: calc(100vh - 220px);
 }
 #postmessage {
-  height: 70px;
+  margin: 0px;
+  height: 100px;
 }
 #postmessage textarea {
   height: 70%
