@@ -30,6 +30,12 @@
     <button type="submit">Post as {{req.session.user}}</button>
 
   </form>
+  
+  {{#unless req.session.passport}}
+  
+  <a style="color:white" href="/meta/login">Login/Register</a>
+  
+  {{/unless}}
 
   <script src="/filter.js"></script>
 

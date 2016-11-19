@@ -86,7 +86,7 @@ ul#chat {
   padding: 0px;
   padding-top: 110px;
   overflow-y: scroll;
-  max-height: calc(100vh - 110px);
+  max-height: calc(100vh - 125px);
 }
 #postmessage {
   margin: 0px;
