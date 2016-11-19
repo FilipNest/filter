@@ -4,6 +4,8 @@ _Development site currently at [filter.filipnest.com](http://filter.filipnest.co
 
 Discussion with context. Each post has some tags assigned to it, some are automatic, other are chosen, all can act as filters.
 
+Tags are case insensitive (`Music` is the same as `MUSIC` and `music`) and can only contain letters,numbers and dashes `-` for example `social-media-websites`.
+
 The filter box at the top can be used to add tags to the current context. Only messages with those tags will appear. Also, any message entered will get these tags automatically.
 
 URLs are also fairly simple being a comma separated list of filters.
