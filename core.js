@@ -41,7 +41,7 @@ app.use(session({
 }));
 
 var Hashids = require('hashids');
-var hashids = new Hashids();
+var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
 
