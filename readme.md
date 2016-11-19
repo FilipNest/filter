@@ -4,6 +4,8 @@ Discussion with context. Each post has some tags assigned to it, some are automa
 
 The filter box at the top can be used to add tags to the current context. Only messages with those tags will appear. Also, any message entered will get these tags automatically.
 
+URLs are also fairly simple being a comma separated list of filters.
+
 ## Automatically added tags
 
 * The userid of the author
