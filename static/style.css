@@ -48,10 +48,11 @@ a:visited {
   margin-bottom: 0px;
 }
 ul#chat {
+  z-index: 0;
   margin: 0 0 10px 0;
-  margin-top: 110px;
   width: 100%;
   padding: 0px;
+  padding-top: 110px;
   overflow-y: scroll;
   max-height: calc(100vh - 220px);
 }
@@ -75,6 +76,7 @@ ul#chat {
   cursor: pointer;
 }
 #tag-container {
+  z-index: 1;
   position: fixed;
   left: 0px;
   top: 0px;
@@ -82,6 +84,7 @@ ul#chat {
   text-align: center;
 }
 .tagsinput {
+  opacity: 0.95;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
   max-width: 500px;
