@@ -121,6 +121,26 @@ specialFilters["author"] = function (value) {
 
 };
 
+specialFilters["upvoted"] = function (value) {
+
+  return {
+    upvoted: {
+      $elemMatch: value
+    }
+  }
+
+};
+
+specialFilters["downvoted"] = function (value) {
+
+  return {
+    downvoted: {
+      $elemMatch: value
+    }
+  }
+
+};
+
 app.use(express.static('static'));
 
 var fs = require("fs");
