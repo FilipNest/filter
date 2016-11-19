@@ -172,10 +172,19 @@ var messagesFromTags = function (tags, user) {
         if (tag.split("~").length > 1) {
 
           var specialTag = tag.split("~");
+          var negate;
+
+          if (specialTag[0][0] === "!") {
+
+            specialTag[0] = specialTag[0].substr(1);
+            negate = true;
+
+          }
 
           special.push({
             type: specialTag[0],
-            value: specialTag[1]
+            value: specialTag[1],
+            negate: negate
           })
 
         } else if (tag[0] === "!") {
@@ -198,7 +207,17 @@ var messagesFromTags = function (tags, user) {
 
         if (specialFilters[item.type]) {
 
-          search["$and"].push(specialFilters[item.type](item.value));
+          var query = specialFilters[item.type](item.value);
+
+          if (item.negate) {
+
+            query = {
+              $not: query
+            }
+
+          }
+
+          search["$and"].push(query);
 
         }
 
@@ -230,7 +249,7 @@ var messagesFromTags = function (tags, user) {
 
     }
 
-    //    debug(search);
+    debug(search);
 
     db.find(search).sort({
       date: -1

@@ -36,6 +36,8 @@ Messages can be voted up or down (or both currently, not sure if bug/feature).
 * `author~userid` only shows posts by that author. So `author~FilipNest` would only show posts by a user with the id `FilipNest`.
 * `upvoted~userid` and `downvoted~userid` returns only posts that the specified userid has upvoted/downvoted.
 
+All special filters can also be preceded by a `!` to negate the filter.
+
 ## Credits
 
 ### Icons (via Noun Project)
