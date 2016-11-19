@@ -55,7 +55,11 @@ app.use(function (req, res, next) {
 
 });
 
-var messageParse = function (message, currentTags, currentUser) {
+var messageParse = function (rawMessage, currentTags, currentUser) {
+
+  var message = {}
+
+  Object.assign(message, rawMessage);
 
   // Reply is all tags
 
@@ -72,7 +76,6 @@ var messageParse = function (message, currentTags, currentUser) {
     return item !== message.author && item !== message.id && currentTags.indexOf(item) === -1;
 
   })
-
 
   message.date = moment(message.date).fromNow();
 
@@ -176,9 +179,9 @@ var messagesFromTags = function (tags, user) {
       date: -1
     }).exec(function (err, messages) {
 
-      messages.forEach(function (message) {
+      messages.forEach(function (message, index) {
 
-        message = messageParse(message, currentTags, user)
+        messages[index] = messageParse(message, currentTags, user)
 
       });
 
