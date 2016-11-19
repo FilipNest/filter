@@ -14,6 +14,8 @@ URLs are also fairly simple being a comma separated list of filters.
 
 Italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags will be turned into filter links. Everything else will be stripped out.
 
+Messages are formatted using the `typogr` typographical library so punctuation is curled and otherwise fixed.
+
 ## Automatically added tags
 
 * The userid of the author
