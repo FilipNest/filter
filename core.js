@@ -23,7 +23,13 @@ var passport = require('passport'),
 passport.use(new LocalStrategy(
   function (username, password, done) {
     users.findOne({
-      username: username
+      "$or": [
+        {
+          username: username
+        }, {
+          email: username
+        }
+    ]
     }, function (err, user) {
       if (err) {
         return done(err);
