@@ -90,8 +90,10 @@ app.use(bodyParser.json());
 
 var session = require('express-session');
 
+var crypto = require('crypto');
+
 app.use(session({
-  secret: 'keyboard cat',
+  secret: crypto.randomBytes(8).toString('hex'),
   resave: false,
   saveUninitialized: true
 }));
