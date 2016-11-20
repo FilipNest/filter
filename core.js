@@ -647,6 +647,12 @@ app.post("/:tags?", function (req, res) {
 
     })
 
+    tags = tags.map(function (element) {
+
+      return element.toLowerCase();
+
+    });
+
     db.insert(message, function (err, newDoc) {
 
       messageCount += 1;
