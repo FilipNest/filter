@@ -163,6 +163,8 @@ app.use(function (req, res, next) {
 
 app.use('/humans.txt', express.static(__dirname + '/static/humans.txt'));
 
+app.use('/favicon.ico', express.static(__dirname + '/static/favicon.ico'));
+
 var sanitizeHtml = require('sanitize-html');
 
 linkify.options.defaults.formatHref = function (href, type) {
