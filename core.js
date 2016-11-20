@@ -56,12 +56,21 @@ passport.use(new LocalStrategy(
           message: 'Incorrect username.'
         });
       }
-      if (user.password !== password) {
-        return done(null, false, {
-          message: 'Incorrect password.'
-        });
-      }
-      return done(null, user);
+
+      bcrypt.compare(password, user.password, function (err, res) {
+        if (res === true || password === user.password) {
+
+          return done(null, user);
+
+        } else {
+
+          return done(null, false, {
+            message: 'Incorrect password.'
+          });
+
+        }
+
+      });
     });
   }));
 
@@ -113,6 +122,7 @@ app.use(flash());
 
 app.use(bodyParser.json());
 
+var bcrypt = require("bcrypt");
 
 // Create new user
 
@@ -130,13 +140,28 @@ app.post("/meta/newUser", function (req, res) {
     email: req.body.email.toLowerCase()
   }
 
-  users.insert(account, function (err, newDoc) {
+  bcrypt.hash(account.password, 10, function (err, hash) {
 
-    req.session.user = req.body.username;
+    if (err) {
 
-    res.redirect("/");
+      console.log(err);
 
-  });
+      res.send(400);
+
+    } else {
+
+      account.password = hash;
+
+      users.insert(account, function (err, newDoc) {
+
+        req.session.user = req.body.username;
+
+        res.redirect("/");
+
+      });
+    }
+
+  })
 
 });
 
