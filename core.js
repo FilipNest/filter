@@ -84,16 +84,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function (user, done) {
-  done(null, user.username);
-});
+passport.serializeUser(function(user, done) { 
+    done(null, user.username); 
+}); 
 
-passport.deserializeUser(function (id, done) {
-  users.findOne({
-    username: id
-  }, function (err, user) {
-    done(err, user);
-  });
+//used to deserialize the user from the session 
+passport.deserializeUser(function(user, done) { 
+    done(null, user);
 });
 
 app.use(bodyParser.urlencoded({
