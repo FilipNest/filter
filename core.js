@@ -94,8 +94,6 @@ passport.serializeUser(function (user, done) {
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
   
-  console.log(id);
-
   users.findOne({
     username: id
   }, function (err, user) {
@@ -146,6 +144,8 @@ var Hashids = require('hashids');
 var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
+  
+  console.log(req.session);
 
   if (!req.session.user) {
 
