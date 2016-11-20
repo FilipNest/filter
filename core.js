@@ -161,11 +161,7 @@ app.use(function (req, res, next) {
 
 });
 
-app.get("/humans.txt", function (req, res) {
-
-  res.sendFile(__dirname + "/static/humans.txt");
-
-});
+app.use('/humans.txt', express.static(__dirname + '/static/humans.txt'));
 
 var sanitizeHtml = require('sanitize-html');
 
