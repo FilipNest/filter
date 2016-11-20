@@ -313,9 +313,9 @@ var messagesFromTags = function (tags, user) {
 
       parsedTags.forEach(function (tag) {
 
-        if (tag.split("~").length > 1) {
+        if (tag.split("=").length > 1) {
 
-          var specialTag = tag.split("~");
+          var specialTag = tag.split("=");
           var negate;
 
           if (specialTag[0][0] === "!") {
@@ -598,7 +598,7 @@ app.post("/:tags?", function (req, res) {
 
     tags.forEach(function (tag, index) {
 
-      if (tag.indexOf("~") !== -1) {
+      if (tag.indexOf("=") !== -1) {
 
         tags.splice(index, 1)
 

@@ -40,9 +40,9 @@ Messages can be voted up or down (or both currently, not sure if bug/feature).
 ## Special filters
 
 * `!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
-* `points~value` only shows posts with points greater or equal to the value field. So `points~10` would only show posts with points greater or equal to 10.
-* `author~userid` only shows posts by that author. So `author~FilipNest` would only show posts by a user with the id `FilipNest`.
-* `upvoted~userid` and `downvoted~userid` returns only posts that the specified userid has upvoted/downvoted.
+* `points=value` only shows posts with points greater or equal to the value field. So `points=10` would only show posts with points greater or equal to 10.
+* `author=userid` only shows posts by that author. So `author=FilipNest` would only show posts by a user with the id `FilipNest`.
+* `upvoted=userid` and `downvoted=userid` returns only posts that the specified userid has upvoted/downvoted.
 
 All special filters can also be preceded by a `!` to negate the filter.
 
