@@ -20,6 +20,23 @@ var util = require("util");
 var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
 
+var debug = function (thing) {
+  console.log(util.inspect(thing, {
+    depth: 10
+  }))
+
+}
+
+var server = require('http').createServer(),
+  WebSocketServer = require('ws').Server,
+  ws = new WebSocketServer({
+    server: server
+  }),
+  express = require('express'),
+  app = express(),
+  bodyParser = require('body-parser'),
+  port = 7777;
+
 passport.use(new LocalStrategy(
   function (username, password, done) {
     users.findOne({
@@ -48,39 +65,14 @@ passport.use(new LocalStrategy(
     });
   }));
 
-var debug = function (thing) {
-  console.log(util.inspect(thing, {
-    depth: 10
-  }))
-
-}
-
-var server = require('http').createServer(),
-  WebSocketServer = require('ws').Server,
-  ws = new WebSocketServer({
-    server: server
-  }),
-  express = require('express'),
-  app = express(),
-  bodyParser = require('body-parser'),
-  port = 7777;
-
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
-
-var flash = require('express-flash');
-
-app.use(flash());
-
-app.use(bodyParser.json());
-
 var session = require('express-session');
 
 var crypto = require('crypto');
 
+var secret = crypto.randomBytes(8).toString('hex');
+
 app.use(session({
-  secret: crypto.randomBytes(8).toString('hex'),
+  secret: secret,
   resave: false,
   saveUninitialized: true
 }));
@@ -96,6 +88,16 @@ passport.deserializeUser(function (id, done) {
     done(err, user);
   });
 });
+
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+
+var flash = require('express-flash');
+
+app.use(flash());
+
+app.use(bodyParser.json());
 
 app.use(passport.initialize());
 app.use(passport.session());
