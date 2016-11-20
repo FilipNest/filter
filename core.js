@@ -143,12 +143,6 @@ app.post("/meta/newUser", function (req, res) {
 var Hashids = require('hashids');
 var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
-app.get("/humans.txt", function (req, res) {
-
-  res.sendFile(__dirname + "/static/humans.txt");
-
-});
-
 app.use(function (req, res, next) {
 
   if (req.session.passport && req.session.passport.user) {
@@ -164,6 +158,12 @@ app.use(function (req, res, next) {
   }
 
   next();
+
+});
+
+app.get("/humans.txt", function (req, res) {
+
+  res.sendFile(__dirname + "/static/humans.txt");
 
 });
 
