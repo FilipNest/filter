@@ -74,7 +74,11 @@ var secret = crypto.randomBytes(8).toString('hex');
 app.use(session({
   secret: secret,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 3600000
+  },
+  rolling: true
 }));
 
 app.use(passport.initialize());
