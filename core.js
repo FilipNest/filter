@@ -74,6 +74,7 @@ var secret = crypto.randomBytes(8).toString('hex');
 app.use(session({
   secret: secret,
   resave: false,
+  secure: false,
   saveUninitialized: true,
   cookie: {
     maxAge: 3600000
