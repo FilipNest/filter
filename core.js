@@ -85,14 +85,22 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.serializeUser(function(user, done) { 
-    done(null, user.username); 
-}); 
-
-//used to deserialize the user from the session 
-passport.deserializeUser(function(user, done) { 
-    done(null, user);
+// used to serialize the user for the session
+passport.serializeUser(function (user, done) {
+  done(null, user.username);
 });
+
+// used to deserialize the user
+passport.deserializeUser(function (id, done) {
+
+  users.findOne({
+    username: id
+  }, function (err, user) {
+    done(err, user);
+  });
+  
+});
+
 
 app.use(bodyParser.urlencoded({
   extended: false
