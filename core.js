@@ -161,6 +161,14 @@ app.use(function (req, res, next) {
 
 });
 
+app.use("/", function(req,res,next){
+  
+  console.log(req.url);
+  
+  next();
+  
+})
+
 app.use('/humans.txt', express.static(__dirname + '/static/humans.txt'));
 
 app.use('/favicon.ico', express.static(__dirname + '/static/favicon.ico'));
