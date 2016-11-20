@@ -72,7 +72,7 @@ var crypto = require('crypto');
 var secret = crypto.randomBytes(8).toString('hex');
 
 app.use(session({
-  secret: "filter",
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -93,13 +93,13 @@ passport.serializeUser(function (user, done) {
 
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
-  
+
   users.findOne({
     username: id
   }, function (err, user) {
     done(err, user);
   });
-  
+
 });
 
 
@@ -144,7 +144,13 @@ var Hashids = require('hashids');
 var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
-  
+
+  if (req.session.passport && req.session.passport.user) {
+
+    req.session.user = req.session.passport.user;
+
+  }
+
   if (!req.session.user) {
 
     req.session.user = hashids.encode(Date.now());
