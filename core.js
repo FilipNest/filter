@@ -581,7 +581,16 @@ app.post("/:tags?", function (req, res) {
 
     tags.forEach(function (tag, index) {
 
-      tags[index] = tag.replace(/[^a-zA-Z0-9]/, '-');
+      if (tag.indexOf("~") !== -1) {
+
+        tags.splice(index, 1)
+
+      } else {
+
+        tags[index] = tag.replace(/[^a-zA-Z0-9]/, '-');
+
+      }
+
 
     })
 
