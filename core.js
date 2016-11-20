@@ -77,6 +77,9 @@ app.use(session({
   saveUninitialized: true
 }));
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 passport.serializeUser(function (user, done) {
   done(null, user.username);
 });
@@ -98,9 +101,6 @@ var flash = require('express-flash');
 app.use(flash());
 
 app.use(bodyParser.json());
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 
 // Create new user
