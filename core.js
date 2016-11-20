@@ -83,6 +83,7 @@ app.use(session({
 }));
 
 app.use(passport.initialize());
+
 app.use(passport.session());
 
 // used to serialize the user for the session
@@ -92,6 +93,8 @@ passport.serializeUser(function (user, done) {
 
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
+  
+  console.log(id);
 
   users.findOne({
     username: id
@@ -143,12 +146,6 @@ var Hashids = require('hashids');
 var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
-
-  if (req.session.passport && req.session.passport.user) {
-
-    req.session.user = req.session.passport.user;
-
-  }
 
   if (!req.session.user) {
 
