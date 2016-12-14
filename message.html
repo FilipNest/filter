@@ -13,7 +13,7 @@
     
     {{#if req.session.user}}
     
-    <button type="submit" data-message="{{message.id}}" onclick="vote(event)" value="+">+</button>
+    <button type="submit" data-tags={{message.reply}} data-message="{{message.id}}" onclick="vote(event)" value="+">+</button>
     
     {{else}}
     
@@ -33,7 +33,7 @@
     
     {{#if req.session.user}}
 
-    <button type="submit" data-message="{{message.id}}" onclick="vote(event)" value="-">-</button>
+    <button type="submit" data-tags={{message.reply}} data-message="{{message.id}}" onclick="vote(event)" value="-">-</button>
     
     {{else}}
     

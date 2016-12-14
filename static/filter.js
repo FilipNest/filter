@@ -23,7 +23,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var location = "points/" + $(button).attr("data-message");
 
     var data = $.param({
-      direction: $(button).attr("value")
+      direction: $(button).attr("value"),
+      tags: $(button).attr("data-tags")
     })
 
     $.post(location, data, function () {

@@ -7,6 +7,9 @@ require('linkifyjs/plugins/hashtag')(linkify);
 require('linkifyjs/plugins/mention')(linkify);
 var linkifyHtml = require('linkifyjs/html');
 
+var cookie = require("cookie");
+var cookieParser = require('cookie-parser')
+
 var db = new Datastore({
   filename: 'words.db',
   autoload: true
@@ -91,6 +94,8 @@ app.use(session({
   },
   rolling: true
 }));
+
+app.use(cookieParser(secret));
 
 app.use(passport.initialize());
 
@@ -538,7 +543,35 @@ app.post("/points/:message", function (req, res) {
       upsert: true
     }, function () {
 
-      res.redirect("/" + req.body.current);
+      // Send socket message with update to registered clients
+
+      Object.keys(sockets).forEach(function (id) {
+
+        var subscription = sockets[id].subscription;
+
+        var send = true;
+
+        subscription.forEach(function (tag) {
+
+          if (tag.length) {
+
+            if (req.body.tags.indexOf(tag) === -1) {
+
+              send = false;
+
+            }
+
+          }
+
+        })
+
+        if (send) {
+
+          sockets[id].send("helloWorld");
+
+        }
+
+      })
 
     });
 
@@ -751,6 +784,15 @@ var sockets = {};
 ws.on('connection', function (ws) {
 
   ws.id = uuid.v1();
+
+  var cookies = cookie.parse(ws.upgradeReq.headers.cookie);
+  var sid = cookieParser.signedCookie(cookies["connect.sid"], secret);
+
+  if (sid) {
+
+    ws.sid = sid;
+
+  }
 
   sockets[ws.id] = ws;
 
