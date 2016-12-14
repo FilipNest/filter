@@ -40,9 +40,10 @@ a:visited {
   text-align: center;
   top: 13px;
   right: 0px;
+  box-sizing: border-box;
+  min-width: 45px;
 }
 .vote button {
-  padding: 0px;
   margin: auto;
   width: 30px;
   height: 30px;
