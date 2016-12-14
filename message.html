@@ -1,5 +1,5 @@
 <li>
-  <div class="message-info"><span class="message-author"><a href="/{{message.author}}">{{message.author}}</a></span>
+  <div class="message-info"><span class="message-author"><a href="/@{{message.author}}">@{{message.author}}</a></span>
     <span class="message-date">{{message.date}}</span> {{#if message.tags}}
     <div class="message-context"> + {{#each message.tags}}<span class="message-tag"> <a href="/{{this}}">{{this}}</a></span>{{/each}}
 

@@ -142,6 +142,9 @@ ul#chat {
   font-size: 70%;
   font-weight: bold;
 }
+.message-author a {
+  text-decoration: none;
+}
 .message {
   line-height: 1.4em;
   font-family: georgia;

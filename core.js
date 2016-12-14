@@ -606,6 +606,7 @@ app.post("/:tags?", function (req, res) {
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
 
     var tags = req.body.tags.split(",");
+    var mentions = [];
 
     var wordsInMessage = req.body.words.replace(/\n/g, " ").split(" ");
 
@@ -629,10 +630,9 @@ app.post("/:tags?", function (req, res) {
 
       } else {
 
-        tags[index] = tag.replace(/[^a-zA-Z0-9]/, '-');
+        tags[index] = tag.replace(/[^0-9a-zA-Z][@]/g, '-');
 
       }
-
 
     })
 
