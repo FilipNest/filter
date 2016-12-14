@@ -1,40 +1,81 @@
-<h1>Sign in/register</h1>
+<html>
 
-<h2>Sign in</h2>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
+<head>
 
-<form action="/meta/login" method="post">
-  <div>
-    <label>Username/email:</label>
-    <input type="text" name="username" />
-  </div>
-  <div>
-    <label>Password:</label>
-    <input type="password" name="password" />
-  </div>
-  <div>
-    <input type="submit" value="Sign In" />
-  </div>
-</form>
+  <link rel="stylesheet" href="/style.css" />
 
-<h2>Create a new account</h2>
+</head>
 
-<p><b>IMPORTANT: Passwords are not stored safely so please use an insecure one for now until they are stored safely.</b></p>
+<body>
 
-<form action="/meta/newUser" method="post">
-  <div>
-    <label>Username:</label>
-    <input type="text" name="username" />
-  </div>
-  <div>
-    <label>Email:</label>
-    <input type="email" name="email" />
-  </div>
-  <div>
-    <label>Password:</label>
-    <input type="password" name="password" />
-  </div>
-  <div>
-    <input type="submit" value="Register" />
-  </div>
-</form>
+  <style>
+    body {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    label {
+      display: block;
+      padding-top: 10px;
+    }
+    
+    h1,
+    h2,
+    label {
+      color: white;
+      font-family: "georgia"
+    }
+    
+    input[type=submit] {
+      font-family: "georgia";
+      color: black;
+      background-color: white;
+      border: solid black;
+      margin-top: 10px;
+    }
+
+  </style>
+
+  <h1>Sign in/register</h1>
+
+  <h2>Sign in</h2>
+
+  <form action="/meta/login" method="post">
+    <div>
+      <label>Username/email:</label>
+      <input type="text" name="username" />
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" name="password" />
+    </div>
+    <div>
+      <input type="submit" value="Sign In" />
+    </div>
+  </form>
+
+  <h2>Create a new account</h2>
+
+  <form action="/meta/newUser" method="post">
+    <div>
+      <label>Username:</label>
+      <input type="text" name="username" />
+    </div>
+    <div>
+      <label>Email:</label>
+      <input type="email" name="email" />
+    </div>
+    <div>
+      <label>Password:</label>
+      <input type="password" name="password" />
+    </div>
+    <div>
+      <input type="submit" value="Register" />
+    </div>
+  </form>
+
+  </body>
+  
+</html>
