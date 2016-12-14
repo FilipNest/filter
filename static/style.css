@@ -116,7 +116,17 @@ ul#chat {
   text-align: center;
 }
 .tag {
-  opacity: 0.95
+  opacity: 0.95;
+  position: relative;
+}
+.tag a {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  color: transparent !important;
 }
 .tagsinput {
   background-image: url("/icons/filterheader.svg") !important;
