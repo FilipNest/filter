@@ -203,7 +203,7 @@ linkify.options.defaults.formatHref = function (href, type) {
 
   if (type === "mention") {
 
-    href = "@" + href;
+    href = "@" + href.substring(1);
 
   }
 
