@@ -1,6 +1,8 @@
 <html>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="/icons/favicon.png" rel="icon" type="icons/x-icon">
+
 
 <head>
 
@@ -20,11 +22,9 @@
   <div id="tag-container">
     <input id="tags" value="{{tagsJSON}}" />
   </div>
- 
-  MESSAGES
 
-  {{#if req.session.user}}
-  
+  MESSAGES {{#if req.session.user}}
+
   <form id="postmessage" autocomplete="off" method="POST">
 
     <textarea id="words" name="words"></textarea>
@@ -32,14 +32,19 @@
     <button type="submit">Post as {{req.session.user}}</button>
 
   </form>
-  
-  {{/if}}
-  
-  {{#unless req.session.user}}
-  
-  <a style="color:white" href="/meta/login">Login or register to post messages</a>
-  
-  {{/unless}}
+
+  {{/if}} {{#unless req.session.user}}
+
+  <style>
+    ul#chat {
+      max-height: calc(100vh - 70px);
+    }
+
+  </style>
+
+  <br />
+
+  <a style="color:white" href="/meta/login">Login or register to post messages</a> {{/unless}}
 
   <script src="/filter.js"></script>
 

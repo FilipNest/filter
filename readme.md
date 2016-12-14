@@ -52,4 +52,4 @@ All special filters can also be preceded by a `!` to negate the filter.
 ### Icons (via Noun Project)
 
 * Reply icon by Jan-Christoph Borchardt
-* Filter icon by Nimal Raj
+* Filter icon by Ismael Ruiz
