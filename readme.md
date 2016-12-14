@@ -12,9 +12,9 @@ URLs are also fairly simple being a comma separated list of filters.
 
 ## Formatting messages
 
-Italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags will be turned into filter links. Everything else will be stripped out.
+Italic HTML tags are allowed. Nothing else. URLS will be turned into links automatically. Hashtags and mentions (#tag @username) will be turned into filter links. Everything else will be stripped out.
 
-Messages are formatted using the `typogr` typographical library so punctuation is curled and otherwise fixed.
+Messages are formatted using the `typogr` typographical library so punctuation is curled and improved.
 
 ## Automatically added tags
 
@@ -43,6 +43,7 @@ Messages can be voted up or down (or both currently, not sure if bug/feature).
 * `points=value` only shows posts with points greater or equal to the value field. So `points=10` would only show posts with points greater or equal to 10.
 * `author=userid` only shows posts by that author. So `author=FilipNest` would only show posts by a user with the id `FilipNest`.
 * `upvoted=userid` and `downvoted=userid` returns only posts that the specified userid has upvoted/downvoted.
+* `@userid` is not really a special filter, it's just a tag specific to users.
 
 All special filters can also be preceded by a `!` to negate the filter.
 
