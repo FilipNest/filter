@@ -3,7 +3,8 @@ var Handlebars = require('handlebars');
 var moment = require("moment");
 
 var linkify = require('linkifyjs');
-require('linkifyjs/plugins/hashtag')(linkify); // optional 
+require('linkifyjs/plugins/hashtag')(linkify);
+require('linkifyjs/plugins/mention')(linkify);
 var linkifyHtml = require('linkifyjs/html');
 
 var db = new Datastore({
@@ -197,6 +198,12 @@ linkify.options.defaults.formatHref = function (href, type) {
   if (type === "hashtag") {
 
     href = href.substring(1);
+
+  }
+
+  if (type === "mention") {
+
+    href = "@" + href;
 
   }
 
@@ -606,7 +613,6 @@ app.post("/:tags?", function (req, res) {
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
 
     var tags = req.body.tags.split(",");
-    var mentions = [];
 
     var wordsInMessage = req.body.words.replace(/\n/g, " ").split(" ");
 
