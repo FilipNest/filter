@@ -16,6 +16,28 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   })
 
+  window.vote = function (e) {
+
+    var button = $(e.target);
+
+    var location = "points/" + $(button).attr("data-message");
+
+    var data = $.param({
+      direction: $(button).attr("value")
+    })
+
+    $.post(location, data, function () {
+
+      $(button).attr("disabled", "disabled");
+
+    })
+
+    e.preventDefault();
+
+    return false;
+
+  }
+
   window.scrollTop = function () {
 
     $('#chat').scrollTop($('#chat')[0].scrollHeight);

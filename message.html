@@ -7,31 +7,48 @@
   </div>
 
 
-  <form class="vote" method="post" action="/points/{{message.id}}">
-
-    <input type="hidden" name="current" value="{{tags}}" /> {{#unless message.votedUp}}
-
-    <button type="submit" name="direction" value="+">+</button>
+  <div class="vote">
+    
+    {{#unless message.votedUp}}
+    
+    {{#if req.session.user}}
+    
+    <button type="submit" data-message="{{message.id}}" onclick="vote(event)" value="+">+</button>
+    
+    {{else}}
+    
+    <button type="submit" disabled="disabled">+</button>
+    
+    {{/if}}
 
     {{else}}
-
-    <button type="submit" disabled="disabled" name="direction" value="+">+</button>
+    
+    <button type="submit" disabled="disabled">+</button>
 
     {{/unless}}
 
     <div class="points">{{message.points}}</div>
 
     {{#unless message.votedDown}}
+    
+    {{#if req.session.user}}
 
-    <button type="submit" name="direction" value="-">-</button>
+    <button type="submit" data-message="{{message.id}}" onclick="vote(event)" value="-">-</button>
+    
+    {{else}}
+    
+    <button type="submit" disabled="disabled">-</button>
+    
+    {{/if}}
 
     {{else}}
 
-    <button type="submit" name="direction" disabled="disabled" value="-">-</button>
+    <button type="submit" disabled="disabled">-</button>
 
     {{/unless}}
 
-  </form>
+  </div>
+  
   <div class="message">{{{message.words}}}</div>
   <div class="actions">
     <a class="reply" title="reply" href="/{{message.reply}}"><img class="icon" src="/icons/reply.svg" /></a>
