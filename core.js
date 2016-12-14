@@ -177,12 +177,6 @@ app.use(function (req, res, next) {
 
   }
 
-  if (!req.session.user) {
-
-    req.session.user = hashids.encode(Date.now());
-
-  }
-
   next();
 
 });
@@ -503,6 +497,13 @@ app.get("/:tags?", function (req, res) {
 
 app.post("/points/:message", function (req, res) {
 
+  if (!req.session.user) {
+
+    res.status(403).send("Access denied");
+    return false;
+
+  }
+
   if (req.body.direction === "+") {
 
     db.update({
@@ -604,6 +605,13 @@ db.count({}, function (err, count) {
 });
 
 app.post("/:tags?", function (req, res) {
+
+  if (!req.session.user) {
+
+    res.status(403).send("Access denied");
+    return false;
+
+  }
 
   var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
   var messageTemplate = Handlebars.compile(messageTemplateFile);

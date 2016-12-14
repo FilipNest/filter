@@ -23,6 +23,8 @@
  
   MESSAGES
 
+  {{#if req.session.user}}
+  
   <form id="postmessage" autocomplete="off" method="POST">
 
     <textarea id="words" name="words"></textarea>
@@ -31,9 +33,11 @@
 
   </form>
   
-  {{#unless req.session.passport}}
+  {{/if}}
   
-  <a style="color:white" href="/meta/login">Login/Register</a>
+  {{#unless req.session.user}}
+  
+  <a style="color:white" href="/meta/login">Login or register to post messages</a>
   
   {{/unless}}
 
