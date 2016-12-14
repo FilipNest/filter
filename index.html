@@ -31,8 +31,16 @@
     <button type="submit">Post as {{req.session.user}}</button>
 
   </form>
+  
+  <script>
+  
+    window.loggedIn = true;
+  
+  </script>
 
-  {{/if}} {{#unless req.session.user}}
+  {{/if}} 
+  
+  {{#unless req.session.user}}
 
   <style>
     ul#chat {
