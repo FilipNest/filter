@@ -11,15 +11,7 @@
     
     {{#unless message.votedUp}}
     
-    {{#if req.session.user}}
-    
     <button type="submit" data-tags={{message.reply}} data-message="{{message.id}}" onclick="vote(event)" value="+">+</button>
-    
-    {{else}}
-    
-    <button type="submit" disabled="disabled">+</button>
-    
-    {{/if}}
 
     {{else}}
     
@@ -31,15 +23,7 @@
 
     {{#unless message.votedDown}}
     
-    {{#if req.session.user}}
-
     <button type="submit" data-tags={{message.reply}} data-message="{{message.id}}" onclick="vote(event)" value="-">-</button>
-    
-    {{else}}
-    
-    <button type="submit" disabled="disabled">-</button>
-    
-    {{/if}}
 
     {{else}}
 
