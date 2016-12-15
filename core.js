@@ -676,7 +676,7 @@ app.post("/:tags?", function (req, res) {
 
     wordsInMessage.forEach(function (word) {
 
-      if (word[0] === "#") {
+      if (word[0] === "#" || word[0] === "@") {
 
         var tag = word.substring(1);
 
