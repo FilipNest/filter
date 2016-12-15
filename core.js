@@ -299,42 +299,52 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 var specialFilters = {};
 
-specialFilters["points"] = function (value) {
+specialFilters["points"] = {
 
-  return {
-    "points": {
-      "$gt": value - 1
+  fetch: function (value) {
+
+    return {
+      "points": {
+        "$gt": value - 1
+      }
     }
+
   }
 
+}
+
+specialFilters["author"] = {
+  fetch: function (value) {
+
+    return {
+      "author": value
+    }
+
+  }
 };
 
-specialFilters["author"] = function (value) {
+specialFilters["upvoted"] = {
+  fetch: function (value) {
 
-  return {
-    "author": value
+    return {
+      upvoted: {
+        $elemMatch: value
+      }
+    }
+
   }
-
 };
 
-specialFilters["upvoted"] = function (value) {
+specialFilters["downvoted"] = {
+  fetch: function (value) {
 
-  return {
-    upvoted: {
-      $elemMatch: value
+    return {
+      downvoted: {
+        $elemMatch: value
+      }
     }
+
   }
-
-};
-
-specialFilters["downvoted"] = function (value) {
-
-  return {
-    downvoted: {
-      $elemMatch: value
-    }
-  }
-
 };
 
 app.use(express.static('static'));
@@ -407,7 +417,7 @@ var messagesFromTags = function (tags, user) {
 
         if (specialFilters[item.type]) {
 
-          var query = specialFilters[item.type](item.value);
+          var query = specialFilters[item.type]["fetch"](item.value);
 
           if (item.negate) {
 
@@ -780,9 +790,25 @@ app.post("/:tags?", function (req, res) {
 
             if (tag.indexOf("=") !== -1) {
 
+              var special = {
+                type: tag.split("=")[0],
+                value: tag.split("=")[1],
+              };
+
+              if (special.type[0] === "!") {
+
+                special.type = special.type.substr(1);
+                special.negate = true;
+
+              }
+
               // TODO Have to check if message should be sent by passing through special filters. Also check if tag is negative
 
-              console.log(tag, message);
+              if (specialFilters[special.type]) {
+
+
+
+              }
 
             } else if (tags.indexOf(tag) === -1) {
 
