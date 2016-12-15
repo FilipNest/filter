@@ -61,6 +61,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var currentTags = $('#tags').val();
 
+    if (currentTags) {
+      document.title = "Filters | " + currentTags;
+    }
+
     $.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
       $("#chat")[0].outerHTML = result;
