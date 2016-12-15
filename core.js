@@ -309,6 +309,11 @@ specialFilters["points"] = {
       }
     }
 
+  },
+  filter: function (value, message) {
+
+    return message.points > value;
+
   }
 
 }
@@ -319,6 +324,11 @@ specialFilters["author"] = {
     return {
       "author": value
     }
+
+  },
+  filter: function (value, message) {
+
+    return message.author === value;
 
   }
 };
@@ -332,6 +342,11 @@ specialFilters["upvoted"] = {
       }
     }
 
+  },
+  filter: function (value, message) {
+
+    return message.upvoted.indexOf(value) !== -1;
+
   }
 };
 
@@ -343,6 +358,11 @@ specialFilters["downvoted"] = {
         $elemMatch: value
       }
     }
+
+  },
+  filter: function (value, message) {
+
+    return message.downvoted.indexOf(value) !== -1;
 
   }
 };
@@ -802,11 +822,21 @@ app.post("/:tags?", function (req, res) {
 
               }
 
-              // TODO Have to check if message should be sent by passing through special filters. Also check if tag is negative
-
               if (specialFilters[special.type]) {
 
+                var localSend = specialFilters[special.type]["filter"](special.value, message);
 
+                if (special.negate) {
+
+                  localSend = !localSend;
+
+                }
+
+                if (!localSend) {
+
+                  send = false;
+
+                }
 
               }
 
