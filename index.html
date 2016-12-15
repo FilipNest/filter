@@ -46,7 +46,7 @@
 
   </script>
 
-  {{/if}} 
+  {{/if}}
   <script src="/filter.js"></script>
 
   {{#unless req.session.user}}
@@ -60,6 +60,8 @@
 
 
   <section class="form-block" id="login">
+
+    <a class="close" href="#">Back</a>
 
     <form action="/meta/login" method="post">
       <h2>Sign in</h2>
@@ -77,9 +79,11 @@
     </form>
 
   </section>
-  
+
   <section class="form-block" id="register">
-    
+
+    <a class="close" href="#">Back</a>
+
     <form action="/meta/newUser" method="post">
       <h2>Create a new account</h2>
       <div>
@@ -100,9 +104,9 @@
     </form>
 
   </section>
-  
+
   {{/unless}}
 
-  </body>
+</body>
 
 </html>

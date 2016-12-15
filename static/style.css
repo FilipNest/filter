@@ -213,6 +213,11 @@ button {
   z-index: 10;
   padding-top: 50px;
 }
+a.close {
+  color: white;
+  text-align: center;
+  display: block;
+}
 .form-block:target {
   display: block;
 }
