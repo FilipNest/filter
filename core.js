@@ -745,7 +745,15 @@ app.post("/:tags?", function (req, res) {
 
           if (tag.length) {
 
-            if (tags.indexOf(tag) === -1) {
+            // Check if special tag
+
+            if (tag.indexOf("=") !== -1) {
+
+              // TODO Have to check if message should be sent by passing through special filters. Also check if tag is negative
+              
+              console.log(tag, message);
+
+            } else if (tags.indexOf(tag) === -1) {
 
               send = false;
 
@@ -774,7 +782,7 @@ app.post("/:tags?", function (req, res) {
     res.status(400).send("Bad message");
 
   }
- 
+
 });
 
 var uuid = require('uuid');
