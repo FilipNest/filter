@@ -149,6 +149,14 @@ var bcrypt = require("bcrypt");
 
 // Create new user
 
+app.get("/meta/logout", function (req, res) {
+
+  req.session.destroy();
+
+  res.redirect("/");
+
+});
+
 app.post("/meta/newUser", function (req, res) {
 
   if (!req.body.username || !req.body.password || !req.body.email) {
@@ -673,7 +681,7 @@ app.post("/:tags?", function (req, res) {
     var tags = req.body.tags.split(",");
 
     var wordsInMessage = req.body.words.match(/\S+/g) || [];
-    
+
     wordsInMessage.forEach(function (word) {
 
       if (word[0] === "#") {
@@ -699,7 +707,7 @@ app.post("/:tags?", function (req, res) {
         tags.splice(index, 1)
 
       } else {
-        
+
         tags[index] = tag.replace(/[^a-zA-Z0-9-@]/g, "");
 
       }
