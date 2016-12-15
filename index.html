@@ -19,6 +19,14 @@
 
 <body>
 
+  <header>
+
+    {{#unless req.session.user}}
+
+    <a style="color:white" href="#login">Login</a> <a href="#register">register</a> {{else}} Logged in as {{req.session.user}}. {{/unless}}
+
+  </header>
+
   <div id="tag-container">
     <input id="tags" value="{{tagsJSON}}" />
   </div>
@@ -32,30 +40,69 @@
     <button type="submit">Post as {{req.session.user}}</button>
 
   </form>
-  
+
   <script>
-  
     window.loggedIn = true;
-  
+
   </script>
 
   {{/if}} 
-  
-  {{#unless req.session.user}}
+  <script src="/filter.js"></script>
 
+  {{#unless req.session.user}}
   <style>
     ul#chat {
-      max-height: calc(100vh - 70px);
+      max-height: calc(100vh - 40px);
     }
 
   </style>
 
-  <br />
 
-  <a style="color:white" href="/meta/login">Login or register to post messages</a> {{/unless}}
 
-  <script src="/filter.js"></script>
+  <section class="form-block" id="login">
 
-</body>
+    <form action="/meta/login" method="post">
+      <h2>Sign in</h2>
+      <div>
+        <label>Username/email:</label>
+        <input type="text" name="username" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" />
+      </div>
+      <div>
+        <input type="submit" value="Sign In" />
+      </div>
+    </form>
+
+  </section>
+  
+  <section class="form-block" id="register">
+    
+    <form action="/meta/newUser" method="post">
+      <h2>Create a new account</h2>
+      <div>
+        <label>Username:</label>
+        <input type="text" name="username" />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input type="email" name="email" />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input type="password" name="password" />
+      </div>
+      <div>
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+
+  </section>
+  
+  {{/unless}}
+
+  </body>
 
 </html>

@@ -81,16 +81,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       $("#tagField").val(currentTags);
 
-      if (currentTags) {
-
-        $("h1").text(currentTags);
-
-      } else {
-
-        $("h1").text("*");
-
-      }
-
       window.pair();
 
     })
