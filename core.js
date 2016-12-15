@@ -38,8 +38,25 @@ var server = require('http').createServer(),
   }),
   express = require('express'),
   app = express(),
-  bodyParser = require('body-parser'),
-  port = 7777;
+  bodyParser = require('body-parser');
+
+var config = {};
+
+process.argv.forEach(function (val, index, array) {
+
+  var argument = {
+    key: val.split("=")[0],
+    value: val.split("=")[1]
+  }
+
+  if (argument.key && argument.value) {
+
+    config[argument.key] = argument.value;
+
+  }
+
+
+});
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
@@ -750,7 +767,7 @@ app.post("/:tags?", function (req, res) {
             if (tag.indexOf("=") !== -1) {
 
               // TODO Have to check if message should be sent by passing through special filters. Also check if tag is negative
-              
+
               console.log(tag, message);
 
             } else if (tags.indexOf(tag) === -1) {
@@ -872,4 +889,4 @@ ws.on('connection', function (ws) {
 
 server.on('request', app);
 
-server.listen(port);
+server.listen(config.port || 80);
