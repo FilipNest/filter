@@ -23,7 +23,11 @@
 
     {{#unless req.session.user}}
 
-    <a style="color:white" href="#login">Login</a> <a href="#register">register</a> {{else}} Logged in as {{req.session.user}}. {{/unless}}
+    <a href="#login">Login</a> <a href="#register">register</a> {{else}} 
+    
+    <b>{{req.session.user}}</b> <a href="@{{req.session.user}}">Mentions</a> <a href="meta/logout">Logout</a>
+    
+    {{/unless}}
 
   </header>
 

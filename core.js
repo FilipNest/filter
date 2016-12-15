@@ -672,15 +672,21 @@ app.post("/:tags?", function (req, res) {
 
     var tags = req.body.tags.split(",");
 
-    var wordsInMessage = req.body.words.replace(/\n/g, " ").split(" ");
-
+    var wordsInMessage = req.body.words.match(/\S+/g) || [];
+    
     wordsInMessage.forEach(function (word) {
 
-      if (word[0] === "#" || word[0] === "@") {
+      if (word[0] === "#") {
 
         var tag = word.substring(1);
 
         tags.push(tag);
+
+      }
+
+      if (word[0] === "@") {
+
+        tags.push(word);
 
       }
 
@@ -693,8 +699,8 @@ app.post("/:tags?", function (req, res) {
         tags.splice(index, 1)
 
       } else {
-
-        tags[index] = tag.replace(/[^0-9a-zA-Z][@]/g, '-');
+        
+        tags[index] = tag.replace(/[^a-zA-Z0-9-@]/g, "");
 
       }
 
