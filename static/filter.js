@@ -125,7 +125,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   if (window.WebSocket) {
 
-    var connectSocket = function () {
+    var connectSocket = function (channel) {
 
       var websocket;
 
@@ -143,11 +143,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       if (window.location.protocol === "https:") {
 
-        websocket = new WebSocket("wss://" + document.location.host);
+        websocket = new WebSocket("wss://" + channel);
 
       } else {
 
-        websocket = new WebSocket("ws://" + document.location.host);
+        websocket = new WebSocket("ws://" + channel);
 
       }
 
@@ -222,14 +222,25 @@ document.addEventListener("DOMContentLoaded", function (event) {
       websocket.onclose = function (close) {
 
         setTimeout(function () {
-          connectSocket();
+          connectSocket(channel);
         }, 2000);
 
       };
 
     }
 
-    connectSocket();
+    connectSocket(document.location.host);
+
+    if (window.channels) {
+
+      window.channels.forEach(function (channel) {
+
+        connectSocket(channel);
+
+      })
+
+    }
+
   }
 
   $("#words").focus();
