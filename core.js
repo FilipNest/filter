@@ -637,7 +637,7 @@ app.get("/:tags?", function (req, res) {
 
 // General message filtering function to check message and send socket notifiactions if necessary
 
-var notifySockets = function (message, points) {
+var notifySockets = function (message, vote) {
 
   Object.keys(sockets).forEach(function (id) {
 
@@ -698,6 +698,7 @@ var notifySockets = function (message, points) {
       var output = {
         type: "message",
         message: message,
+        vote: vote,
         template: messageTemplate({
           message: messageParse(message, sockets[id].subscription, id),
           session: sockets[id].session
@@ -711,7 +712,7 @@ var notifySockets = function (message, points) {
 
   })
 
-  if (points) {
+  if (vote) {
 
     // Should send notifications to author if their message has been voted up or down
 
@@ -721,7 +722,8 @@ var notifySockets = function (message, points) {
 
         var output = {
           type: "points",
-          direction: points,
+          direction: vote.direction,
+          user: vote.voter,
           message: message
         }
 
@@ -773,11 +775,11 @@ app.post("/points/:message", function (req, res) {
 
   }
 
-  var updateNotification = function (message, voteDirection) {
+  var updateNotification = function (message, vote) {
 
     // Send socket message with update to registered clients
 
-    notifySockets(message, voteDirection);
+    notifySockets(message, vote);
 
     res.status(200).send("OK");
 
@@ -805,7 +807,10 @@ app.post("/points/:message", function (req, res) {
 
       if (updated) {
 
-        updateNotification(doc, req.body.direction)
+        updateNotification(doc, {
+          direction: req.body.direction,
+          voter: req.session.user
+        })
 
       }
 

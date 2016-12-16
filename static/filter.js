@@ -152,18 +152,41 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           if (message.type === "mention") {
 
-            console.log("mentioned", message.message);
+            //Mentioned
 
           } else if (message.type === "points") {
 
-            console.log("points", message.message, message.points)
+            //Points
 
           } else {
 
             var update = $("#" + message.message.id)[0];
+
             if (update) {
 
               update.outerHTML = message.template;
+
+              if (message.vote) {
+
+                if (message.vote.voter = window.loggedIn) {
+
+                  var buttons = $("#" + message.message.id).find(".vote button");
+
+                  if (message.message.upvoted.indexOf(window.loggedIn) !== -1) {
+
+                    buttons[0].disabled = true;
+
+                  }
+
+                  if (message.message.downvoted.indexOf(window.loggedIn) !== -1) {
+
+                    buttons[1].disabled = true;
+
+                  }
+
+                }
+
+              }
 
             } else {
 
