@@ -700,7 +700,7 @@ var notifySockets = function (message, points) {
         message: message,
         template: messageTemplate({
           message: messageParse(message, sockets[id].subscription, id),
-          session: sockets[id].sesssion
+          session: sockets[id].session
         })
 
       }
