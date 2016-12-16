@@ -564,7 +564,7 @@ app.get("/:tags?", function (req, res) {
 
 // General message filtering function to check message and send socket notifiactions if necessary
 
-var notifySockets = function (message) {
+var notifySockets = function (message, points) {
 
   Object.keys(sockets).forEach(function (id) {
 
@@ -637,32 +637,56 @@ var notifySockets = function (message) {
 
   })
 
-  // Check if message contains mention. If it does, send notification to mentioneeeee(?)
+  if (points) {
 
-  message.tags.forEach(function (tag) {
+    // Should send notifications to author if their message has been voted up or down
 
-    if (tag[0] === "@") {
+    Object.keys(sockets).forEach(function (id) {
 
-      var mentioned = tag.substring(1);
+      if (sockets[id].user === message.author) {
 
-      Object.keys(sockets).forEach(function (id) {
-
-        if (sockets[id].user === mentioned) {
-
-          var output = {
-            type: "mention",
-            message: message
-          }
-
-          sockets[id].send(JSON.stringify(output));
-
+        var output = {
+          type: "points",
+          direction: points,
+          message: message
         }
 
-      });
+        sockets[id].send(JSON.stringify(output));
 
-    }
+      }
 
-  })
+    });
+
+  } else {
+
+    // Check if message contains mention. If it does, send notification to mentioneeeee(?)
+
+    message.tags.forEach(function (tag) {
+
+      if (tag[0] === "@") {
+
+        var mentioned = tag.substring(1);
+
+        Object.keys(sockets).forEach(function (id) {
+
+          if (sockets[id].user === mentioned) {
+
+            var output = {
+              type: "mention",
+              message: message
+            }
+
+            sockets[id].send(JSON.stringify(output));
+
+          }
+
+        });
+
+      }
+
+    })
+
+  }
 
 };
 
@@ -679,7 +703,7 @@ app.post("/points/:message", function (req, res) {
 
     // Send socket message with update to registered clients
 
-    notifySockets(message);
+    notifySockets(message, voteDirection);
 
     res.status(200).send("OK");
 

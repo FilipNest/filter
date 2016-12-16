@@ -157,47 +157,51 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           var message = JSON.parse(evt.data);
 
-          var update = $("#" + message.message.id)[0];
 
           if (message.type === "mention") {
 
             console.log("mentioned", message.message);
 
-            return false;
+          } else if (message.type === "points") {
 
-          }
-
-          if (update) {
-
-            update.outerHTML = message.template;
+            console.log("points", message.message, message.points)
 
           } else {
 
-            // Check where to add message (it could be earlier in the chain)
+            var update = $("#" + message.message.id)[0];
+            if (update) {
 
-            var later;
-
-            $.each($(".message-wrapper"), function (index, element) {
-
-              var messageDate = $(element).attr("data-timestamp");
-
-              var updateDate = message.message.date;
-
-              if (messageDate > updateDate) {
-
-                later = element;
-
-              }
-
-            })
-
-            if (later) {
-
-              $(later).before(message.template);
+              update.outerHTML = message.template;
 
             } else {
 
-              $("#chat").append(message.template);
+              // Check where to add message (it could be earlier in the chain)
+
+              var later;
+
+              $.each($(".message-wrapper"), function (index, element) {
+
+                var messageDate = $(element).attr("data-timestamp");
+
+                var updateDate = message.message.date;
+
+                if (messageDate > updateDate) {
+
+                  later = element;
+
+                }
+
+              })
+
+              if (later) {
+
+                $(later).before(message.template);
+
+              } else {
+
+                $("#chat").append(message.template);
+
+              }
 
             }
 
