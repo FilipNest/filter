@@ -273,6 +273,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   })
 
+  message.rawDate = message.date;
   message.date = moment(message.date).fromNow();
 
   // Check if person has upvoted
@@ -510,15 +511,15 @@ var messagesFromTags = function (tags, user) {
 
 };
 
+var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
+var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
+var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
+
+var template = Handlebars.compile(templateFile);
+var messagesTemplate = Handlebars.compile(messagesTemplateFile);
+var messageTemplate = Handlebars.compile(messageTemplateFile);
+
 app.get("/:tags?", function (req, res) {
-
-  var templateFile = fs.readFileSync(__dirname + "/index.html", "utf8");
-  var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
-  var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
-
-  var template = Handlebars.compile(templateFile);
-  var messagesTemplate = Handlebars.compile(messagesTemplateFile);
-  var messageTemplate = Handlebars.compile(messageTemplateFile);
 
   messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
 
@@ -555,6 +556,83 @@ app.get("/:tags?", function (req, res) {
 
 });
 
+// General message filtering function to check message and send socket notifiactions if necessary
+
+var notifySockets = function (message) {
+
+
+  Object.keys(sockets).forEach(function (id) {
+
+    var subscription = sockets[id].subscription;
+
+    var send = true;
+
+    subscription.forEach(function (tag) {
+
+      if (tag.length) {
+
+        // Check if special tag
+
+        if (tag.indexOf("=") !== -1) {
+
+          var special = {
+            type: tag.split("=")[0],
+            value: tag.split("=")[1],
+          };
+
+          if (special.type[0] === "!") {
+
+            special.type = special.type.substr(1);
+            special.negate = true;
+
+          }
+
+          if (specialFilters[special.type]) {
+
+            var localSend = specialFilters[special.type]["filter"](special.value, message);
+
+            if (special.negate) {
+
+              localSend = !localSend;
+
+            }
+
+            if (!localSend) {
+
+              send = false;
+
+            }
+
+          }
+
+        } else if (tags.indexOf(tag) === -1) {
+
+          send = false;
+
+        }
+
+      }
+
+    })
+
+    if (send) {
+
+      var output = {
+        message: message,
+        template: messageTemplate({
+          message: messageParse(message, sockets[id].subscription, id)
+        })
+
+      }
+
+      sockets[id].send(JSON.stringify(output));
+
+    }
+
+  })
+
+};
+
 app.post("/points/:message", function (req, res) {
 
   if (!req.session.user) {
@@ -563,6 +641,16 @@ app.post("/points/:message", function (req, res) {
     return false;
 
   }
+
+  var updateNotification = function (message, voteDirection) {
+
+    // Send socket message with update to registered clients
+
+    notifySockets(message);
+
+    res.status(200).send("OK");
+
+  };
 
   if (req.body.direction === "+") {
 
@@ -576,10 +664,11 @@ app.post("/points/:message", function (req, res) {
         upvoted: req.session.user
       }
     }, {
-      upsert: true
-    }, function (updated) {
+      upsert: true,
+      returnUpdatedDocs: true
+    }, function (err, updated, doc) {
 
-      res.redirect("/" + req.body.current);
+      updateNotification(doc, req.body.direction)
 
     });
 
@@ -595,38 +684,12 @@ app.post("/points/:message", function (req, res) {
         downvoted: req.session.user
       }
     }, {
-      upsert: true
-    }, function () {
+      upsert: true,
+      returnUpdatedDocs: true
 
-      // Send socket message with update to registered clients
+    }, function (err, updated, doc) {
 
-      Object.keys(sockets).forEach(function (id) {
-
-        var subscription = sockets[id].subscription;
-
-        var send = true;
-
-        subscription.forEach(function (tag) {
-
-          if (tag.length) {
-
-            if (req.body.tags.indexOf(tag) === -1) {
-
-              send = false;
-
-            }
-
-          }
-
-        })
-
-        if (send) {
-
-          sockets[id].send("helloWorld");
-
-        }
-
-      })
+      updateNotification(doc, req.body.direction);
 
     });
 
@@ -655,11 +718,6 @@ app.get("/meta/login", function (req, res) {
 app.get("/meta/refresh/:tags?", function (req, res) {
 
   messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
-
-    var messagesTemplateFile = fs.readFileSync(__dirname + "/messages.html", "utf8");
-    var messagesTemplate = Handlebars.compile(messagesTemplateFile);
-    var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
-    var messageTemplate = Handlebars.compile(messageTemplateFile);
 
     var messageBlock = messagesTemplate({
       messages: messages,
@@ -700,9 +758,6 @@ app.post("/:tags?", function (req, res) {
     return false;
 
   }
-
-  var messageTemplateFile = fs.readFileSync(__dirname + "/message.html", "utf8");
-  var messageTemplate = Handlebars.compile(messageTemplateFile);
 
   var post = req.body;
 
@@ -796,69 +851,7 @@ app.post("/:tags?", function (req, res) {
 
       }
 
-      Object.keys(sockets).forEach(function (id) {
-
-        var subscription = sockets[id].subscription;
-
-        var send = true;
-
-        subscription.forEach(function (tag) {
-
-          if (tag.length) {
-
-            // Check if special tag
-
-            if (tag.indexOf("=") !== -1) {
-
-              var special = {
-                type: tag.split("=")[0],
-                value: tag.split("=")[1],
-              };
-
-              if (special.type[0] === "!") {
-
-                special.type = special.type.substr(1);
-                special.negate = true;
-
-              }
-
-              if (specialFilters[special.type]) {
-
-                var localSend = specialFilters[special.type]["filter"](special.value, message);
-
-                if (special.negate) {
-
-                  localSend = !localSend;
-
-                }
-
-                if (!localSend) {
-
-                  send = false;
-
-                }
-
-              }
-
-            } else if (tags.indexOf(tag) === -1) {
-
-              send = false;
-
-            }
-
-          }
-
-        })
-
-        if (send) {
-
-          sockets[id].send(messageTemplate({
-            message: messageParse(message, sockets[id].subscription, id)
-          }));
-
-        }
-
-      })
+      notifySockets(message);
 
       res.redirect("/" + req.params.tags);
 

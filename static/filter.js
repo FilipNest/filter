@@ -154,7 +154,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         if (evt.data) {
 
-          $("#chat").append(evt.data);
+          var message = JSON.parse(evt.data);
+
+          var update = $("#" + message.message.id)[0];
+
+          if (update) {
+
+            update.outerHTML = message.template;
+
+          } else {
+
+            $("#chat").append(message.template);
+
+          }
+
           window.scrollTop();
 
         };
