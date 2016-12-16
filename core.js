@@ -267,7 +267,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   message.tags = message.tags.filter(function (item) {
 
-    return item !== message.author && item !== message.id && currentTags.indexOf(item) === -1;
+    return item !== "@" + message.author && item !== message.id && currentTags.indexOf(item) === -1;
 
   })
 
@@ -610,7 +610,7 @@ var notifySockets = function (message, points) {
 
           }
 
-        } else if (tags.indexOf(tag) === -1) {
+        } else if (messsage.tags.indexOf(tag) === -1) {
 
           send = false;
 
@@ -871,7 +871,7 @@ app.post("/:tags?", function (req, res) {
     var message = {
       words: req.body.words,
       author: req.session.user,
-      id: id,
+      id: "msg-" + id,
       date: Date.now(),
       tags: tags,
       points: 0,
@@ -879,7 +879,7 @@ app.post("/:tags?", function (req, res) {
       downvoted: []
     };
 
-    message.tags.push(message.author);
+    message.tags.push("@" + message.author);
     message.tags.push(message.id);
 
     message.tags = message.tags.filter(function (item, pos, self) {

@@ -7,6 +7,8 @@
   </div>
 
 
+  {{#if req.session.user}}
+  
   <div class="vote">
     
     {{#unless message.votedUp}}
@@ -32,6 +34,8 @@
     {{/unless}}
 
   </div>
+  
+  {{/if}}
   
   <div class="message">{{{message.words}}}</div>
   <div class="actions">

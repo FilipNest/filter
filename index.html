@@ -25,7 +25,7 @@
 
     <a href="#login">Login</a> <a href="#register">register</a> {{else}} 
     
-    <b>{{req.session.user}}</b> <a href="@{{req.session.user}}">Mentions</a> <a href="meta/logout">Logout</a>
+    <b>{{req.session.user}}</b> <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> <a href="meta/logout">Logout</a>
     
     {{/unless}}
 

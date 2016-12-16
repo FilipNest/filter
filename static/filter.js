@@ -18,14 +18,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.vote = function (e) {
 
-    if (!window.loggedIn) {
-
-      alert("You need to be logged in to vote");
-      e.preventDefault();
-      return false;
-
-    }
-
     var button = $(e.target);
 
     var location = "points/" + $(button).attr("data-message");
