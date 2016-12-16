@@ -25,7 +25,7 @@
 
     <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
 
-    <b>{{req.session.user}}</b>: <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a> | <a href="meta/logout">Logout</a>{{/unless}}
+    <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> <a href="#settings">Settings</a>{{/unless}}
 
   </header>
 
@@ -39,7 +39,7 @@
 
     <textarea id="words" name="words"></textarea>
     <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
-    <button type="submit">Post as {{req.session.user}}</button>
+    <button type="submit">Send</button>
 
   </form>
 
