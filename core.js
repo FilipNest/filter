@@ -787,6 +787,11 @@ app.post("/points/:message", function (req, res) {
 
     db.update({
       id: req.params.message,
+      $not: {
+        upvoted: {
+          $elemMatch: req.session.user
+        }
+      }
     }, {
       $inc: {
         points: 1
@@ -795,11 +800,14 @@ app.post("/points/:message", function (req, res) {
         upvoted: req.session.user
       }
     }, {
-      upsert: true,
       returnUpdatedDocs: true
     }, function (err, updated, doc) {
 
-      updateNotification(doc, req.body.direction)
+      if (updated) {
+
+        updateNotification(doc, req.body.direction)
+
+      }
 
     });
 
@@ -807,6 +815,11 @@ app.post("/points/:message", function (req, res) {
 
     db.update({
       id: req.params.message,
+      $not: {
+        downvoted: {
+          $elemMatch: req.session.user
+        }
+      }
     }, {
       $inc: {
         points: -1
@@ -815,12 +828,16 @@ app.post("/points/:message", function (req, res) {
         downvoted: req.session.user
       }
     }, {
-      upsert: true,
       returnUpdatedDocs: true
 
     }, function (err, updated, doc) {
 
-      updateNotification(doc, req.body.direction);
+      if (updated) {
+
+        updateNotification(doc, req.body.direction);
+
+      }
+
 
     });
 
