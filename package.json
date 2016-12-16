@@ -11,6 +11,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-flash": "0.0.2",
+    "express-nedb-session": "^0.1.1",
     "express-session": "^1.14.1",
     "handlebars": "^4.0.5",
     "hashids": "^1.1.1",

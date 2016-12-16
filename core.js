@@ -11,12 +11,12 @@ var cookie = require("cookie");
 var cookieParser = require('cookie-parser')
 
 var db = new Datastore({
-  filename: 'words.db',
+  filename: 'data/words.db',
   autoload: true
 });
 
 var users = new Datastore({
-  filename: 'users.db',
+  filename: 'data/users.db',
   autoload: true
 });
 
@@ -96,9 +96,15 @@ passport.use(new LocalStrategy(
 
 var session = require('express-session');
 
+var NedbStore = require('express-nedb-session')(session);
+
 var crypto = require('crypto');
 
 var secret = crypto.randomBytes(8).toString('hex');
+
+var sessionStore = new NedbStore({
+  filename: 'data/sessions.db'
+})
 
 app.use(session({
   secret: secret,
@@ -108,7 +114,8 @@ app.use(session({
     secure: false,
     maxAge: 3600000
   },
-  rolling: true
+  rolling: true,
+  store: sessionStore
 }));
 
 app.use(cookieParser(secret));
@@ -154,6 +161,14 @@ app.get("/meta/logout", function (req, res) {
   res.redirect("/");
 
 });
+
+app.post("/meta/settings", function (req, res) {
+
+  req.session.filters = req.body.filters;
+
+  res.redirect("/");
+
+})
 
 app.post("/meta/newUser", function (req, res) {
 
@@ -311,7 +326,7 @@ specialFilters["points"] = {
   },
   filter: function (value, message) {
 
-    return message.points > value;
+    return message.points >= value;
 
   }
 
@@ -370,21 +385,41 @@ app.use(express.static('static'));
 
 var fs = require("fs");
 
-var messagesFromTags = function (tags, user) {
+var messagesFromTags = function (tags, session) {
+
+  var user = session.user;
 
   return new Promise(function (resolve, reject) {
 
     var currentTags = [];
 
+    var parsedTags;
+
+    if (!tags) {
+
+      parsedTags = [];
+
+    } else {
+
+      parsedTags = tags.split(",");
+
+    }
+
+    // Add user's filters if set
+
+    if (session.filters) {
+
+      parsedTags = parsedTags.concat(session.filters.split(","));
+
+    }
+
     var search;
 
-    if (!tags || tags === "") {
+    if (!parsedTags.length) {
 
       search = {};
 
     } else {
-
-      var parsedTags = tags.split(",");
 
       var positive = [];
       var negative = [];
@@ -519,7 +554,7 @@ var messageTemplate = Handlebars.compile(messageTemplateFile);
 
 app.get("/:tags?", function (req, res) {
 
-  messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
+  messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
     if (req.query.format === "json") {
 
@@ -547,7 +582,7 @@ app.get("/:tags?", function (req, res) {
 
       innerBlock += messageTemplate({
         message: message,
-        req: req
+        session: req.session
       });
 
     });
@@ -557,6 +592,10 @@ app.get("/:tags?", function (req, res) {
     output = output.replace("MESSAGES", messageBlock);
 
     res.send(output);
+
+  }, function (reject) {
+
+    console.log(reject);
 
   })
 
@@ -626,7 +665,8 @@ var notifySockets = function (message, points) {
         type: "message",
         message: message,
         template: messageTemplate({
-          message: messageParse(message, sockets[id].subscription, id)
+          message: messageParse(message, sockets[id].subscription, id),
+          session: sockets[id].sesssion 
         })
 
       }
@@ -774,7 +814,7 @@ app.get("/meta/login", function (req, res) {
 
 app.get("/meta/refresh/:tags?", function (req, res) {
 
-  messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
+  messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
     var messageBlock = messagesTemplate({
       messages: messages,
@@ -788,7 +828,7 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
       innerBlock += messageTemplate({
         message: message,
-        req: req
+        session: req.session
       });
 
     });
@@ -930,15 +970,6 @@ ws.on('connection', function (ws) {
 
   ws.id = uuid.v1();
 
-  var cookies = cookie.parse(ws.upgradeReq.headers.cookie);
-  var sid = cookieParser.signedCookie(cookies["connect.sid"], secret);
-
-  if (sid) {
-
-    ws.sid = sid;
-
-  }
-
   sockets[ws.id] = ws;
 
   ws.on('message', function (message) {
@@ -979,13 +1010,29 @@ ws.on('connection', function (ws) {
 
         }
 
-        ws.subscription = subscription;
+        var cookies = cookie.parse(ws.upgradeReq.headers.cookie);
+        var sid = cookieParser.signedCookie(cookies["connect.sid"], secret);
 
-        if (message.user) {
+        sessionStore.get(sid, function (err, results) {
 
-          ws.user = message.user;
+          if (message.user) {
 
-        }
+            ws.user = message.user;
+
+          }
+
+
+          if (results && results.filters) {
+
+            ws.sesssion = results;
+
+            subscription = subscription.concat(results.filters.split(","));
+
+          }
+
+          ws.subscription = subscription;
+
+        });
 
       }
 
