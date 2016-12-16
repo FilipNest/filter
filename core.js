@@ -273,7 +273,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   })
 
-  message.rawDate = message.date;
+  message.timestamp = message.date;
   message.date = moment(message.date).fromNow();
 
   // Check if person has upvoted
@@ -522,6 +522,14 @@ var messageTemplate = Handlebars.compile(messageTemplateFile);
 app.get("/:tags?", function (req, res) {
 
   messagesFromTags(req.params.tags, req.session.user).then(function (messages) {
+
+    if (req.query.format === "json") {
+
+      res.json(messages);
+
+      return true;
+
+    }
 
     var output = template({
       tagsJSON: req.params.tags,
