@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   if (window.WebSocket) {
 
     var connectSocket = function () {
-      
+
       var websocket;
 
       window.pair = function () {
@@ -158,6 +158,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
           var message = JSON.parse(evt.data);
 
           var update = $("#" + message.message.id)[0];
+
+          if (message.type === "mention") {
+
+            console.log("mentioned", message.message);
+
+            return false;
+
+          }
 
           if (update) {
 

@@ -623,6 +623,7 @@ var notifySockets = function (message) {
     if (send) {
 
       var output = {
+        type: "message",
         message: message,
         template: messageTemplate({
           message: messageParse(message, sockets[id].subscription, id)
@@ -631,6 +632,33 @@ var notifySockets = function (message) {
       }
 
       sockets[id].send(JSON.stringify(output));
+
+    }
+
+  })
+
+  // Check if message contains mention. If it does, send notification to mentioneeeee(?)
+
+  message.tags.forEach(function (tag) {
+
+    if (tag[0] === "@") {
+
+      var mentioned = tag.substring(1);
+
+      Object.keys(sockets).forEach(function (id) {
+
+        if (sockets[id].user === mentioned) {
+
+          var output = {
+            type: "mention",
+            message: message
+          }
+
+          sockets[id].send(JSON.stringify(output));
+
+        }
+
+      });
 
     }
 
@@ -900,7 +928,7 @@ ws.on('connection', function (ws) {
       if (message.type === "pair" && message.tags) {
 
         // Remove leading slash
-        
+
         var tags = message.tags.substring(1);
 
         if (tags === "") {
