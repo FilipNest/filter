@@ -113,6 +113,10 @@ header a {
   font-size: 80%;
   text-decoration: none;
 }
+header b {
+  font-size: 80%;
+  text-transform: uppercase;
+}
 header a img {
   max-width: 100%;
   height: 20px;
