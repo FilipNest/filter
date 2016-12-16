@@ -1,4 +1,4 @@
-# Filter (devname)
+# Filters
 
 _Development site currently at [filter.filipnest.com](http://filter.filipnest.com)_
 
