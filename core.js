@@ -174,7 +174,7 @@ app.post("/meta/newUser", function (req, res) {
 
   if (!req.body.username || !req.body.password || !req.body.email) {
 
-    return res.redirect("/meta/login");
+    return res.redirect("/");
 
   }
 
@@ -666,7 +666,7 @@ var notifySockets = function (message, points) {
         message: message,
         template: messageTemplate({
           message: messageParse(message, sockets[id].subscription, id),
-          session: sockets[id].sesssion 
+          session: sockets[id].sesssion
         })
 
       }
@@ -801,16 +801,10 @@ app.post("/points/:message", function (req, res) {
 app.post('/meta/login',
   passport.authenticate('local', {
     successRedirect: '/',
-    failureRedirect: '/meta/login',
+    failureRedirect: '/',
     failureFlash: true
   })
 );
-
-app.get("/meta/login", function (req, res) {
-
-  res.sendFile(__dirname + "/login.html");
-
-});
 
 app.get("/meta/refresh/:tags?", function (req, res) {
 
