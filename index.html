@@ -25,7 +25,7 @@
 
     <a href="#login">Login</a> | <a href="#register">Register</a> {{else}}
 
-    <b>{{req.session.user}}</b> : <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="meta/logout">Logout</a> | <a href="#settings">Settings</a> {{/unless}}
+    <b>{{req.session.user}}</b> : <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a> | <a href="meta/logout">Logout</a> {{/unless}}
 
   </header>
 
@@ -104,11 +104,11 @@
     </form>
 
   </section>
-  
+
   {{else}}
-  
+
   <section class="form-block" id="settings">
-        
+
     <a class="close" href="#">Back</a>
 
     <form action="/meta/settings" method="post">
@@ -120,7 +120,7 @@
         <textarea type="text" name="filters" placeholder="E.g points=0">{{req.session.filters}}</textarea>
       </div>
       <div>
-        <input type="submit" value="Sign In" />
+        <input type="submit" value="Submit" />
       </div>
     </form>
 

@@ -126,7 +126,7 @@ app.use(passport.session());
 
 // used to serialize the user for the session
 passport.serializeUser(function (user, done) {
-  done(null, user.username);
+  done(null, user.username)
 });
 
 // used to deserialize the user
@@ -156,7 +156,11 @@ var bcrypt = require("bcrypt");
 
 app.get("/meta/logout", function (req, res) {
 
-  req.session.destroy();
+  req.session.destroy(function (destroyed) {
+
+
+
+  });
 
   res.redirect("/");
 
@@ -164,7 +168,20 @@ app.get("/meta/logout", function (req, res) {
 
 app.post("/meta/settings", function (req, res) {
 
-  req.session.filters = req.body.filters;
+  users.update({
+    username: req.session.user,
+  }, {
+    $set: {
+      filters: req.body.filters
+    }
+  }, {
+    upsert: false,
+    returnUpdatedDocs: true
+  }, function (err, updated, doc) {
+
+    req.session.filters = req.body.filters;
+
+  });
 
   res.redirect("/");
 
@@ -218,9 +235,26 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
+    users.findOne({
+      username: req.session.user
+    }, function (err, doc) {
+
+      if (doc) {
+        
+        req.session.filters = doc.filters;
+
+      }
+
+      next();
+
+    })
+
+  } else {
+
+    next();
+
   }
 
-  next();
 
 });
 
