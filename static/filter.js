@@ -168,21 +168,17 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
               if (message.vote) {
 
-                if (message.vote.voter = window.loggedIn) {
+                var buttons = $("#" + message.message.id).find(".vote button");
 
-                  var buttons = $("#" + message.message.id).find(".vote button");
+                if (message.message.upvoted.indexOf(window.loggedIn) !== -1) {
 
-                  if (message.message.upvoted.indexOf(window.loggedIn) !== -1) {
+                  buttons[0].disabled = true;
 
-                    buttons[0].disabled = true;
+                }
 
-                  }
+                if (message.message.downvoted.indexOf(window.loggedIn) !== -1) {
 
-                  if (message.message.downvoted.indexOf(window.loggedIn) !== -1) {
-
-                    buttons[1].disabled = true;
-
-                  }
+                  buttons[1].disabled = true;
 
                 }
 
