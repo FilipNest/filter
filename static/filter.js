@@ -164,7 +164,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           } else {
 
-            $("#chat").append(message.template);
+            // Check where to add message (it could be earlier in the chain)
+
+            var later;
+
+            $.each($(".message-wrapper"), function (index, element) {
+
+              var messageDate = $(element).attr("data-timestamp");
+
+              var updateDate = message.message.date;
+
+              if (messageDate > updateDate) {
+
+                later = element;
+
+              }
+
+            })
+
+            if (later) {
+
+              $(later).before(message.template);
+
+            } else {
+
+              $("#chat").append(message.template);
+
+            }
 
           }
 
