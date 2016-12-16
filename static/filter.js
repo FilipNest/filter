@@ -126,14 +126,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
   if (window.WebSocket) {
 
     var connectSocket = function () {
-
+      
       var websocket;
 
       window.pair = function () {
 
         var message = {
           type: "pair",
-          tags: document.location.pathname
+          tags: document.location.pathname,
+          user: window.loggedIn
         };
 
         websocket.send(JSON.stringify(message));

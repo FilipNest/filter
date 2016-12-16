@@ -55,7 +55,6 @@ process.argv.forEach(function (val, index, array) {
 
   }
 
-
 });
 
 passport.use(new LocalStrategy(
@@ -133,7 +132,6 @@ passport.deserializeUser(function (id, done) {
   });
 
 });
-
 
 app.use(bodyParser.urlencoded({
   extended: false
@@ -568,7 +566,6 @@ app.get("/:tags?", function (req, res) {
 
 var notifySockets = function (message) {
 
-
   Object.keys(sockets).forEach(function (id) {
 
     var subscription = sockets[id].subscription;
@@ -902,6 +899,8 @@ ws.on('connection', function (ws) {
 
       if (message.type === "pair" && message.tags) {
 
+        // Remove leading slash
+        
         var tags = message.tags.substring(1);
 
         if (tags === "") {
@@ -930,6 +929,12 @@ ws.on('connection', function (ws) {
 
         ws.subscription = subscription;
 
+        if (message.user) {
+
+          ws.user = message.user;
+
+        }
+
       }
 
     } catch (e) {
@@ -953,8 +958,6 @@ ws.on('connection', function (ws) {
     }
 
   });
-
-  //  ws.send('something');
 
 });
 
