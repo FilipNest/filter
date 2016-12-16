@@ -240,7 +240,7 @@ app.use(function (req, res, next) {
     }, function (err, doc) {
 
       if (doc) {
-        
+
         req.session.filters = doc.filters;
 
       }
@@ -1049,12 +1049,15 @@ ws.on('connection', function (ws) {
 
           }
 
+          if (results) {
 
-          if (results && results.filters) {
+            ws.session = results;
 
-            ws.sesssion = results;
+            if (results.filters) {
 
-            subscription = subscription.concat(results.filters.split(","));
+              subscription = subscription.concat(results.filters.split(","));
+
+            }
 
           }
 
