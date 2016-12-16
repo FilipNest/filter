@@ -23,9 +23,9 @@
 
     {{#unless req.session.user}}
 
-    <a href="#login">Login</a> | <a href="#register">Register</a> {{else}}
+    <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
 
-    <b>{{req.session.user}}</b> : <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a> | <a href="meta/logout">Logout</a> {{/unless}}
+    <b>{{req.session.user}}</b>: <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a> | <a href="meta/logout">Logout</a>{{/unless}}
 
   </header>
 

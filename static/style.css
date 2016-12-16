@@ -106,6 +106,7 @@ header {
   left: 0px;
 }
 header a {
+  font-size:80%;
   text-decoration: none;
 }
 #postmessage {
