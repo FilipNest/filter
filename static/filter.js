@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   if (window.WebSocket) {
 
-    var connectSocket = function (channel, local) {
+    var connectSocket = function (channel, local, secure) {
 
       var websocket;
 
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       };
 
-      if (window.location.protocol === "https:") {
+      if (secure) {
 
         websocket = new WebSocket("wss://" + channel);
 
@@ -233,20 +233,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
       websocket.onclose = function (close) {
 
         setTimeout(function () {
-          connectSocket(channel, local);
+          connectSocket(channel, local, secure);
         }, 2000);
 
       };
 
     }
 
-    connectSocket(document.location.host, true);
+    connectSocket(document.location.host, true, window.location.protocol === "https:");
 
     if (window.channels) {
 
       window.channels.forEach(function (channel) {
 
-        connectSocket(channel, false);
+        connectSocket(channel.path.host, false, channel.path.protocol === "https:");
 
       })
 

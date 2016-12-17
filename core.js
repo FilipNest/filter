@@ -2,6 +2,10 @@ var Datastore = require('nedb');
 var Handlebars = require('handlebars');
 var moment = require("moment");
 
+Handlebars.registerHelper('json', function (obj) {
+  return JSON.stringify(obj);
+});
+
 var linkify = require('linkifyjs');
 require('linkifyjs/plugins/hashtag')(linkify);
 require('linkifyjs/plugins/mention')(linkify);

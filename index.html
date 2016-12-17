@@ -48,7 +48,15 @@
 
   </script>
 
+  {{/if}} {{#if req.session.channels}}
+
+  <script>
+    window.channels = JSON.parse("{{json req.session.channels}}".split("&quot;").join('"'));
+
+  </script>
+
   {{/if}}
+
   <script src="/filter.js"></script>
 
   {{#unless req.session.user}}
