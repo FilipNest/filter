@@ -48,6 +48,12 @@ var server = http.createServer(),
 
 var config = {};
 
+app.all('/*', function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 process.argv.forEach(function (val, index, array) {
 
   var argument = {
@@ -225,11 +231,19 @@ var formatChanels = function (channels) {
 
     list.forEach(function (element) {
 
+      // Add trailing slash.
+
+      if (element[element.length - 1] !== "/") {
+
+        element = element + "/";
+
+      }
+
       output.push({
         raw: element,
         path: url.parse(element)
       })
-      
+
     })
 
   }
@@ -635,7 +649,7 @@ var messagesFromTags = function (tags, session) {
             if (channel.path.protocol === "http:") {
 
               requestServer = http;
-              
+
             } else {
 
               requestServer = https;
@@ -646,7 +660,7 @@ var messagesFromTags = function (tags, session) {
               host: channel.path.host,
               path: data.tags + "?format=json"
             };
-            
+
             var callback = function (response) {
 
               var str = '';

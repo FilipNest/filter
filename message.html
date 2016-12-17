@@ -1,5 +1,5 @@
-<li class="message-wrapper" id="{{message.id}}" data-timestamp="{{message.timestamp}}">
-  <div class="message-info"><span class="message-author"><a href="/author={{message.author}}">{{message.author}}</a></span>{{#if message.channel}} <span class="message-channel">({{message.channel}})</span> {{/if}}
+<li data-channel="{{message.channel}}" class="message-wrapper" id="{{message.id}}" data-timestamp="{{message.timestamp}}">
+  <div class="message-info"><span class="message-author"><a href="/author={{message.author}}">{{message.author}}</a></span><span class="message-channel">{{#if message.channel}} ({{message.channel}}) {{/if}}</span>
     <span class="message-date">{{message.date}}</span> {{#if message.tags}}
     <div class="message-context"> + {{#each message.tags}}<span class="message-tag"> <a href="/{{this}}">{{this}}</a></span>{{/each}}
 

@@ -27,7 +27,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
       tags: $(button).attr("data-tags")
     })
 
-    $.post(location, data, function () {
+    var wrapper = $(e.target).closest(".message-wrapper");
+    
+    $.post($(wrapper).attr("data-channel") + location, data, function () {
 
       $(button).attr("disabled", "disabled");
 
