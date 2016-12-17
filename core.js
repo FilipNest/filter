@@ -166,7 +166,7 @@ app.get("/meta/logout", function (req, res) {
 
 });
 
-app.post("/meta/settings", function (req, res) {
+app.post("/meta/userfilters", function (req, res) {
 
   users.update({
     username: req.session.user,
@@ -347,7 +347,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 var specialFilters = {};
 
-specialFilters["points"] = {
+specialFilters["minpoints"] = {
 
   fetch: function (value) {
 
