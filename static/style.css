@@ -172,6 +172,9 @@ header a img {
   max-width: 500px;
   display: inline-block;
 }
+.message-channel {
+  font-size: 50%;
+}
 .message-date {
   color: grey;
   font-size: 50%;
