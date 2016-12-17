@@ -271,5 +271,6 @@ div.tagsinput span.tag a {
   textarea,
   input {
     font-size: 16px;
+    max-width: 100%;
   }
 }
