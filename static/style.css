@@ -262,6 +262,6 @@ a.close {
   margin: auto;
   max-width: 100%;
 }
-div.tagsinput span.tag a {
-  font-size: 1rem
+div.tagsinput input {
+  font-size: 1rem !important;
 }
