@@ -624,15 +624,15 @@ var messagesFromTags = function (tags, session) {
 
           return new Promise(function (resolve, reject) {
 
-            var server;
+            var requestServer;
 
             if (channel.path.protocol === "http:") {
 
-              server = http;
+              requestServer = http;
 
             } else {
 
-              server = https;
+              requestServer = https;
 
             }
 
@@ -641,7 +641,7 @@ var messagesFromTags = function (tags, session) {
               path: data.tags + "?format=json"
             };
 
-            callback = function (response) {
+            var callback = function (response) {
               var str = '';
 
               //another chunk of data has been recieved, so append it to `str`
@@ -678,8 +678,17 @@ var messagesFromTags = function (tags, session) {
               });
             }
 
-            http.request(options, callback).end();
+            var request = requestServer.request(options, callback);
 
+            request.on("error", function (err) {
+
+              console.log(err);
+
+              resolve();
+
+            })
+
+            request.end;
 
           })
 
