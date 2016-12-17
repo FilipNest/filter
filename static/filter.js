@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   if (window.WebSocket) {
 
-    var connectSocket = function (channel) {
+    var connectSocket = function (channel, local) {
 
       var websocket;
 
@@ -233,20 +233,20 @@ document.addEventListener("DOMContentLoaded", function (event) {
       websocket.onclose = function (close) {
 
         setTimeout(function () {
-          connectSocket(channel);
+          connectSocket(channel, local);
         }, 2000);
 
       };
 
     }
 
-    connectSocket(document.location.host);
+    connectSocket(document.location.host, true);
 
     if (window.channels) {
 
       window.channels.forEach(function (channel) {
 
-        connectSocket(channel);
+        connectSocket(channel, false);
 
       })
 

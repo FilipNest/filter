@@ -187,6 +187,45 @@ app.post("/meta/userfilters", function (req, res) {
 
 })
 
+var path = require("path");
+app.post("/meta/userchannels", function (req, res) {
+
+  var channels = [];
+
+  if (req.body.channels) {
+
+    var list = req.body.channels.split(",");
+    
+    list.forEach(function (element) {
+
+      channels.push({
+        raw: element,
+        path: path.parse(element)
+      })
+
+    })
+
+  }
+
+  users.update({
+    username: req.session.user,
+  }, {
+    $set: {
+      channels: channels
+    }
+  }, {
+    upsert: false,
+    returnUpdatedDocs: true
+  }, function (err, updated, doc) {
+
+    req.session.channels = channels;
+
+  });
+
+  res.redirect("/");
+
+})
+
 app.post("/meta/newUser", function (req, res) {
 
   if (!req.body.username || !req.body.password || !req.body.email) {
@@ -242,6 +281,7 @@ app.use(function (req, res, next) {
       if (doc) {
 
         req.session.filters = doc.filters;
+        req.session.channels = doc.channels;
 
       }
 
@@ -570,7 +610,18 @@ var messagesFromTags = function (tags, session) {
 
       messages.reverse();
 
-      resolve(messages);
+      // Check if user has any other channels set, if so parse their messages as well.
+
+      if (session.channels) {
+
+        resolve(messages);
+
+      } else {
+
+        resolve(messages);
+
+      }
+
 
     });
 

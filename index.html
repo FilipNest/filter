@@ -25,9 +25,7 @@
 
     <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
 
-    <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}}
-    
-    | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
+    <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
   </header>
 
@@ -115,11 +113,21 @@
 
     <form action="/meta/userfilters" method="post">
       <h2>Settings</h2>
-      <p></p>
       <div>
         <label>Personal filters:</label>
         <p>Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc) only takes special filters (the ones with = in them). Comma seperated.</p>
         <textarea type="text" name="filters" placeholder="E.g minpoints=0">{{req.session.filters}}</textarea>
+      </div>
+      <div>
+        <input type="submit" value="Submit" />
+      </div>
+    </form>
+
+    <form action="/meta/userchannels" method="post">
+      <div>
+        <label>Channels:</label>
+        <p>Insert extra URLS you want to listen to messages from (comma seperated). Leave blank for just the local channel. Local channel is always returned.</p>
+        <textarea type="text" name="channels" placeholder="http://filters.filipnest.com">{{#each req.session.channels}}{{this.raw}}{{/each}}</textarea>
       </div>
       <div>
         <input type="submit" value="Submit" />
