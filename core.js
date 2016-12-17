@@ -717,6 +717,26 @@ var messagesFromTags = function (tags, session) {
 
         Promise.all(promises).then(function () {
 
+          // Sort messages
+
+          messages.sort(function (a, b) {
+
+            if (a.timestamp > b.timestamp) {
+
+              return 1;
+
+            } else if (a.timestamp < b.timestamp) {
+
+              return -1
+
+            } else {
+
+              return 0;
+
+            }
+
+          })
+
           resolve(messages);
 
         })
