@@ -73,6 +73,10 @@ Messages can be voted up or down (or both currently, not sure if bug/feature). T
 
 All special filters can also be preceded by a `!` to negate the filter.
 
+## Help!
+
+Filters is free and open source and I would very much like your help. Whether it's suggestions, code or design, everything would be very much appreciated.
+
 ## License
 
 Filters is released under the ISC license.
