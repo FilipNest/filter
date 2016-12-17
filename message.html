@@ -6,8 +6,9 @@
     </div>{{/if}}
   </div>
 
-
   {{#if session.user}}
+  
+  {{#unless message.channel}}
 
   <div class="vote">
 
@@ -34,6 +35,8 @@
     {{/unless}}
 
   </div>
+  
+  {{/unless}}
 
   {{/if}}
 

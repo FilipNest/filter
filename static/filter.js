@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     })
 
     var wrapper = $(e.target).closest(".message-wrapper");
-    
+
     $.post($(wrapper).attr("data-channel") + location, data, function () {
 
       $(button).attr("disabled", "disabled");
@@ -215,6 +215,18 @@ document.addEventListener("DOMContentLoaded", function (event) {
                 $("#chat").append(message.template);
 
               }
+
+            }
+
+            var message = $("#" + message.message.id);
+
+            if (!local) {
+
+              // Hide vote buttons
+
+              message.attr("data-channel", channel);
+              message.find(".message-channel").text(" (" + channel + ") ")
+              message.find(".vote").hide();
 
             }
 
