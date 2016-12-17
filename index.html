@@ -26,6 +26,8 @@
     <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
 
     <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}}
+    
+    | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
   </header>
 
