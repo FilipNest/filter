@@ -4,6 +4,7 @@
   "description": "",
   "main": "core.js",
   "author": "FilipNest",
+  "license":"ISC",
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
