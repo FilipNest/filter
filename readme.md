@@ -2,13 +2,15 @@
 
 _Development site currently at [filter.filipnest.com](http://filter.filipnest.com)_
 
-Discussion with context. Each post has some tags assigned to it, some are automatic, other are chosen, all can act as filters.
+Filters is a social messaging platform with a focus on context filtering. Messages posted to it are all tagged. Some tags are automatic e.g the author and a unique ID for the message, some are manual (#hashtags, @mentions and all the tags in the context the message is being posted to.
+
+Readers/writers can filter a discussion down to a specific context by adding tags to a header at the top of the message feed. Tags can be negated to show everything except those tags and there are all sorts of special tags for things such as who wrote the post and how many people liked it or disliked it. These special tags can also be negated and combined.
 
 Tags are case insensitive (`Music` is the same as `MUSIC` and `music`) and can only contain letters,numbers and dashes `-` for example `social-media-websites`.
 
-The filter box at the top can be used to add tags to the current context. Only messages with those tags will appear. Also, any message entered will get these tags automatically.
+URLs for specific contexts are a comma separated list of filters.
 
-URLs are also fairly simple being a comma separated list of filters.
+Users might want to have certain filters on by default while navigating through the system such as blocking specific users or only showing posts that have a minimum number of points (/votes). For this reason each user can set a static set of filters that follows them around while they dip in and out of contexts.
 
 ## Formatting messages
 
