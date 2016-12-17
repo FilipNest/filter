@@ -265,12 +265,3 @@ a.close {
 div.tagsinput span.tag a {
   font-size: 1rem
 }
-
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  select,
-  textarea,
-  input {
-    font-size: 16px;
-    max-width: 100%;
-  }
-}
