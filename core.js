@@ -31,7 +31,9 @@ var debug = function (thing) {
 
 }
 
-var server = require('http').createServer(),
+var https = require("https");
+var http = require("http");
+var server = http.createServer(),
   WebSocketServer = require('ws').Server,
   ws = new WebSocketServer({
     server: server
@@ -187,7 +189,7 @@ app.post("/meta/userfilters", function (req, res) {
 
 })
 
-var path = require("path");
+var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
   var channels = [];
@@ -195,12 +197,12 @@ app.post("/meta/userchannels", function (req, res) {
   if (req.body.channels) {
 
     var list = req.body.channels.split(",");
-    
+
     list.forEach(function (element) {
 
       channels.push({
         raw: element,
-        path: path.parse(element)
+        path: url.parse(element)
       })
 
     })
@@ -614,7 +616,110 @@ var messagesFromTags = function (tags, session) {
 
       if (session.channels) {
 
-        resolve(messages);
+        var fetchExternal = function (channel, data) {
+
+          return new Promise(function (resolve, reject) {
+
+            var server;
+
+            if (channel.path.protocol === "http:") {
+
+              server = http;
+
+            } else {
+
+              server = https;
+
+            }
+
+            var options = {
+              host: channel.path.host,
+              path: data.tags + "?format=json"
+            };
+
+            callback = function (response) {
+              var str = '';
+
+              //another chunk of data has been recieved, so append it to `str`
+              response.on('data', function (chunk) {
+                str += chunk;
+              });
+
+              //the whole response has been recieved, so we just print it out here
+              response.on('end', function () {
+
+                try {
+
+                  var fetchedMessages = JSON.parse(str);
+
+                  if (fetchedMessages.length) {
+
+                    fetchedMessages.forEach(function (message, index) {
+
+                      fetchedMessages[index].channel = channel.raw
+
+                    })
+
+                    messages = messages.concat(fetchedMessages);
+
+                  }
+
+                } catch (e) {
+
+
+                }
+
+                resolve();
+
+              });
+            }
+
+            http.request(options, callback).end();
+
+
+          })
+
+        };
+
+        var request = {
+          tags: tags
+        }
+
+        if (!request.tags) {
+
+          request.tags = "";
+
+        }
+
+        if (session.filters) {
+
+          if (request.tags) {
+
+            request.tags = request.tags + "," + session.filters
+
+          } else {
+
+            request.tags = session.filters
+
+          }
+
+        }
+
+        request.tags = "/" + request.tags;
+
+        var promises = [];
+
+        session.channels.forEach(function (element) {
+
+          promises.push(fetchExternal(element, request, messages))
+
+        });
+
+        Promise.all(promises).then(function () {
+
+          resolve(messages);
+
+        })
 
       } else {
 
