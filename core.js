@@ -196,41 +196,47 @@ app.post("/meta/userfilters", function (req, res) {
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
-  var channels = [];
-
-  if (req.body.channels) {
-
-    var list = req.body.channels.split(",");
-
-    list.forEach(function (element) {
-
-      channels.push({
-        raw: element,
-        path: url.parse(element)
-      })
-
-    })
-
-  }
-
   users.update({
     username: req.session.user,
   }, {
     $set: {
-      channels: channels
+      channels: req.body.channels
     }
   }, {
     upsert: false,
     returnUpdatedDocs: true
   }, function (err, updated, doc) {
 
-    req.session.channels = channels;
+    req.session.channels = formatChanels(req.body.channels);
 
   });
 
   res.redirect("/");
 
 })
+
+var formatChanels = function (channels) {
+
+  var output = [];
+
+  if (channels) {
+
+    var list = channels.split(",");
+
+    list.forEach(function (element) {
+
+      output.push({
+        raw: element,
+        path: url.parse(element)
+      })
+      
+    })
+
+  }
+
+  return output;
+
+};
 
 app.post("/meta/newUser", function (req, res) {
 
@@ -287,7 +293,7 @@ app.use(function (req, res, next) {
       if (doc) {
 
         req.session.filters = doc.filters;
-        req.session.channels = doc.channels;
+        req.session.channels = formatChanels(doc.channels);
 
       }
 
@@ -629,7 +635,7 @@ var messagesFromTags = function (tags, session) {
             if (channel.path.protocol === "http:") {
 
               requestServer = http;
-
+              
             } else {
 
               requestServer = https;
@@ -640,16 +646,15 @@ var messagesFromTags = function (tags, session) {
               host: channel.path.host,
               path: data.tags + "?format=json"
             };
-
+            
             var callback = function (response) {
+
               var str = '';
 
-              //another chunk of data has been recieved, so append it to `str`
               response.on('data', function (chunk) {
                 str += chunk;
               });
 
-              //the whole response has been recieved, so we just print it out here
               response.on('end', function () {
 
                 try {
@@ -678,9 +683,9 @@ var messagesFromTags = function (tags, session) {
               });
             }
 
-            var request = requestServer.request(options, callback);
+            var sendRequest = requestServer.request(options, callback);
 
-            request.on("error", function (err) {
+            sendRequest.on("error", function (err) {
 
               console.log(err);
 
@@ -688,7 +693,7 @@ var messagesFromTags = function (tags, session) {
 
             })
 
-            request.end;
+            sendRequest.end();
 
           })
 
