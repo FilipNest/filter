@@ -8,33 +8,33 @@ Filters is a demo/concept of a decentralised social messaging platform with a fo
 
 ### 1) Context and control over what's on your feed
 
-I love Twitter, everyone keeps wanting to replace it but I still love it. One thing that annoys me though is that sometimes the lack of a context behind a feed makes it seem like everyone's just shouting over each other about things. I mostly tweet about music but, in a year of a lot of big political events and other things, my tweets about music seem a bit funny next to everyone elses. I've even seen people get annoyed with others about tweetings something irrelevant to what they want to hear about.
+I love Twitter, everyone keeps wanting to replace it but I still love it. One thing that annoys me though is that sometimes the lack of a context behind a feed makes it seem like everyone's just shouting over each other about things. I mostly tweet about music but, in a year of a lot of big political events and other things, my tweets about music seem a bit funny next to everything else. I've even seen people get annoyed with others about tweeting something irrelevant to what they want to hear about.
 
 I grew up on message boards (mostly music ones) and chat rooms (games). Both had closed contexts and communities where you could discuss one thing without being distracted or pushed into discussing other things.
 
 Filters' messages are all tagged and you can add context to a stream and shift within contexts to filter out anything (or anyone). 
 
-Additional filters for things such as who wrote a post, who upvoted/downvoted it or how many points it has (all filters can be negated and combined) allow you to have full control over what you see.
+Additional filters for things such as who wrote a post, who upvoted/downvoted it or how many points it has (all filters can also be negated and combined) allow you to have full control over what you see. You can also share or bookmark these contexts as all they are is simple to write out urls.
 
 ### 2) Decentralisation
 
-Storing all messages with on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read). This isn't just for privacy, it allows you to create copies of the same software (it's open source) that support different features or look different but still understand messages from other instances.
+Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This isn't just for privacy, it allows you to create copies of the same software (it's open source) that support different features or look different but still understand messages from other instances.
 
 ## How it works
 
-Messages posted to Filters are all tagged. Some tags are automatic e.g the author and a unique ID for the message (prefixed with `msg-`, some are manual, e.g #hashtags, @mentions and all the tags in the context the message is being posted to.
+Messages posted to Filters are all tagged. Some tags are automatic e.g the author and a unique ID for the message (prefixed with `msg-`), some are manual, e.g `#hashtags`, `@mentions` and all the tags in the context the message is being posted to.
 
-Readers/writers can filter a discussion down to a specific context by adding tags to a header at the top of the message feed. Tags can be negated to show everything except those tags and there are all sorts of special tags for things such as who wrote the post and how many people liked it or disliked it. These special tags can also be negated and combined.
+Readers/writers can filter a discussion down to a specific context by adding tags to a header at the top of the message feed. Tags can be negated with a `!` prefix to show everything except those tags and there are all sorts of special tags for things such as who wrote the post and how many/which people liked it or disliked it. These special tags can also be negated and combined.
 
-Tags are case insensitive (`Music` is the same as `MUSIC` and `music`) and can only contain letters,numbers and dashes `-` for example `social-media-websites`.
+Tags are case insensitive (`Music` is the same as `MUSIC` and `music`) and can only contain letters, numbers and dashes `-` for example `social-media-websites`. (And `@` prefixes for users).
 
 URLs for specific contexts are a comma separated list of filters so you can easily link people to specific contexts you have created.
 
-Users might want to have certain filters on by default while navigating through the system such as blocking specific users or only showing posts that have a minimum number of points (/votes). For this reason each user can set a static set of filters that follows them around while they dip in and out of contexts. Once logged in you'll find this on your settings screen.
+Users might want to have certain filters on by default while navigating through the system. For example blocking specific users or only showing posts that have a minimum number of points (/votes). Each user can set a static set of filters that follows them around while they dip in and out of contexts. Once logged in you'll find this on your settings screen.
 
 ### Channels
 
-If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the url to the external channel in your settings (see the bit about decentralisation above for more info).
+If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings (see the bit about decentralisation above for more info).
 
 ### Formatting messages
 
@@ -45,8 +45,8 @@ Messages are formatted using the [typogr](https://www.npmjs.com/package/typogr) 
 ### Automatically added tags
 
 * The userid of the author
-* A unique id for the message itself
-* Any tags from the current context
+* A unique id for the message itself (always prefixed with `msg-`)
+* Any tags from the current context (switch context if you want to write in a different one)
 
 ### Manually adding tags
 
@@ -61,7 +61,7 @@ Aside from changing the context, you can add extra tags by prefixing words with 
 
 ### Points
 
-Messages can be voted up or down (or both currently, not sure if bug/feature). This is useful for filtering away good or bad content.
+Messages can be voted up or down (or both currently, not sure if bug/feature!). This is useful for filtering away good or bad content. One upvote and one downvote per user per message.
 
 ### Special filters
 
