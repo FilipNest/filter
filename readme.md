@@ -73,9 +73,19 @@ Messages can be voted up or down (or both currently, not sure if bug/feature). T
 
 All special filters can also be preceded by a `!` to negate the filter.
 
+## Deploying Filters yourself
+
+* Git clone or download this.
+* Run `npm install`
+* Run `node core.js` (optionally run with a port parameter to specify which port the server should run on e.g `node core.js port=5555`
+
+More configuration settings etc are probably going to come soon.
+
 ## Help!
 
 Filters is free and open source and I would very much like your help. Whether it's suggestions, code or design, everything would be very much appreciated.
+
+The code is still being tidied up after the initial get-all-the-features-in but if you want to make improvements to anything please do so and put in a pull request so they can be merged in.
 
 ## License
 
