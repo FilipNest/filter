@@ -1,4 +1,23 @@
+// Register global object
+
+global.filter = {};
+
+// Database stuff
+
 var Datastore = require('nedb');
+
+filter.messages = new Datastore({
+  filename: 'data/words.db',
+  autoload: true
+});
+
+filter.users = new Datastore({
+  filename: 'data/users.db',
+  autoload: true
+});
+
+// End database stuff
+
 var Handlebars = require('handlebars');
 var moment = require("moment");
 
@@ -13,16 +32,6 @@ var linkifyHtml = require('linkifyjs/html');
 
 var cookie = require("cookie");
 var cookieParser = require('cookie-parser');
-
-var db = new Datastore({
-  filename: 'data/words.db',
-  autoload: true
-});
-
-var users = new Datastore({
-  filename: 'data/users.db',
-  autoload: true
-});
 
 var util = require("util");
 var passport = require('passport'),
@@ -46,7 +55,7 @@ var server = http.createServer(),
   app = express(),
   bodyParser = require('body-parser');
 
-var config = {};
+filter.config = {};
 
 app.all('/*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -63,7 +72,7 @@ process.argv.forEach(function (val, index, array) {
 
   if (argument.key && argument.value) {
 
-    config[argument.key] = argument.value;
+    filter.config[argument.key] = argument.value;
 
   }
 
@@ -71,7 +80,7 @@ process.argv.forEach(function (val, index, array) {
 
 passport.use(new LocalStrategy(
   function (username, password, done) {
-    users.findOne({
+    filter.users.find({
       "$or": [
         {
           username: username
@@ -83,11 +92,13 @@ passport.use(new LocalStrategy(
       if (err) {
         return done(err);
       }
-      if (!user) {
+      if (!user.length) {
         return done(null, false, {
           message: 'Incorrect username.'
         });
       }
+            
+      user = user[0];
 
       bcrypt.compare(password, user.password, function (err, res) {
         if (res === true || password === user.password) {
@@ -144,10 +155,10 @@ passport.serializeUser(function (user, done) {
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
 
-  users.findOne({
+  filter.users.find({
     username: id
   }, function (err, user) {
-    done(err, user);
+    done(err, user[0]);
   });
 
 });
@@ -180,7 +191,7 @@ app.get("/meta/logout", function (req, res) {
 
 app.post("/meta/userfilters", function (req, res) {
 
-  users.update({
+  filter.users.update({
     username: req.session.user,
   }, {
     $set: {
@@ -202,7 +213,7 @@ app.post("/meta/userfilters", function (req, res) {
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
-  users.update({
+  filter.users.update({
     username: req.session.user,
   }, {
     $set: {
@@ -278,7 +289,7 @@ app.post("/meta/newUser", function (req, res) {
 
       account.password = hash;
 
-      users.insert(account, function (err, newDoc) {
+      filter.users.insert(account, function (err, newDoc) {
 
         req.session.user = req.body.username.toLowerCase();
 
@@ -300,11 +311,13 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
-    users.findOne({
+    filter.users.find({
       username: req.session.user
     }, function (err, doc) {
 
-      if (doc) {
+      if (doc && doc.length) {
+        
+        doc = doc[0];
 
         req.session.filters = doc.filters;
         req.session.channels = formatChanels(doc.channels);
@@ -615,7 +628,7 @@ var messagesFromTags = function (tags, session) {
 
     //    debug(search);
 
-    db.find(search).sort({
+    filter.messages.find(search).sort({
       date: -1
     }).exec(function (err, messages) {
 
@@ -995,7 +1008,7 @@ app.post("/points/:message", function (req, res) {
 
   if (req.body.direction === "+") {
 
-    db.update({
+    filter.messages.update({
       id: req.params.message,
       $not: {
         upvoted: {
@@ -1026,7 +1039,7 @@ app.post("/points/:message", function (req, res) {
 
   } else if (req.body.direction === "-") {
 
-    db.update({
+    filter.messages.update({
       id: req.params.message,
       $not: {
         downvoted: {
@@ -1101,7 +1114,7 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
 var messageCount = 0;
 
-db.count({}, function (err, count) {
+filter.messages.count({}, function (err, count) {
   messageCount = count;
 });
 
@@ -1196,7 +1209,7 @@ app.post("/:tags?", function (req, res) {
 
     });
 
-    db.insert(message, function (err, newDoc) {
+    filter.messages.insert(message, function (err, newDoc) {
 
       messageCount += 1;
 
@@ -1323,4 +1336,4 @@ ws.on('connection', function (ws) {
 
 server.on('request', app);
 
-server.listen(config.port || 80);
+server.listen(filter.config.port || 80);
