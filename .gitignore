@@ -1,3 +1,4 @@
 node_modules
 words.db
 users.db
+config.json
