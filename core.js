@@ -12,7 +12,7 @@ require('linkifyjs/plugins/mention')(linkify);
 var linkifyHtml = require('linkifyjs/html');
 
 var cookie = require("cookie");
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 
 var db = new Datastore({
   filename: 'data/words.db',
@@ -31,9 +31,9 @@ var passport = require('passport'),
 var debug = function (thing) {
   console.log(util.inspect(thing, {
     depth: 10
-  }))
+  }));
 
-}
+};
 
 var https = require("https");
 var http = require("http");
@@ -59,7 +59,7 @@ process.argv.forEach(function (val, index, array) {
   var argument = {
     key: val.split("=")[0],
     value: val.split("=")[1]
-  }
+  };
 
   if (argument.key && argument.value) {
 
@@ -116,7 +116,7 @@ var secret = crypto.randomBytes(8).toString('hex');
 
 var sessionStore = new NedbStore({
   filename: 'data/sessions.db'
-})
+});
 
 app.use(session({
   secret: secret,
@@ -138,7 +138,7 @@ app.use(passport.session());
 
 // used to serialize the user for the session
 passport.serializeUser(function (user, done) {
-  done(null, user.username)
+  done(null, user.username);
 });
 
 // used to deserialize the user
@@ -197,7 +197,7 @@ app.post("/meta/userfilters", function (req, res) {
 
   res.redirect("/");
 
-})
+});
 
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
@@ -219,7 +219,7 @@ app.post("/meta/userchannels", function (req, res) {
 
   res.redirect("/");
 
-})
+});
 
 var formatChanels = function (channels) {
 
@@ -242,9 +242,9 @@ var formatChanels = function (channels) {
       output.push({
         raw: element,
         path: url.parse(element)
-      })
+      });
 
-    })
+    });
 
   }
 
@@ -264,7 +264,7 @@ app.post("/meta/newUser", function (req, res) {
     username: req.body.username.toLowerCase(),
     password: req.body.password,
     email: req.body.email.toLowerCase()
-  }
+  };
 
   bcrypt.hash(account.password, 10, function (err, hash) {
 
@@ -287,7 +287,7 @@ app.post("/meta/newUser", function (req, res) {
       });
     }
 
-  })
+  });
 
 });
 
@@ -313,7 +313,7 @@ app.use(function (req, res, next) {
 
       next();
 
-    })
+    });
 
   } else {
 
@@ -352,7 +352,7 @@ var typogr = require('typogr');
 
 var messageParse = function (rawMessage, currentTags, currentUser) {
 
-  var message = {}
+  var message = {};
 
   Object.assign(message, rawMessage);
 
@@ -378,13 +378,13 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
     return item !== message.author && item !== message.id;
 
-  })
+  });
 
   message.tags = message.tags.filter(function (item) {
 
     return item !== "@" + message.author && item !== message.id && currentTags.indexOf(item) === -1;
 
-  })
+  });
 
   message.timestamp = message.date;
   message.date = moment(message.date).fromNow();
@@ -409,7 +409,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   return message;
 
-}
+};
 
 var specialFilters = {};
 
@@ -421,7 +421,7 @@ specialFilters["minpoints"] = {
       "points": {
         "$gt": value - 1
       }
-    }
+    };
 
   },
   filter: function (value, message) {
@@ -430,14 +430,14 @@ specialFilters["minpoints"] = {
 
   }
 
-}
+};
 
 specialFilters["author"] = {
   fetch: function (value) {
 
     return {
       "author": value
-    }
+    };
 
   },
   filter: function (value, message) {
@@ -454,7 +454,7 @@ specialFilters["upvoted"] = {
       upvoted: {
         $elemMatch: value
       }
-    }
+    };
 
   },
   filter: function (value, message) {
@@ -471,7 +471,7 @@ specialFilters["downvoted"] = {
       downvoted: {
         $elemMatch: value
       }
-    }
+    };
 
   },
   filter: function (value, message) {
@@ -529,7 +529,7 @@ var messagesFromTags = function (tags, session) {
 
         return item.toLowerCase();
 
-      })
+      });
 
       parsedTags.forEach(function (tag) {
 
@@ -549,7 +549,7 @@ var messagesFromTags = function (tags, session) {
             type: specialTag[0],
             value: specialTag[1],
             negate: negate
-          })
+          });
 
         } else if (tag[0] === "!") {
 
@@ -577,7 +577,7 @@ var messagesFromTags = function (tags, session) {
 
             query = {
               $not: query
-            }
+            };
 
           }
 
@@ -593,9 +593,9 @@ var messagesFromTags = function (tags, session) {
           tags: {
             $elemMatch: item
           }
-        })
+        });
 
-      })
+      });
 
       negative.forEach(function (item) {
 
@@ -605,9 +605,9 @@ var messagesFromTags = function (tags, session) {
               $elemMatch: negative[0]
             }
           }
-        })
+        });
 
-      })
+      });
 
       currentTags = positive;
 
@@ -629,7 +629,7 @@ var messagesFromTags = function (tags, session) {
 
       messages.forEach(function (message, index) {
 
-        messages[index] = messageParse(message, currentTags, user)
+        messages[index] = messageParse(message, currentTags, user);
 
       });
 
@@ -679,9 +679,9 @@ var messagesFromTags = function (tags, session) {
 
                     fetchedMessages.forEach(function (message, index) {
 
-                      fetchedMessages[index].channel = channel.raw
+                      fetchedMessages[index].channel = channel.raw;
 
-                    })
+                    });
 
                     messages = messages.concat(fetchedMessages);
 
@@ -695,7 +695,7 @@ var messagesFromTags = function (tags, session) {
                 resolve();
 
               });
-            }
+            };
 
             var sendRequest = requestServer.request(options, callback);
 
@@ -705,17 +705,17 @@ var messagesFromTags = function (tags, session) {
 
               resolve();
 
-            })
+            });
 
             sendRequest.end();
 
-          })
+          });
 
         };
 
         var request = {
           tags: tags
-        }
+        };
 
         if (!request.tags) {
 
@@ -727,11 +727,11 @@ var messagesFromTags = function (tags, session) {
 
           if (request.tags) {
 
-            request.tags = request.tags + "," + session.filters
+            request.tags = request.tags + "," + session.filters;
 
           } else {
 
-            request.tags = session.filters
+            request.tags = session.filters;
 
           }
 
@@ -743,7 +743,7 @@ var messagesFromTags = function (tags, session) {
 
         session.channels.forEach(function (element) {
 
-          promises.push(fetchExternal(element, request, messages))
+          promises.push(fetchExternal(element, request, messages));
 
         });
 
@@ -759,7 +759,7 @@ var messagesFromTags = function (tags, session) {
 
             } else if (a.timestamp < b.timestamp) {
 
-              return -1
+              return -1;
 
             } else {
 
@@ -767,11 +767,11 @@ var messagesFromTags = function (tags, session) {
 
             }
 
-          })
+          });
 
           resolve(messages);
 
-        })
+        });
 
       } else {
 
@@ -782,7 +782,7 @@ var messagesFromTags = function (tags, session) {
 
     });
 
-  })
+  });
 
 };
 
@@ -839,7 +839,7 @@ app.get("/:tags?", function (req, res) {
 
     console.log(reject);
 
-  })
+  });
 
 });
 
@@ -848,7 +848,7 @@ app.get("/:tags?", function (req, res) {
 var notifySockets = function (message, vote) {
 
   Object.keys(sockets).forEach(function (id) {
-
+    
     var subscription = sockets[id].subscription;
 
     var send = true;
@@ -891,7 +891,7 @@ var notifySockets = function (message, vote) {
 
           }
 
-        } else if (messsage.tags.indexOf(tag) === -1) {
+        } else if (message.tags.indexOf(tag) === -1) {
 
           send = false;
 
@@ -899,7 +899,7 @@ var notifySockets = function (message, vote) {
 
       }
 
-    })
+    });
 
     if (send) {
 
@@ -912,13 +912,13 @@ var notifySockets = function (message, vote) {
           session: sockets[id].session
         })
 
-      }
+      };
 
       sockets[id].send(JSON.stringify(output));
 
     }
 
-  })
+  });
 
   if (vote) {
 
@@ -933,7 +933,7 @@ var notifySockets = function (message, vote) {
           direction: vote.direction,
           user: vote.voter,
           message: message
-        }
+        };
 
         sockets[id].send(JSON.stringify(output));
 
@@ -958,7 +958,7 @@ var notifySockets = function (message, vote) {
             var output = {
               type: "mention",
               message: message
-            }
+            };
 
             sockets[id].send(JSON.stringify(output));
 
@@ -968,7 +968,7 @@ var notifySockets = function (message, vote) {
 
       }
 
-    })
+    });
 
   }
 
@@ -1018,7 +1018,7 @@ app.post("/points/:message", function (req, res) {
         updateNotification(doc, {
           direction: req.body.direction,
           voter: req.session.user
-        })
+        });
 
       }
 
@@ -1056,7 +1056,7 @@ app.post("/points/:message", function (req, res) {
 
   } else {
 
-    res.status(400).send("Invalid points value")
+    res.status(400).send("Invalid points value");
 
   }
 
@@ -1095,11 +1095,11 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
     res.send(messageBlock);
 
-  })
+  });
 
-})
+});
 
-var messageCount = 0
+var messageCount = 0;
 
 db.count({}, function (err, count) {
   messageCount = count;
@@ -1144,7 +1144,7 @@ app.post("/:tags?", function (req, res) {
 
       if (tag.indexOf("=") !== -1) {
 
-        tags.splice(index, 1)
+        tags.splice(index, 1);
 
       } else {
 
@@ -1152,7 +1152,7 @@ app.post("/:tags?", function (req, res) {
 
       }
 
-    })
+    });
 
     var id = hashids.encode(messageCount);
 
@@ -1160,11 +1160,11 @@ app.post("/:tags?", function (req, res) {
 
       if (!currentTag.length) {
 
-        tags.splice(index, 1)
+        tags.splice(index, 1);
 
       }
 
-    })
+    });
 
     var message = {
       words: req.body.words,
@@ -1182,13 +1182,13 @@ app.post("/:tags?", function (req, res) {
 
     message.tags = message.tags.filter(function (item, pos, self) {
       return self.indexOf(item) == pos;
-    })
+    });
 
     message.tags = message.tags.map(function (element) {
 
       return element.toLowerCase();
 
-    })
+    });
 
     tags = tags.map(function (element) {
 
@@ -1250,13 +1250,13 @@ ws.on('connection', function (ws) {
 
         } else {
 
-          tags = tags.split(",")
+          tags = tags.split(",");
 
           tags.forEach(function (tag, index) {
 
             tags[index] = decodeURI(tag);
 
-          })
+          });
 
           tags = tags.map(function (tag) {
 
