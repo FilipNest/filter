@@ -907,7 +907,7 @@ var notifySockets = function (message, vote) {
 
     var send = true;
 
-    var specials = [];
+    var specials = {};
 
     subscription.forEach(function (tag) {
 
@@ -929,7 +929,13 @@ var notifySockets = function (message, vote) {
 
           }
 
-          specials.push(special);
+          if (!specials[special.type]) {
+
+            specials[special.type] = [];
+
+          }
+
+          specials[special.type].push(special);
 
         } else if (message.tags.indexOf(tag) === -1) {
 
@@ -943,30 +949,66 @@ var notifySockets = function (message, vote) {
 
     // special filters
 
-    specials.forEach(function (filter) {
+    Object.keys(specials).forEach(function (type) {
 
-      if (filter.specialFilters[special.type]) {
+      if (filter.specialFilters[type]) {
 
-        var localSend = filter.specialFilters[special.type]["filter"](special.value, message);
+        if (filter.specialFilters[type].or) {
 
-        if (special.negate) {
+          var passType = true;
 
-          localSend = !localSend;
+          specials[type].forEach(function (currentFilter) {
+            
+            var localSend = filter.specialFilters[type]["filter"](currentFilter.value, message);
+            
+            if (currentFilter.negate) {
+
+              localSend = !localSend;
+
+            }
+
+            if (!localSend) {
+
+              passType = false;
+
+            }
+
+          })
+
+          if (!passType) {
+
+            send = false;
+
+          }
+
+        } else {
+
+          specials[type].forEach(function (currentFilter) {
+
+            var localSend = filter.specialFilters[currentFilter.type]["filter"](currentFilter.value, message);
+
+            if (currentFilter.negate) {
+
+              localSend = !localSend;
+
+            }
+
+            if (!localSend) {
+
+              send = false;
+
+            }
+
+          });
 
         }
 
-        if (!localSend) {
-
-          send = false;
-
-        }
 
       }
 
     })
 
     if (send) {
-
 
       var output = {
         type: "message",
