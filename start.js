@@ -473,6 +473,8 @@ filter.specialFilters["minpoints"] = {
 };
 
 filter.specialFilters["author"] = {
+
+  or: true,
   fetch: function (value) {
 
     return {
@@ -488,6 +490,7 @@ filter.specialFilters["author"] = {
 };
 
 filter.specialFilters["upvoted"] = {
+  or: true,
   fetch: function (value) {
 
     return {
@@ -505,6 +508,7 @@ filter.specialFilters["upvoted"] = {
 };
 
 filter.specialFilters["downvoted"] = {
+  or: true,
   fetch: function (value) {
 
     return {
@@ -602,7 +606,8 @@ var messagesFromTags = function (tags, session) {
       });
 
       search = {
-        "$and": []
+        "$and": [],
+        "$or": []
       };
 
       special.forEach(function (item) {
@@ -610,6 +615,8 @@ var messagesFromTags = function (tags, session) {
         if (filter.specialFilters[item.type]) {
 
           var query = filter.specialFilters[item.type]["fetch"](item.value);
+
+          // check if special filter is an and or an or
 
           if (item.negate) {
 
@@ -619,11 +626,25 @@ var messagesFromTags = function (tags, session) {
 
           }
 
-          search["$and"].push(query);
+          if (filter.specialFilters[item.type].or) {
+
+            search["$or"].push(query);
+
+          } else {
+
+            search["$and"].push(query);
+
+          }
 
         }
 
       });
+
+      if (!search["$or"].length) {
+
+        delete search["$or"];
+
+      }
 
       positive.forEach(function (item) {
 
