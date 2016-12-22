@@ -2,105 +2,9 @@
 
 global.filter = {};
 
-// Database stuff
+// Load in databases
 
-var Datastore = require('nedb');
-
-filter.data = {};
-
-filter.data.messages = new Datastore({
-  filename: 'data/words.db',
-  autoload: true
-});
-
-filter.data.users = new Datastore({
-  filename: 'data/users.db',
-  autoload: true
-});
-
-// Database API
-
-filter.dbCount = function (database) {
-
-  return new Promise(function (resolve, reject) {
-
-    filter.data[database].count({}, function (err, count) {
-
-      resolve(count);
-
-    });
-
-  });
-
-};
-
-filter.dbFetch = function (database, query, sort, limit) {
-
-  return new Promise(function (resolve, reject) {
-    
-    filter.data[database].find(query).sort(sort).exec(function (err, data) {
-
-      if (err) {
-
-        reject(err);
-
-      } else {
-
-        resolve(data);
-
-      }
-
-
-    });
-
-  });
-
-};
-
-filter.DBupdate = function (database, query) {
-
-  return new Promise(function (resolve, reject) {
-
-    filter.data[database].update(query, function (err, data) {
-
-      if (err) {
-
-        reject(err);
-
-      } else {
-
-        resolve(data);
-
-      }
-
-    });
-
-  });
-
-};
-
-filter.DBcreate = function (database, query) {
-
-  return new Promise(function (resolve, reject) {
-
-    filter.data[database].insert(query, function (err, data) {
-
-      if (err) {
-
-        reject(err);
-
-      } else {
-
-        resolve(data);
-
-      }
-
-    });
-
-  });
-
-};
-
+require("./nedb.js");
 
 // End database stuff
 
@@ -291,7 +195,7 @@ app.get("/meta/logout", function (req, res) {
 
 app.post("/meta/userfilters", function (req, res) {
 
-  filter.users.update({
+  filter.dbUpdate({
     username: req.session.user,
   }, {
     $set: {
@@ -300,20 +204,19 @@ app.post("/meta/userfilters", function (req, res) {
   }, {
     upsert: false,
     returnUpdatedDocs: true
-  }, function (err, updated, doc) {
+  }).then(function (data) {
 
     req.session.filters = req.body.filters;
+    res.redirect("/");
 
   });
-
-  res.redirect("/");
 
 });
 
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
-  filter.users.update({
+  filter.dbUpdate("users", {
     username: req.session.user,
   }, {
     $set: {
@@ -322,13 +225,12 @@ app.post("/meta/userchannels", function (req, res) {
   }, {
     upsert: false,
     returnUpdatedDocs: true
-  }, function (err, updated, doc) {
+  }).then(function (doc) {
 
     req.session.channels = formatChanels(req.body.channels);
+    res.redirect("/");
 
   });
-
-  res.redirect("/");
 
 });
 
@@ -389,13 +291,14 @@ app.post("/meta/newUser", function (req, res) {
 
       account.password = hash;
 
-      filter.users.insert(account, function (err, newDoc) {
+      filter.dbInsert("users", account).then(function (user) {
 
         req.session.user = req.body.username.toLowerCase();
 
         res.redirect("/");
 
       });
+
     }
 
   });
@@ -411,7 +314,7 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
-    filter.data("users", {
+    filter.dbFetch("users", {
       username: req.session.user
     }).then(function (data) {
 
@@ -1104,7 +1007,7 @@ app.post("/points/:message", function (req, res) {
 
   if (req.body.direction === "+") {
 
-    filter.messages.update({
+    filter.dbUpdate("messages", {
       id: req.params.message,
       $not: {
         upvoted: {
@@ -1120,22 +1023,26 @@ app.post("/points/:message", function (req, res) {
       }
     }, {
       returnUpdatedDocs: true
-    }, function (err, updated, doc) {
+    }).then(function (data) {
+      
+      if (data) {
 
-      if (updated) {
-
-        updateNotification(doc, {
+        updateNotification(data, {
           direction: req.body.direction,
           voter: req.session.user
         });
 
       }
 
+    },function(err){
+      
+      debug(err);
+      
     });
 
   } else if (req.body.direction === "-") {
 
-    filter.messages.update({
+    filter.dbUpdate("messages", {
       id: req.params.message,
       $not: {
         downvoted: {
@@ -1151,15 +1058,16 @@ app.post("/points/:message", function (req, res) {
       }
     }, {
       returnUpdatedDocs: true
+    }).then(function (data) {
 
-    }, function (err, updated, doc) {
+      if (data) {
 
-      if (updated) {
-
-        updateNotification(doc, req.body.direction);
+        updateNotification(data, {
+          direction: req.body.direction,
+          voter: req.session.user
+        });
 
       }
-
 
     });
 
@@ -1307,7 +1215,8 @@ app.post("/:tags?", function (req, res) {
 
     });
 
-    filter.messages.insert(message, function (err, newDoc) {
+
+    filter.dbInsert("messages", message).then(function (newDoc) {
 
       messageCount += 1;
 
@@ -1320,6 +1229,7 @@ app.post("/:tags?", function (req, res) {
       notifySockets(message);
 
       res.redirect("/" + req.params.tags);
+
 
     });
 
