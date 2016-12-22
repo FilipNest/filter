@@ -2,6 +2,8 @@
 
 global.filter = {};
 
+filter.specialFilters = {};
+
 // Debug helper
 
 var util = require("util");
@@ -451,9 +453,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 };
 
-var specialFilters = {};
-
-specialFilters["minpoints"] = {
+filter.specialFilters["minpoints"] = {
 
   fetch: function (value) {
 
@@ -472,7 +472,7 @@ specialFilters["minpoints"] = {
 
 };
 
-specialFilters["author"] = {
+filter.specialFilters["author"] = {
   fetch: function (value) {
 
     return {
@@ -487,7 +487,7 @@ specialFilters["author"] = {
   }
 };
 
-specialFilters["upvoted"] = {
+filter.specialFilters["upvoted"] = {
   fetch: function (value) {
 
     return {
@@ -504,7 +504,7 @@ specialFilters["upvoted"] = {
   }
 };
 
-specialFilters["downvoted"] = {
+filter.specialFilters["downvoted"] = {
   fetch: function (value) {
 
     return {
@@ -607,9 +607,9 @@ var messagesFromTags = function (tags, session) {
 
       special.forEach(function (item) {
 
-        if (specialFilters[item.type]) {
+        if (filter.specialFilters[item.type]) {
 
-          var query = specialFilters[item.type]["fetch"](item.value);
+          var query = filter.specialFilters[item.type]["fetch"](item.value);
 
           if (item.negate) {
 
@@ -906,9 +906,9 @@ var notifySockets = function (message, vote) {
 
           }
 
-          if (specialFilters[special.type]) {
+          if (filter.specialFilters[special.type]) {
 
-            var localSend = specialFilters[special.type]["filter"](special.value, message);
+            var localSend = filter.specialFilters[special.type]["filter"](special.value, message);
 
             if (special.negate) {
 
@@ -1274,9 +1274,9 @@ var sockets = {};
 ws.on('connection', function (ws) {
 
   ws.id = uuid.v1();
-  
+
   sockets[ws.id] = ws;
-  
+
   ws.on('message', function (message) {
 
     try {
