@@ -955,27 +955,27 @@ var notifySockets = function (message, vote) {
 
         if (filter.specialFilters[type].or) {
 
-          var passType = true;
+          var passCount = 0;
 
           specials[type].forEach(function (currentFilter) {
-            
+
             var localSend = filter.specialFilters[type]["filter"](currentFilter.value, message);
-            
+
             if (currentFilter.negate) {
 
               localSend = !localSend;
 
             }
 
-            if (!localSend) {
+            if (localSend) {
 
-              passType = false;
+              passCount += 1;
 
             }
 
           })
 
-          if (!passType) {
+          if (!passCount) {
 
             send = false;
 
