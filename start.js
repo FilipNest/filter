@@ -907,6 +907,8 @@ var notifySockets = function (message, vote) {
 
     var send = true;
 
+    var specials = [];
+
     subscription.forEach(function (tag) {
 
       if (tag.length) {
@@ -927,23 +929,7 @@ var notifySockets = function (message, vote) {
 
           }
 
-          if (filter.specialFilters[special.type]) {
-
-            var localSend = filter.specialFilters[special.type]["filter"](special.value, message);
-
-            if (special.negate) {
-
-              localSend = !localSend;
-
-            }
-
-            if (!localSend) {
-
-              send = false;
-
-            }
-
-          }
+          specials.push(special);
 
         } else if (message.tags.indexOf(tag) === -1) {
 
@@ -954,6 +940,30 @@ var notifySockets = function (message, vote) {
       }
 
     });
+
+    // special filters
+
+    specials.forEach(function (filter) {
+
+      if (filter.specialFilters[special.type]) {
+
+        var localSend = filter.specialFilters[special.type]["filter"](special.value, message);
+
+        if (special.negate) {
+
+          localSend = !localSend;
+
+        }
+
+        if (!localSend) {
+
+          send = false;
+
+        }
+
+      }
+
+    })
 
     if (send) {
 
