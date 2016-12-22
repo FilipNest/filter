@@ -2,11 +2,61 @@
 
 global.filter = {};
 
-// Load in databases
+// Debug helper
 
-require("./nedb.js");
+var util = require("util");
+filter.debug = function (thing) {
+  console.log(util.inspect(thing, {
+    depth: 10
+  }));
 
-// End database stuff
+};
+
+filter.config = {
+  port: 80,
+  database: "db_nedb"
+};
+
+var fs = require("fs");
+
+// Load in config file if 
+
+try {
+
+  Object.assign(filter.config, JSON.parse(fs.readFileSync("./config.json", "utf8")));
+
+} catch (e) {
+
+  if (e.code && e.code === "ENOENT") {
+
+    // File doesn't exist, ignore
+
+  } else {
+
+    filter.debug(e);
+
+  }
+
+}
+
+// Check command line arguments
+
+process.argv.forEach(function (val, index, array) {
+
+  var argument = {
+    key: val.split("=")[0],
+    value: val.split("=")[1]
+  };
+
+  if (argument.key && argument.value) {
+
+    filter.config[argument.key] = argument.value;
+
+  }
+
+});
+
+require("./" + filter.config.database);
 
 var Handlebars = require('handlebars');
 var moment = require("moment");
@@ -23,16 +73,8 @@ var linkifyHtml = require('linkifyjs/html');
 var cookie = require("cookie");
 var cookieParser = require('cookie-parser');
 
-var util = require("util");
 var passport = require('passport'),
   LocalStrategy = require('passport-local').Strategy;
-
-var debug = function (thing) {
-  console.log(util.inspect(thing, {
-    depth: 10
-  }));
-
-};
 
 var https = require("https");
 var http = require("http");
@@ -45,27 +87,10 @@ var server = http.createServer(),
   app = express(),
   bodyParser = require('body-parser');
 
-filter.config = {};
-
 app.all('/*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
-});
-
-process.argv.forEach(function (val, index, array) {
-
-  var argument = {
-    key: val.split("=")[0],
-    value: val.split("=")[1]
-  };
-
-  if (argument.key && argument.value) {
-
-    filter.config[argument.key] = argument.value;
-
-  }
-
 });
 
 passport.use(new LocalStrategy(
@@ -283,7 +308,7 @@ app.post("/meta/newUser", function (req, res) {
 
     if (err) {
 
-      console.log(err);
+      filter.debug(err);
 
       res.send(400);
 
@@ -498,8 +523,6 @@ specialFilters["downvoted"] = {
 
 app.use(express.static('static'));
 
-var fs = require("fs");
-
 var messagesFromTags = function (tags, session) {
 
   var user = session.user;
@@ -628,8 +651,6 @@ var messagesFromTags = function (tags, session) {
 
     }
 
-    //    debug(search);
-
     filter.dbFetch("messages", search, {
       date: -1
     }, null).then(function (messages) {
@@ -707,7 +728,7 @@ var messagesFromTags = function (tags, session) {
 
             sendRequest.on("error", function (err) {
 
-              console.log(err);
+              filter.debug(err);
 
               resolve();
 
@@ -788,7 +809,7 @@ var messagesFromTags = function (tags, session) {
 
     }, function (err) {
 
-      debug(err);
+      filter.debug(err);
 
       return resolve([]);
 
@@ -849,7 +870,7 @@ app.get("/:tags?", function (req, res) {
 
   }, function (reject) {
 
-    console.log(reject);
+    filter.debug(reject);
 
   });
 
@@ -914,6 +935,7 @@ var notifySockets = function (message, vote) {
     });
 
     if (send) {
+
 
       var output = {
         type: "message",
@@ -1024,7 +1046,7 @@ app.post("/points/:message", function (req, res) {
     }, {
       returnUpdatedDocs: true
     }).then(function (data) {
-      
+
       if (data) {
 
         updateNotification(data, {
@@ -1034,10 +1056,10 @@ app.post("/points/:message", function (req, res) {
 
       }
 
-    },function(err){
-      
-      debug(err);
-      
+    }, function (err) {
+
+      filter.debug(err);
+
     });
 
   } else if (req.body.direction === "-") {
@@ -1231,6 +1253,10 @@ app.post("/:tags?", function (req, res) {
       res.redirect("/" + req.params.tags);
 
 
+    }, function (fail) {
+
+      filter.debug(fail);
+
     });
 
   } else {
@@ -1248,9 +1274,9 @@ var sockets = {};
 ws.on('connection', function (ws) {
 
   ws.id = uuid.v1();
-
+  
   sockets[ws.id] = ws;
-
+  
   ws.on('message', function (message) {
 
     try {
@@ -1266,7 +1292,6 @@ ws.on('connection', function (ws) {
         var tags = message.tags.substring(1);
 
         if (tags === "") {
-
 
 
         } else {
@@ -1320,7 +1345,7 @@ ws.on('connection', function (ws) {
 
     } catch (e) {
 
-      console.log(e);
+      filter.debug(e);
 
     }
 
@@ -1344,4 +1369,4 @@ ws.on('connection', function (ws) {
 
 server.on('request', app);
 
-server.listen(filter.config.port || 80);
+server.listen(filter.config.port);
