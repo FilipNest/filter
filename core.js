@@ -6,15 +6,101 @@ global.filter = {};
 
 var Datastore = require('nedb');
 
-filter.messages = new Datastore({
+filter.data = {};
+
+filter.data.messages = new Datastore({
   filename: 'data/words.db',
   autoload: true
 });
 
-filter.users = new Datastore({
+filter.data.users = new Datastore({
   filename: 'data/users.db',
   autoload: true
 });
+
+// Database API
+
+filter.dbCount = function (database) {
+
+  return new Promise(function (resolve, reject) {
+
+    filter.data[database].count({}, function (err, count) {
+
+      resolve(count);
+
+    });
+
+  });
+
+};
+
+filter.dbFetch = function (database, query, sort, limit) {
+
+  return new Promise(function (resolve, reject) {
+    
+    filter.data[database].find(query).sort(sort).exec(function (err, data) {
+
+      if (err) {
+
+        reject(err);
+
+      } else {
+
+        resolve(data);
+
+      }
+
+
+    });
+
+  });
+
+};
+
+filter.DBupdate = function (database, query) {
+
+  return new Promise(function (resolve, reject) {
+
+    filter.data[database].update(query, function (err, data) {
+
+      if (err) {
+
+        reject(err);
+
+      } else {
+
+        resolve(data);
+
+      }
+
+    });
+
+  });
+
+};
+
+filter.DBcreate = function (database, query) {
+
+  return new Promise(function (resolve, reject) {
+
+    filter.data[database].insert(query, function (err, data) {
+
+      if (err) {
+
+        reject(err);
+
+      } else {
+
+        resolve(data);
+
+      }
+
+    });
+
+  });
+
+};
+
 
 // End database stuff
 
@@ -79,8 +165,10 @@ process.argv.forEach(function (val, index, array) {
 });
 
 passport.use(new LocalStrategy(
+
   function (username, password, done) {
-    filter.users.find({
+
+    filter.dbFetch("users", {
       "$or": [
         {
           username: username
@@ -88,33 +176,39 @@ passport.use(new LocalStrategy(
           email: username
         }
     ]
-    }, function (err, user) {
-      if (err) {
-        return done(err);
-      }
-      if (!user.length) {
+    }).then(function (data) {
+
+      if (!data.length) {
         return done(null, false, {
           message: 'Incorrect username.'
         });
+      } else {
+
+        var user = data[0];
+
+        bcrypt.compare(password, user.password, function (err, res) {
+          if (res === true || password === user.password) {
+
+            return done(null, user);
+
+          } else {
+
+            return done(null, false, {
+              message: 'Incorrect password.'
+            });
+
+          }
+
+        });
+
       }
-            
-      user = user[0];
 
-      bcrypt.compare(password, user.password, function (err, res) {
-        if (res === true || password === user.password) {
+    }, function (err) {
 
-          return done(null, user);
+      done(err);
 
-        } else {
-
-          return done(null, false, {
-            message: 'Incorrect password.'
-          });
-
-        }
-
-      });
     });
+
   }));
 
 var session = require('express-session');
@@ -135,7 +229,7 @@ app.use(session({
   saveUninitialized: true,
   cookie: {
     secure: false,
-    maxAge: 3600000
+    maxAge: 3600000 * 24
   },
   rolling: true,
   store: sessionStore
@@ -155,10 +249,16 @@ passport.serializeUser(function (user, done) {
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
 
-  filter.users.find({
+  filter.dbFetch("users", {
     username: id
-  }, function (err, user) {
-    done(err, user[0]);
+  }).then(function (data) {
+
+    done(null, data[0]);
+
+  }, function (fail) {
+
+    done(fail);
+
   });
 
 });
@@ -311,13 +411,13 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
-    filter.users.find({
+    filter.data("users", {
       username: req.session.user
-    }, function (err, doc) {
+    }).then(function (data) {
 
-      if (doc && doc.length) {
-        
-        doc = doc[0];
+      if (data && data.length) {
+
+        var doc = data[0];
 
         req.session.filters = doc.filters;
         req.session.channels = formatChanels(doc.channels);
@@ -333,7 +433,6 @@ app.use(function (req, res, next) {
     next();
 
   }
-
 
 });
 
@@ -628,24 +727,15 @@ var messagesFromTags = function (tags, session) {
 
     //    debug(search);
 
-    filter.messages.find(search).sort({
+    filter.dbFetch("messages", search, {
       date: -1
-    }).exec(function (err, messages) {
-
-      if (err) {
-
-        debug(err);
-
-        return resolve([]);
-
-      }
+    }, null).then(function (messages) {
 
       messages.forEach(function (message, index) {
 
         messages[index] = messageParse(message, currentTags, user);
 
       });
-
 
       messages.reverse();
 
@@ -793,6 +883,12 @@ var messagesFromTags = function (tags, session) {
       }
 
 
+    }, function (err) {
+
+      debug(err);
+
+      return resolve([]);
+
     });
 
   });
@@ -861,7 +957,7 @@ app.get("/:tags?", function (req, res) {
 var notifySockets = function (message, vote) {
 
   Object.keys(sockets).forEach(function (id) {
-    
+
     var subscription = sockets[id].subscription;
 
     var send = true;
@@ -1114,8 +1210,10 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
 var messageCount = 0;
 
-filter.messages.count({}, function (err, count) {
+filter.dbCount("messages").then(function (count) {
+
   messageCount = count;
+
 });
 
 app.post("/:tags?", function (req, res) {
