@@ -77,7 +77,7 @@ All special filters can also be preceded by a `!` to negate the filter.
 
 * Git clone or download this.
 * Run `npm install`
-* Run `node core.js` (optionally run with a port parameter to specify which port the server should run on e.g `node core.js port=5555`
+* Run `node start.js` (optionally run with a port parameter to specify which port the server should run on e.g `node start.js port=5555`
 
 More configuration settings etc are probably going to come soon.
 
