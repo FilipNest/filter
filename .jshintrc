@@ -1,6 +1,6 @@
 {
   "undef": true,
-  "predef":["filter"],
+  "predef":["filters"],
   "unused": false,
   "node" : true,
   "browser": true,

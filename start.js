@@ -1,20 +1,20 @@
 // Register global object
 
-global.filter = {};
+global.filters = {};
 
-filter.specialFilters = {};
+filters.specialFilters = {};
 
 // Debug helper
 
 var util = require("util");
-filter.debug = function (thing) {
+filters.debug = function (thing) {
   console.log(util.inspect(thing, {
     depth: 10
   }));
 
 };
 
-filter.config = {
+filters.config = {
   port: 80,
   database: "db_nedb"
 };
@@ -25,7 +25,7 @@ var fs = require("fs");
 
 try {
 
-  Object.assign(filter.config, JSON.parse(fs.readFileSync("./config.json", "utf8")));
+  Object.assign(filters.config, JSON.parse(fs.readFileSync("./config.json", "utf8")));
 
 } catch (e) {
 
@@ -35,7 +35,7 @@ try {
 
   } else {
 
-    filter.debug(e);
+    filters.debug(e);
 
   }
 
@@ -52,13 +52,13 @@ process.argv.forEach(function (val, index, array) {
 
   if (argument.key && argument.value) {
 
-    filter.config[argument.key] = argument.value;
+    filters.config[argument.key] = argument.value;
 
   }
 
 });
 
-require("./" + filter.config.database);
+require("./" + filters.config.database);
 
 var Handlebars = require('handlebars');
 var moment = require("moment");
@@ -99,7 +99,7 @@ passport.use(new LocalStrategy(
 
   function (username, password, done) {
 
-    filter.dbFetch("users", {
+    filters.dbFetch("users", {
       "$or": [
         {
           username: username
@@ -180,7 +180,7 @@ passport.serializeUser(function (user, done) {
 // used to deserialize the user
 passport.deserializeUser(function (id, done) {
 
-  filter.dbFetch("users", {
+  filters.dbFetch("users", {
     username: id
   }).then(function (data) {
 
@@ -222,7 +222,7 @@ app.get("/meta/logout", function (req, res) {
 
 app.post("/meta/userfilters", function (req, res) {
 
-  filter.dbUpdate({
+  filters.dbUpdate({
     username: req.session.user,
   }, {
     $set: {
@@ -243,7 +243,7 @@ app.post("/meta/userfilters", function (req, res) {
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
-  filter.dbUpdate("users", {
+  filters.dbUpdate("users", {
     username: req.session.user,
   }, {
     $set: {
@@ -310,7 +310,7 @@ app.post("/meta/newUser", function (req, res) {
 
     if (err) {
 
-      filter.debug(err);
+      filters.debug(err);
 
       res.send(400);
 
@@ -318,7 +318,7 @@ app.post("/meta/newUser", function (req, res) {
 
       account.password = hash;
 
-      filter.dbInsert("users", account).then(function (user) {
+      filters.dbInsert("users", account).then(function (user) {
 
         req.session.user = req.body.username.toLowerCase();
 
@@ -341,7 +341,7 @@ app.use(function (req, res, next) {
 
     req.session.user = req.session.passport.user;
 
-    filter.dbFetch("users", {
+    filters.dbFetch("users", {
       username: req.session.user
     }).then(function (data) {
 
@@ -453,7 +453,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
 };
 
-filter.specialFilters["minpoints"] = {
+filters.specialFilters["minpoints"] = {
 
   fetch: function (value) {
 
@@ -472,7 +472,7 @@ filter.specialFilters["minpoints"] = {
 
 };
 
-filter.specialFilters["author"] = {
+filters.specialFilters["author"] = {
 
   or: true,
   fetch: function (value) {
@@ -489,7 +489,7 @@ filter.specialFilters["author"] = {
   }
 };
 
-filter.specialFilters["upvoted"] = {
+filters.specialFilters["upvoted"] = {
   or: true,
   fetch: function (value) {
 
@@ -507,7 +507,7 @@ filter.specialFilters["upvoted"] = {
   }
 };
 
-filter.specialFilters["downvoted"] = {
+filters.specialFilters["downvoted"] = {
   or: true,
   fetch: function (value) {
 
@@ -612,9 +612,9 @@ var messagesFromTags = function (tags, session) {
 
       special.forEach(function (item) {
 
-        if (filter.specialFilters[item.type]) {
+        if (filters.specialFilters[item.type]) {
 
-          var query = filter.specialFilters[item.type]["fetch"](item.value);
+          var query = filters.specialFilters[item.type]["fetch"](item.value);
 
           // check if special filter is an and or an or
 
@@ -626,7 +626,7 @@ var messagesFromTags = function (tags, session) {
 
           }
 
-          if (filter.specialFilters[item.type].or) {
+          if (filters.specialFilters[item.type].or) {
 
             search["$or"].push(query);
 
@@ -672,7 +672,7 @@ var messagesFromTags = function (tags, session) {
 
     }
 
-    filter.dbFetch("messages", search, {
+    filters.dbFetch("messages", search, {
       date: -1
     }, null).then(function (messages) {
 
@@ -749,7 +749,7 @@ var messagesFromTags = function (tags, session) {
 
             sendRequest.on("error", function (err) {
 
-              filter.debug(err);
+              filters.debug(err);
 
               resolve();
 
@@ -830,7 +830,7 @@ var messagesFromTags = function (tags, session) {
 
     }, function (err) {
 
-      filter.debug(err);
+      filters.debug(err);
 
       return resolve([]);
 
@@ -891,7 +891,7 @@ app.get("/:tags?", function (req, res) {
 
   }, function (reject) {
 
-    filter.debug(reject);
+    filters.debug(reject);
 
   });
 
@@ -951,15 +951,15 @@ var notifySockets = function (message, vote) {
 
     Object.keys(specials).forEach(function (type) {
 
-      if (filter.specialFilters[type]) {
+      if (filters.specialFilters[type]) {
 
-        if (filter.specialFilters[type].or) {
+        if (filters.specialFilters[type].or) {
 
           var passCount = 0;
 
           specials[type].forEach(function (currentFilter) {
 
-            var localSend = filter.specialFilters[type]["filter"](currentFilter.value, message);
+            var localSend = filters.specialFilters[type]["filter"](currentFilter.value, message);
 
             if (currentFilter.negate) {
 
@@ -973,7 +973,7 @@ var notifySockets = function (message, vote) {
 
             }
 
-          })
+          });
 
           if (!passCount) {
 
@@ -985,7 +985,7 @@ var notifySockets = function (message, vote) {
 
           specials[type].forEach(function (currentFilter) {
 
-            var localSend = filter.specialFilters[currentFilter.type]["filter"](currentFilter.value, message);
+            var localSend = filters.specialFilters[currentFilter.type]["filter"](currentFilter.value, message);
 
             if (currentFilter.negate) {
 
@@ -1006,7 +1006,7 @@ var notifySockets = function (message, vote) {
 
       }
 
-    })
+    });
 
     if (send) {
 
@@ -1102,7 +1102,7 @@ app.post("/points/:message", function (req, res) {
 
   if (req.body.direction === "+") {
 
-    filter.dbUpdate("messages", {
+    filters.dbUpdate("messages", {
       id: req.params.message,
       $not: {
         upvoted: {
@@ -1131,13 +1131,13 @@ app.post("/points/:message", function (req, res) {
 
     }, function (err) {
 
-      filter.debug(err);
+      filters.debug(err);
 
     });
 
   } else if (req.body.direction === "-") {
 
-    filter.dbUpdate("messages", {
+    filters.dbUpdate("messages", {
       id: req.params.message,
       $not: {
         downvoted: {
@@ -1213,7 +1213,7 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
 var messageCount = 0;
 
-filter.dbCount("messages").then(function (count) {
+filters.dbCount("messages").then(function (count) {
 
   messageCount = count;
 
@@ -1311,7 +1311,7 @@ app.post("/:tags?", function (req, res) {
     });
 
 
-    filter.dbInsert("messages", message).then(function (newDoc) {
+    filters.dbInsert("messages", message).then(function (newDoc) {
 
       messageCount += 1;
 
@@ -1328,7 +1328,7 @@ app.post("/:tags?", function (req, res) {
 
     }, function (fail) {
 
-      filter.debug(fail);
+      filters.debug(fail);
 
     });
 
@@ -1418,7 +1418,7 @@ ws.on('connection', function (ws) {
 
     } catch (e) {
 
-      filter.debug(e);
+      filters.debug(e);
 
     }
 
@@ -1442,4 +1442,4 @@ ws.on('connection', function (ws) {
 
 server.on('request', app);
 
-server.listen(filter.config.port);
+server.listen(filters.config.port);

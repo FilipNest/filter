@@ -16,7 +16,7 @@ databases.users = new Datastore({
 
 // Database API
 
-filter.dbCount = function (database) {
+filters.dbCount = function (database) {
 
   return new Promise(function (resolve, reject) {
 
@@ -30,7 +30,7 @@ filter.dbCount = function (database) {
 
 };
 
-filter.dbFetch = function (database, query, sort, limit) {
+filters.dbFetch = function (database, query, sort, limit) {
 
   return new Promise(function (resolve, reject) {
 
@@ -53,7 +53,7 @@ filter.dbFetch = function (database, query, sort, limit) {
 
 };
 
-filter.dbUpdate = function (database, find, query, options) {
+filters.dbUpdate = function (database, find, query, options) {
 
   options.returnUpdatedDocs = true;
 
@@ -77,7 +77,7 @@ filter.dbUpdate = function (database, find, query, options) {
 
 };
 
-filter.dbInsert = function (database, query) {
+filters.dbInsert = function (database, query) {
 
   return new Promise(function (resolve, reject) {
 
