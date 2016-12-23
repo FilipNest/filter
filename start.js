@@ -937,6 +937,15 @@ var notifySockets = function (message, vote) {
 
           specials[special.type].push(special);
 
+        } else if (tag[0] === "!") {
+
+
+          if (message.tags.indexOf(tag.substring(1)) !== -1) {
+
+            send = false;
+
+          }
+
         } else if (message.tags.indexOf(tag) === -1) {
 
           send = false;
@@ -1262,7 +1271,7 @@ app.post("/:tags?", function (req, res) {
 
       } else {
 
-        tags[index] = tag.replace(/[^a-zA-Z0-9-@]/g, "");
+        tags[index] = tag.replace(/[^a-zA-Z0-9-@!]/g, "");
 
       }
 
@@ -1304,12 +1313,17 @@ app.post("/:tags?", function (req, res) {
 
     });
 
-    tags = tags.map(function (element) {
+    message.tags = tags.map(function (element) {
 
       return element.toLowerCase();
 
     });
 
+    message.tags = tags.filter(function (element) {
+
+      return (element[0] !== "!");
+
+    });
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
