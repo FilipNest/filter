@@ -6,15 +6,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     $.post(document.location.href, data, function () {
 
-      $("#words").val("");;
+      $("#words").val("");
 
-    })
+    });
 
     e.preventDefault();
 
     return false;
 
-  })
+  });
 
   window.vote = function (e) {
 
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var data = $.param({
       direction: $(button).attr("value"),
       tags: $(button).attr("data-tags")
-    })
+    });
 
     var wrapper = $(e.target).closest(".message-wrapper");
 
@@ -33,13 +33,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       $(button).attr("disabled", "disabled");
 
-    })
+    });
 
     e.preventDefault();
 
     return false;
 
-  }
+  };
 
   window.scrollTop = function () {
 
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
-    }, 100)
+    }, 100);
 
   };
 
@@ -105,9 +105,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       window.pair();
 
-    })
+    });
 
-  }
+  };
 
   var currentTags = document.location.pathname.substring(1).split(",");
 
@@ -231,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
                 }
 
-              })
+              });
 
               if (later) {
 
@@ -261,9 +261,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           window.scrollTop();
 
-        };
+        }
 
-      }
+      };
 
       websocket.onopen = function () {
 
@@ -279,7 +279,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       };
 
-    }
+    };
 
     connectSocket(document.location.host, true, window.location.protocol === "https:");
 
@@ -289,7 +289,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         connectSocket(channel.path.host, false, channel.path.protocol === "https:");
 
-      })
+      });
 
     }
 
@@ -305,6 +305,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     }
     return true;
-  }
+  };
 
 });

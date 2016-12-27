@@ -704,14 +704,14 @@ var messagesFromTags = function (tags, session) {
 
         } else {
 
-          return (message.audience.indexOf(user) !== -1)
+          return (message.audience.indexOf(user) !== -1);
 
         }
 
       }
 
 
-    }
+    };
 
     filters.dbFetch("messages", search, {
       date: -1
@@ -728,7 +728,7 @@ var messagesFromTags = function (tags, session) {
       // Check if user has any other channels set, if so parse their messages as well.
 
       if (session.channels) {
-
+        
         var fetchExternal = function (channel, data) {
 
           return new Promise(function (resolve, reject) {
@@ -1382,7 +1382,7 @@ app.post("/:tags?", function (req, res) {
 
       }
 
-    })
+    });
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
