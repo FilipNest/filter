@@ -381,12 +381,28 @@ linkify.options.defaults.formatHref = function (href, type) {
   }
 
   if (type === "mention") {
-    
+
+    href = href.split("PRIVATEPRIVATEPRIVATE").join("@");
+
     href = "@" + href.substring(1);
 
   }
 
   return href;
+
+};
+
+linkify.options.defaults.format = function (tag, type) {
+
+  if (type === "mention") {
+
+    tag = tag.split("PRIVATEPRIVATEPRIVATE").join("@");
+
+    tag = "@" + tag.substring(1);
+
+  }
+
+  return tag;
 
 };
 
@@ -409,6 +425,8 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
   });
 
   // Parse links in words
+
+  message.words = message.words.split("@@").join("@PRIVATEPRIVATEPRIVATE");
 
   message.words = linkifyHtml(message.words);
 
