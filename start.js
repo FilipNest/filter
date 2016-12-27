@@ -1307,19 +1307,13 @@ app.post("/:tags?", function (req, res) {
       return self.indexOf(item) == pos;
     });
 
-    message.tags = message.tags.map(function (element) {
+    message.tags.forEach(function (element, index) {
 
-      return element.toLowerCase();
-
-    });
-
-    message.tags = tags.map(function (element) {
-
-      element = element.toLowerCase();
+      message.tags[index] = element.toLowerCase();
 
     });
 
-    message.tags = tags.filter(function (element) {
+    message.tags = message.tags.filter(function (element) {
 
       return (element[0] !== "!");
 
@@ -1327,11 +1321,11 @@ app.post("/:tags?", function (req, res) {
 
     // Parse hard-mentions (double @) and make private message.
 
-//    message.tags = tags.map(function (element) {
-//
-//      return element.toLowerCase();
-//
-//    });
+    //    message.tags = tags.map(function (element) {
+    //
+    //      return element.toLowerCase();
+    //
+    //    });
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
