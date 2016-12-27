@@ -1244,9 +1244,9 @@ app.post("/:tags?", function (req, res) {
   var post = req.body;
 
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
-
+    
     var tags = req.body.tags.split(",");
-
+    
     var wordsInMessage = req.body.words.match(/\S+/g) || [];
 
     wordsInMessage.forEach(function (word) {
@@ -1292,7 +1292,7 @@ app.post("/:tags?", function (req, res) {
       }
 
     });
-
+  
     var message = {
       words: req.body.words,
       author: req.session.user,
@@ -1324,12 +1324,6 @@ app.post("/:tags?", function (req, res) {
     });
 
     // Parse hard-mentions (double @) and make private message.
-
-    //    message.tags = tags.map(function (element) {
-    //
-    //      return element.toLowerCase();
-    //
-    //    });
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
@@ -1386,6 +1380,7 @@ ws.on('connection', function (ws) {
 
         if (!tags.length) {
 
+          tags = [];
 
         } else {
 
@@ -1402,8 +1397,6 @@ ws.on('connection', function (ws) {
             return tag.toLowerCase();
 
           });
-
-
 
         }
 
