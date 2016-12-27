@@ -1304,7 +1304,7 @@ app.post("/:tags?", function (req, res) {
 
       }
 
-      if (word[0] === "@") {
+      if (word[0] === "@" && word.length > 1) {
 
         tags.push(word);
 
