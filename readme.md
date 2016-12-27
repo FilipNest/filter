@@ -70,6 +70,7 @@ Messages can be voted up or down (or both currently, not sure if bug/feature!). 
 * `author=userid` only shows posts by that author. So `author=FilipNest` would only show posts by a user with the id `FilipNest`.
 * `upvoted=userid` and `downvoted=userid` returns only posts that the specified userid has upvoted/downvoted.
 * `@userid` is not really a special filter, it's just a tag specific to users.
+* `@@userid` is like mentions but only users with that user id will be able to see the message. Private messaging.
 
 All special filters can also be preceded by a `!` to negate the filter.
 
