@@ -381,7 +381,7 @@ linkify.options.defaults.formatHref = function (href, type) {
   }
 
   if (type === "mention") {
-
+    
     href = "@" + href.substring(1);
 
   }
@@ -672,6 +672,29 @@ var messagesFromTags = function (tags, session) {
 
     }
 
+    var privateFilter = function (message) {
+
+      if (!message.audience || !message.audience.length) {
+
+        return message;
+
+      } else {
+
+        if (!user) {
+
+          return false;
+
+        } else {
+
+          return (message.audience.indexOf(user) !== -1)
+
+        }
+
+      }
+
+
+    }
+
     filters.dbFetch("messages", search, {
       date: -1
     }, null).then(function (messages) {
@@ -817,6 +840,8 @@ var messagesFromTags = function (tags, session) {
 
           });
 
+          messages = messages.filter(privateFilter);
+
           resolve(messages);
 
         }, function (fail) {
@@ -826,6 +851,8 @@ var messagesFromTags = function (tags, session) {
         });
 
       } else {
+
+        messages = messages.filter(privateFilter);
 
         resolve(messages);
 
@@ -1244,9 +1271,9 @@ app.post("/:tags?", function (req, res) {
   var post = req.body;
 
   if (req.body.words && typeof req.body.words === "string" && req.body.words.length < 500) {
-    
+
     var tags = req.body.tags.split(",");
-    
+
     var wordsInMessage = req.body.words.match(/\S+/g) || [];
 
     wordsInMessage.forEach(function (word) {
@@ -1292,7 +1319,7 @@ app.post("/:tags?", function (req, res) {
       }
 
     });
-  
+
     var message = {
       words: req.body.words,
       author: req.session.user,
@@ -1323,7 +1350,21 @@ app.post("/:tags?", function (req, res) {
 
     });
 
-    // Parse hard-mentions (double @) and make private message.
+    // Parse private-mentions (double @) and make private message.
+
+    message.audience = [];
+
+    message.tags.forEach(function (tag) {
+
+      if (tag.indexOf("@@") === 0) {
+
+        var mentioned = tag.replace("@@", "");
+
+        message.audience.push(mentioned);
+
+      }
+
+    })
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
