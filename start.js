@@ -222,7 +222,7 @@ app.get("/meta/logout", function (req, res) {
 
 app.post("/meta/userfilters", function (req, res) {
 
-  filters.dbUpdate({
+  filters.dbUpdate("users", {
     username: req.session.user,
   }, {
     $set: {
@@ -819,6 +819,10 @@ var messagesFromTags = function (tags, session) {
 
           resolve(messages);
 
+        }, function (fail) {
+
+          filters.debug(fail);
+
         });
 
       } else {
@@ -832,7 +836,7 @@ var messagesFromTags = function (tags, session) {
 
       filters.debug(err);
 
-      return resolve([]);
+      resolve([]);
 
     });
 
@@ -1380,7 +1384,7 @@ ws.on('connection', function (ws) {
 
         var tags = message.tags.substring(1);
 
-        if (tags === "") {
+        if (!tags.length) {
 
 
         } else {
@@ -1399,9 +1403,11 @@ ws.on('connection', function (ws) {
 
           });
 
-          subscription = tags;
+
 
         }
+
+        subscription = tags;
 
         var cookies = cookie.parse(ws.upgradeReq.headers.cookie);
         var sid = cookieParser.signedCookie(cookies["connect.sid"], secret);
