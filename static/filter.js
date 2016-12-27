@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var sent = false;
 
     var interval = window.setInterval(function () {
-      
+
       if (sent) {
 
         window.clearInterval(interval);
@@ -66,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       } else {
 
         if (websocket.readyState === 1) {
-          
+
           websocket.send(message);
 
           sent = true;
@@ -147,21 +147,27 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   if (window.WebSocket) {
 
-    var connectSocket = function (channel, local, secure) {
+    window.socketChannels = [];
 
-      var websocket;
+    window.pair = function () {
 
-      window.pair = function () {
-
+      window.socketChannels.forEach(function (channel) {
+        
         var message = {
           type: "pair",
           tags: document.location.pathname,
           user: window.loggedIn
         };
 
-        window.sendSocketMessage(websocket, JSON.stringify(message));
+        window.sendSocketMessage(channel, JSON.stringify(message));
 
-      };
+      })
+
+    }
+
+    var connectSocket = function (channel, local, secure) {
+
+      var websocket;
 
       if (secure) {
 
@@ -173,8 +179,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
+      window.socketChannels.push(websocket);
+
       websocket.onmessage = function (evt) {
-        
+
         if (evt.data) {
 
           var message = JSON.parse(evt.data);
