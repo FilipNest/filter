@@ -545,6 +545,44 @@ filters.specialFilters["downvoted"] = {
 
 app.use(express.static('static'));
 
+filters.privateFilter = function (message, user) {
+
+  var audienceFilter = function (current) {
+
+    if (!current.audience || !current.audience.length) {
+
+      return true;
+
+    } else {
+
+      if (!user) {
+
+        return false;
+
+      } else {
+
+        return (current.audience.indexOf(user) !== -1 || current.author === user);
+
+      }
+
+    }
+
+  };
+
+  if (Array.isArray(message)) {
+
+    return message.filter(audienceFilter);
+
+  } else {
+
+    // Single message
+
+    return audienceFilter(message);
+
+  }
+
+};
+
 var messagesFromTags = function (tags, session) {
 
   var user = session.user;
@@ -689,29 +727,6 @@ var messagesFromTags = function (tags, session) {
       currentTags = positive;
 
     }
-
-    var privateFilter = function (message) {
-
-      if (!message.audience || !message.audience.length) {
-
-        return message;
-
-      } else {
-
-        if (!user) {
-
-          return false;
-
-        } else {
-
-          return (message.audience.indexOf(user) !== -1 || message.author === user);
-
-        }
-
-      }
-
-
-    };
 
     filters.dbFetch("messages", search, {
       date: -1
@@ -858,7 +873,7 @@ var messagesFromTags = function (tags, session) {
 
           });
 
-          messages = messages.filter(privateFilter);
+          messages = filters.privateFilter(messages, user);
 
           resolve(messages);
 
@@ -870,7 +885,7 @@ var messagesFromTags = function (tags, session) {
 
       } else {
 
-        messages = messages.filter(privateFilter);
+        messages = filters.privateFilter(messages, user);
 
         resolve(messages);
 
@@ -954,7 +969,15 @@ var notifySockets = function (message, vote) {
 
     var subscription = sockets[id].subscription;
 
-    var send = true;
+    // Check if message should be received
+
+    var send = filters.privateFilter(message, sockets[id].user);
+
+    if (!send) {
+
+      return false;
+
+    }
 
     var specials = {};
 
