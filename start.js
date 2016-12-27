@@ -1326,7 +1326,9 @@ app.post("/:tags?", function (req, res) {
 
     });
 
-    var id = hashids.encode(messageCount);
+    var idParams = messageCount + req.body.words.length + Date.now();
+
+    var id = hashids.encode(idParams);
 
     tags.forEach(function (currentTag, index) {
 
