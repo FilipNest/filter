@@ -1315,7 +1315,7 @@ app.post("/:tags?", function (req, res) {
 
     message.tags = tags.map(function (element) {
 
-      return element.toLowerCase();
+      element = element.toLowerCase();
 
     });
 
@@ -1324,6 +1324,14 @@ app.post("/:tags?", function (req, res) {
       return (element[0] !== "!");
 
     });
+
+    // Parse hard-mentions (double @) and make private message.
+
+//    message.tags = tags.map(function (element) {
+//
+//      return element.toLowerCase();
+//
+//    });
 
     filters.dbInsert("messages", message).then(function (newDoc) {
 
