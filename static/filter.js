@@ -51,34 +51,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   var stateObject = {};
 
-  // Wrapper to check for readystate before sending
-
-  window.sendSocketMessage = function (websocket, message) {
-
-    var sent = false;
-
-    var interval = window.setInterval(function () {
-      
-      if (sent) {
-
-        window.clearInterval(interval);
-
-      } else {
-
-        if (websocket.readyState === 1) {
-          
-          websocket.send(message);
-
-          sent = true;
-
-        }
-
-      }
-
-    }, 100)
-
-  };
-
   window.refresh = function () {
 
     var currentTags = $('#tags').val();
@@ -159,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
           user: window.loggedIn
         };
 
-        window.sendSocketMessage(websocket, JSON.stringify(message));
+        websocket.send(JSON.stringify(message));
 
       };
 
@@ -174,10 +146,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
 
       websocket.onmessage = function (evt) {
-        
+
         if (evt.data) {
 
           var message = JSON.parse(evt.data);
+
 
           if (message.type === "mention") {
 
