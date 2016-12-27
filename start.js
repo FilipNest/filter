@@ -102,7 +102,7 @@ passport.use(new LocalStrategy(
     filters.dbFetch("users", {
       "$or": [
         {
-          username: username
+          username: username.toLowerCase()
         }, {
           email: username
         }
