@@ -151,8 +151,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     window.pair = function () {
 
-      window.socketChannels.forEach(function (channel) {
-        
+      Object.keys(window.socketChannels).forEach(function (key) {
+
+        var channel = window.socketChannels[key];
+
         var message = {
           type: "pair",
           tags: document.location.pathname,
@@ -179,10 +181,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       }
 
-      window.socketChannels.push(websocket);
+      window.socketChannels[channel] = websocket;
 
       websocket.onmessage = function (evt) {
-
+        
         if (evt.data) {
 
           var message = JSON.parse(evt.data);
@@ -196,9 +198,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
             //Points
 
           } else {
-
+                        
             var update = $("#" + message.message.id)[0];
-
+            
             if (update) {
 
               update.outerHTML = message.template;
@@ -224,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             } else {
 
               // Check where to add message (it could be earlier in the chain)
-
+              
               var later;
 
               $.each($(".message-wrapper"), function (index, element) {
