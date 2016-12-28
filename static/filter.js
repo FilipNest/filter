@@ -16,6 +16,26 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
+  $("#addChannel").click(function (event) {
+
+    $("#channelList").append('<div class="channel"><input type="text" name="channel" placeholder="http://..." /><button class="removeChannel">Remove</button></div>');
+
+    event.preventDefault();
+
+    return false;
+
+  });
+
+  $("#channelList").on("click", ".removeChannel", function (event) {
+
+    var input = $(event.target).parent().remove();
+
+    event.preventDefault();
+
+    return false;
+
+  });
+
   window.vote = function (e) {
 
     var button = $(e.target);
@@ -85,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     document.title = "| Filters | " + currentTags;
 
-    $.get("/meta/refresh/" + $('#tags').val(), function (result) {
+    jQuery.get("/meta/refresh/" + $('#tags').val(), function (result) {
 
       $("#chat")[0].outerHTML = result;
 
@@ -184,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       window.socketChannels[channel] = websocket;
 
       websocket.onmessage = function (evt) {
-        
+
         if (evt.data) {
 
           var message = JSON.parse(evt.data);
@@ -198,9 +218,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
             //Points
 
           } else {
-                        
+
             var update = $("#" + message.message.id)[0];
-            
+
             if (update) {
 
               update.outerHTML = message.template;
@@ -226,7 +246,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
             } else {
 
               // Check where to add message (it could be earlier in the chain)
-              
+
               var later;
 
               $.each($(".message-wrapper"), function (index, element) {

@@ -135,7 +135,18 @@
       <div>
         <label>Channels:</label>
         <p>Insert extra URLS you want to listen to messages from (comma seperated). Leave blank for just the local channel. Local channel is always returned.</p>
-        <textarea type="text" name="channels" placeholder="http://filters.filipnest.com">{{#each req.session.channels}}{{this.raw}}{{/each}}</textarea>
+        <div id="channelList">
+        
+          {{#each req.session.channels}}
+          
+          <div class="channel">
+            <input type="text" name="channel" value="{{this.raw}}" placeholder="http://..." />
+            <button class="removeChannel">Remove</button>
+          </div>
+          
+          {{/each}}
+        </div>
+        <button id="addChannel">Add a channel</button>
       </div>
       <div>
         <input type="submit" value="Submit" />

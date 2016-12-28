@@ -243,18 +243,30 @@ app.post("/meta/userfilters", function (req, res) {
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
+  if (!req.body.channel) {
+
+    req.body.channel = [];
+
+  }
+
+  if (!Array.isArray(req.body.channel)) {
+
+    req.body.channel = [req.body.channel]
+
+  }
+
   filters.dbUpdate("users", {
     username: req.session.user,
   }, {
     $set: {
-      channels: req.body.channels
+      channels: req.body.channel
     }
   }, {
     upsert: false,
     returnUpdatedDocs: true
   }).then(function (doc) {
 
-    req.session.channels = formatChanels(req.body.channels);
+    req.session.channels = formatChanels(req.body.channel);
     res.redirect("/");
 
   });
@@ -267,9 +279,7 @@ var formatChanels = function (channels) {
 
   if (channels) {
 
-    var list = channels.split(",");
-
-    list.forEach(function (element) {
+    channels.forEach(function (element) {
 
       // Add trailing slash.
 
