@@ -1,12 +1,12 @@
 {
   "undef": true,
-  "predef":["filters"],
+  "predef":["filters","$"],
   "unused": false,
   "node" : true,
   "browser": true,
   "sub" : true,
   "loopfunc": true,
-  "maxdepth": 4,
+  "maxdepth": 5,
   "maxerr": 2000,
   "esversion":6
 }
