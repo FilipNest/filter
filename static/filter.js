@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   };
 
-  scrollTop();
+  window.scrollTop();
 
   var stateObject = {};
 
@@ -89,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       $("#chat")[0].outerHTML = result;
 
-      scrollTop();
+      window.scrollTop();
 
       if (!currentTags) {
 
@@ -163,9 +163,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         window.sendSocketMessage(channel, JSON.stringify(message));
 
-      })
+      });
 
-    }
+    };
 
     var connectSocket = function (channel, local, secure) {
 
@@ -255,14 +255,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             }
 
-            var message = $("#" + message.message.id);
+            message = $("#" + message.message.id);
 
             if (!local) {
 
               // Hide vote buttons
 
               message.attr("data-channel", channel);
-              message.find(".message-channel").text(" (" + channel + ") ")
+              message.find(".message-channel").text(" (" + channel + ") ");
               message.find(".vote").hide();
 
             }
