@@ -104,7 +104,11 @@
     <form action="/meta/userchannels" method="post">
       <div>
         <label>Channels:</label>
-        <p>Insert extra URLS you want to listen to messages from. Get Authcode from the settings page of the channel site itself once logged in there.</p>
+        <p>Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there.</p>
+
+        <button id="authCodeReveal">Reveal Authcode</button>
+        <div class="authcode"></div>
+
         <div id="channelList">
 
           {{#each req.session.channels}}

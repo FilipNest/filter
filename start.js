@@ -95,6 +95,32 @@ app.all('/*', function (req, res, next) {
   next();
 });
 
+filters.generateAuthCode = function (username) {
+
+  return new Promise(function (resolve, reject) {
+
+    var authCode = crypto.randomBytes(8).toString('hex');
+
+    filters.dbUpdate("users", {
+      username: username
+    }, {
+      $set: {
+        authCode: authCode
+      }
+    }, {
+      upsert: false,
+      returnUpdatedDocs: true
+    }).then(function (data) {
+
+      resolve(data);
+
+    });
+
+
+  })
+
+};
+
 passport.use(new LocalStrategy(
 
   function (username, password, done) {
@@ -115,12 +141,28 @@ passport.use(new LocalStrategy(
         });
       } else {
 
+        // Check if has api key, if not set one
+
         var user = data[0];
 
         bcrypt.compare(password, user.password, function (err, res) {
           if (res === true || password === user.password) {
 
-            return done(null, user);
+
+            if (!user.authCode) {
+
+              filters.generateAuthCode(user.username).then(function () {
+
+                return done(null, user);
+
+              });
+
+            } else {
+
+              return done(null, user);
+
+            }
+
 
           } else {
 
@@ -372,6 +414,8 @@ app.use(function (req, res, next) {
       if (data && data.length) {
 
         var doc = data[0];
+
+        req.session.authCode = doc.authCode;
 
         req.session.filters = doc.filters;
         req.session.channels = formatChanels(doc.channels);
@@ -1286,6 +1330,38 @@ app.post('/meta/login',
     failureFlash: true
   })
 );
+
+
+app.post("/meta/getAuthCode", function (req, res) {
+
+  filters.dbFetch("users", {
+    username: req.session.user
+  }).then(function (data) {
+
+    if (!data.length) {
+
+      res.send("wrong info");
+
+    } else {
+
+      var user = data[0];
+
+      bcrypt.compare(req.body.password, user.password, function (err, response) {
+        if (response === true || req.body.password === user.password) {
+
+          res.send(req.session.authCode);
+
+        } else {
+
+          res.send("wrong info");
+
+        }
+
+      })
+    }
+  })
+})
+
 
 app.get("/meta/refresh/:tags?", function (req, res) {
 

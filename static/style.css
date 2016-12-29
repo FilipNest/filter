@@ -265,12 +265,30 @@ a.close {
   margin: auto;
   max-width: 100%;
 }
+#authCodeReveal {
+  margin: auto;
+  margin-bottom: 20px;
+  color: black;
+  border-style: solid;
+  background-color: white;
+  width: 200px;
+}
+.authCode {
+  display: none;
+  color: white;
+  font-size: 120%;
+  padding: 10px;
+  text-align: center;
+}
 .removeChannel,
 .addChannel {
   border-style: none;
   border-color: white;
   padding: 5px;
   cursor: pointer;
+}
+form p {
+  font-size: 80%;
 }
 .addChannel {
   margin-top: 10px;

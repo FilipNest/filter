@@ -16,6 +16,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
+  $("#authCodeReveal").click(function (event) {
+
+    var password = prompt("Enter your password to get the API code");
+
+    $.post("/meta/getAuthCode", {
+        password: password
+      })
+      .done(function (data) {
+
+        if (data === "error") {
+
+          alert(data);
+
+        } else {
+
+          $("#authCodeReveal").hide();
+          $(".authcode").show().html(data);
+
+        }
+
+      });
+
+    event.preventDefault;
+    return false;
+
+  })
+
   $(".addChannel").click(function (event) {
 
     var number = $("#channelList").find(".channel").length;
