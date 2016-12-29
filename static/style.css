@@ -4,7 +4,7 @@
   -webkit-overflow-scrolling: touch;
 }
 .points {
-  padding: 3px;
+  display: inline-block;
 }
 .icon {
   opacity: 0.5;
@@ -42,10 +42,10 @@ a:visited {
   position: absolute;
   clear: both;
   text-align: center;
-  top: 13px;
+  top: 6px;
   right: 0px;
   box-sizing: border-box;
-  min-width: 45px;
+  width: 95px;
 }
 .vote button {
   margin: auto;
@@ -55,6 +55,7 @@ a:visited {
   border-radius: 30px;
   background-color: #333333;
   color: white;
+  display: inline-block;
   border-style: none;
   text-align: center;
   opacity: 0.5;
@@ -175,6 +176,8 @@ header a img {
   font-size: 50%;
 }
 .message img {
+  margin-top: 10px;
+  margin-bottom: 10px;
   width: 100%;
   height: auto;
 }
@@ -204,10 +207,11 @@ header a img {
   text-decoration: none;
 }
 .message {
+  overflow-x:hidden;
   line-height: 1.4em;
   font-family: georgia;
   padding: 10px 0 10px 0;
-  width: calc(100% - 40px);
+  width: 100%;
   font-size: 1.2em;
 }
 input,
