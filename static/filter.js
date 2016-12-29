@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         if (data === "error") {
 
-          alert(data);
+          alert("Wrong info");
 
         } else {
 

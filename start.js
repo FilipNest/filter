@@ -1340,7 +1340,7 @@ app.post("/meta/getAuthCode", function (req, res) {
 
     if (!data.length) {
 
-      res.send("wrong info");
+      res.send("error");
 
     } else {
 
@@ -1353,7 +1353,7 @@ app.post("/meta/getAuthCode", function (req, res) {
 
         } else {
 
-          res.send("wrong info");
+          res.send("error");
 
         }
 
