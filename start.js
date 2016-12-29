@@ -914,6 +914,8 @@ var messagesFromTags = function (tags, session) {
 
                     fetchedMessages.forEach(function (message, index) {
 
+                      message.words = message.words.replace('src="/', 'src="' + channel.raw);
+
                       fetchedMessages[index].channel = channel.raw;
 
                     });

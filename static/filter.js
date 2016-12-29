@@ -345,6 +345,16 @@ document.addEventListener("DOMContentLoaded", function (event) {
               message.find(".message-channel").text(" (" + channel + ") ");
               message.find(".vote").hide();
 
+              var image = message.find(".message img")[0];
+
+              if (image) {
+
+                var imagePath = $(image).attr("src");
+
+                $(image).attr("src", channel + imagePath);
+
+              }
+
             }
 
           }
