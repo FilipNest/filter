@@ -98,3 +98,4 @@ Filters is released under the ISC license.
 
 * Reply icon by Jan-Christoph Borchardt
 * Filter icon by Ismael Ruiz
+* Picture icon by Suavis

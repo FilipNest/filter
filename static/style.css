@@ -130,7 +130,8 @@ header a img {
   top: 30px;
 }
 #postmessage textarea {
-  height: 70%
+  height: 70%;
+  width: calc(100% - 40px);
 }
 #postmessage button {
   height: 30%;
@@ -207,7 +208,7 @@ header a img {
   text-decoration: none;
 }
 .message {
-  overflow-x:hidden;
+  overflow-x: hidden;
   line-height: 1.4em;
   font-family: georgia;
   padding: 10px 0 10px 0;
@@ -308,4 +309,34 @@ form p {
 }
 div.tagsinput input {
   font-size: 1rem !important;
+}
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+}
+.fileUpload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+}
+.fileUpload {
+  background-image: url("icons/image.svg");
+  position: absolute;
+  width: 40px;
+  height: 70%;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 5px;
+  right: 0px;
+  color: white;
+  background-color: lightgray;
+  cursor: pointer;
+  top: 0px;
 }

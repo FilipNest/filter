@@ -22,6 +22,24 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
+  $("#upload").on("change", function (e) {
+
+    var file = this.files[0];
+    
+    var reader = new FileReader();
+
+    reader.addEventListener("load", function () {
+            
+      $(".fileUpload").css('background-image', 'url("' + reader.result + '")');
+      
+    }, false);
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+
+  })
+
   $("#authCodeReveal").click(function (event) {
 
     var password = prompt("Enter your password to get the API code");
