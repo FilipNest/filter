@@ -546,6 +546,12 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   message.words = message.words.split("@@").join("@PRIVATEPRIVATEPRIVATE");
 
+  if (message.file) {
+
+    message.words += "<img class='' src='" + message.file + "'/>";
+
+  }
+
   message.words = linkifyHtml(message.words);
 
   // Reply is all tags
@@ -662,6 +668,8 @@ filters.specialFilters["downvoted"] = {
 };
 
 app.use(express.static('static'));
+
+app.use("/files", express.static("data/files"));
 
 filters.privateFilter = function (message, user) {
 
@@ -1468,9 +1476,11 @@ app.post("/:tags?", function (req, res, next) {
 
     if (filename) {
 
-      req.body.file = filename;
+      var filePath = "/files/" + Date.now() + "_" + filename;
 
-      var fstream = fs.createWriteStream(__dirname + "/" + filename);
+      req.body.file = filePath;
+
+      var fstream = fs.createWriteStream(__dirname + "/data" + filePath);
       file.pipe(fstream);
       fstream.on('close', function () {
 
@@ -1560,6 +1570,7 @@ app.post("/:tags?", function (req, res) {
     var message = {
       words: req.body.words,
       author: req.session.user,
+      file: req.body.file,
       id: "msg-" + id,
       date: Date.now(),
       tags: tags,

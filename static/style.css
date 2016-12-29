@@ -41,7 +41,6 @@ a:visited {
   font-family: monospace;
   position: absolute;
   clear: both;
-  width: 10%;
   text-align: center;
   top: 13px;
   right: 0px;
@@ -175,6 +174,10 @@ header a img {
 .message-channel {
   font-size: 50%;
 }
+.message img {
+  width: 100%;
+  height: auto;
+}
 .message-date {
   color: grey;
   font-size: 50%;
@@ -204,7 +207,7 @@ header a img {
   line-height: 1.4em;
   font-family: georgia;
   padding: 10px 0 10px 0;
-  width: 85%;
+  width: calc(100% - 40px);
   font-size: 1.2em;
 }
 input,
