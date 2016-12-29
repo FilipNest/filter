@@ -91,7 +91,12 @@ var server = http.createServer(),
 
 var busboy = require('connect-busboy');
 
-app.use(busboy());
+app.use(busboy({
+  limit: {
+    files: 1,
+    fileSize: 3000
+  }
+}));
 
 app.all('/*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -1465,6 +1470,12 @@ filters.dbCount("messages").then(function (count) {
 app.post("/:tags?", function (req, res, next) {
 
   req.pipe(req.busboy);
+
+  req.busboy.on("limit", function () {
+
+    req.body.error = "File too big";
+
+  })
 
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
 

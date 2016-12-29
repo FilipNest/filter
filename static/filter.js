@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#upload").on("change", function (e) {
 
     var file = this.files[0];
-    
+        
     var reader = new FileReader();
 
     reader.addEventListener("load", function () {
