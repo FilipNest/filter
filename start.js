@@ -255,6 +255,14 @@ filters.apiCall = function (req) {
       filters.dbFetch("users", {
         authCode: req.body.code || req.query.code
       }).then(function (data) {
+        
+        if(!data.length){
+
+          resolve();
+          
+          return false;
+          
+        }
 
         var user = data[0];
 
@@ -867,7 +875,7 @@ var messagesFromTags = function (tags, session) {
 
             var options = {
               host: channel.path.host,
-              path: data.tags + "?format=json"
+              path: data.tags + "?format=json&code=" + channel.code
             };
 
             var callback = function (response) {
