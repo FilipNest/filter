@@ -987,10 +987,12 @@ var messagesFromTags = function (tags, session) {
 
         Promise.all(promises).then(function () {
 
+          messages = filters.privateFilter(messages, user);
+
           // Sort messages
 
           messages.sort(function (a, b) {
-
+            
             if (a.timestamp > b.timestamp) {
 
               return 1;
@@ -1007,11 +1009,17 @@ var messagesFromTags = function (tags, session) {
 
           });
 
-          messages = filters.privateFilter(messages, user);
-
           // Limit messages
+          
+          messages.reverse();
 
-          messages.length = filters.config.pageSize;
+          if (messages.length > filters.config.pageSize) {
+
+            messages.length = filters.config.pageSize;
+
+          }
+          
+          messages.reverse();
 
           resolve(messages);
 
