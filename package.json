@@ -4,10 +4,11 @@
   "description": "",
   "main": "core.js",
   "author": "FilipNest",
-  "license":"ISC",
+  "license": "ISC",
   "dependencies": {
     "bcrypt": "^0.8.7",
     "body-parser": "^1.15.2",
+    "connect-busboy": "0.0.2",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",

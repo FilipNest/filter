@@ -89,9 +89,14 @@ var server = http.createServer(),
   app = express(),
   bodyParser = require('body-parser');
 
+var busboy = require('connect-busboy');
+
+app.use(busboy());
+
 app.all('/*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
   next();
 });
 
@@ -255,13 +260,13 @@ filters.apiCall = function (req) {
       filters.dbFetch("users", {
         authCode: req.body.code || req.query.code
       }).then(function (data) {
-        
-        if(!data.length){
+
+        if (!data.length) {
 
           resolve();
-          
+
           return false;
-          
+
         }
 
         var user = data[0];
@@ -1446,6 +1451,46 @@ var messageCount = 0;
 filters.dbCount("messages").then(function (count) {
 
   messageCount = count;
+
+});
+
+app.post("/:tags?", function (req, res, next) {
+
+  req.pipe(req.busboy);
+
+  req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+
+    if (!filename) {
+
+      file.resume();
+
+    }
+
+    if (filename) {
+
+      req.body.file = filename;
+
+      var fstream = fs.createWriteStream(__dirname + "/" + filename);
+      file.pipe(fstream);
+      fstream.on('close', function () {
+
+      });
+
+    }
+
+  });
+
+  req.busboy.on('field', function (key, value) {
+
+    req.body[key] = value;
+
+  });
+
+  req.busboy.on('finish', function () {
+
+    next();
+
+  });
 
 });
 

@@ -138,10 +138,12 @@
 
   MESSAGES {{#if req.session.user}}
 
+
   <form id="postmessage" autocomplete="off" method="POST">
 
     <textarea id="words" name="words"></textarea>
     <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
+    <input name="file" type="file" />
     <button type="submit">Send</button>
 
   </form>

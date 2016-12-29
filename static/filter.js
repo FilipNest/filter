@@ -2,13 +2,19 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $("#postmessage").submit(function (e) {
 
-    var data = $("#postmessage").serialize();
+    var form = document.querySelector('#postmessage');
+    var formData = new FormData(form);
 
-    $.post(document.location.href, data, function () {
-
-      $("#words").val("");
-
+    $.ajax({
+      url: document.location.href,
+      type: 'POST',
+      data: formData,
+      cache: false,
+      contentType: false,
+      processData: false,
     });
+
+    $("#words").val("");
 
     e.preventDefault();
 
