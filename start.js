@@ -16,7 +16,8 @@ filters.debug = function (thing) {
 
 filters.config = {
   port: 80,
-  database: "db_nedb"
+  database: "db_nedb",
+  pageSize: "40"
 };
 
 var fs = require("fs");
@@ -861,7 +862,7 @@ var messagesFromTags = function (tags, session) {
 
     filters.dbFetch("messages", search, {
       date: -1
-    }, filters.config.pageSize || 10).then(function (messages) {
+    }, filters.config.pageSize).then(function (messages) {
 
       messages.forEach(function (message, index) {
 
@@ -1008,6 +1009,10 @@ var messagesFromTags = function (tags, session) {
 
           messages = filters.privateFilter(messages, user);
 
+          // Limit messages
+
+          messages.length = filters.config.pageSize;
+
           resolve(messages);
 
         }, function (fail) {
@@ -1019,6 +1024,8 @@ var messagesFromTags = function (tags, session) {
       } else {
 
         messages = filters.privateFilter(messages, user);
+
+        messages.length = filters.config.pageSize;
 
         resolve(messages);
 
