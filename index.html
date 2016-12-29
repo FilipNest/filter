@@ -104,14 +104,14 @@
     <form action="/meta/userchannels" method="post">
       <div>
         <label>Channels:</label>
-        <p>Insert extra URLS you want to listen to messages from.</p>
+        <p>Insert extra URLS you want to listen to messages from. Get Authcode from the settings page of the channel site itself once logged in there.</p>
         <div id="channelList">
 
           {{#each req.session.channels}}
 
           <fieldset class="channel">
             <input type="text" name="channel-number-{{@index}}" value="{{this.raw}}" placeholder="http://..." />
-            <input type="password" name="channel-code-{{@index}}" value="{{this.code}}" placeholder="code" />
+            <input type="password" name="channel-code-{{@index}}" value="" placeholder="{{#if this.code}} Change Authcode {{else}} Set Authcode {{/if}}" />
             <button class="removeChannel">Remove</button>
           </fieldset>
 

@@ -251,6 +251,12 @@ app.post("/meta/userchannels", function (req, res) {
 
       var number = field.replace("channel-number-", "");
 
+      if (!req.body["channel-code-" + number]) {
+
+        req.body["channel-code-" + number] = req.session.channels[number].code;
+
+      }
+
       channels.push({
 
         channel: req.body["channel-number-" + number],
