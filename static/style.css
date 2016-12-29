@@ -288,6 +288,9 @@ a.close {
   padding: 10px;
   text-align: center;
 }
+fieldset {
+  border: none;
+}
 .removeChannel,
 .addChannel {
   border-style: none;
