@@ -333,6 +333,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
               }
 
+              window.scrollTop();
+
             }
 
             message = $("#" + message.message.id);
@@ -358,8 +360,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
             }
 
           }
-
-          window.scrollTop();
 
         }
 
