@@ -28,38 +28,8 @@
     <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
   </header>
-
-  <div id="tag-container">
-    <input id="tags" value="{{tagsJSON}}" />
-  </div>
-
-  MESSAGES {{#if req.session.user}}
-
-  <form id="postmessage" autocomplete="off" method="POST">
-
-    <textarea id="words" name="words"></textarea>
-    <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
-    <button type="submit">Send</button>
-
-  </form>
-
-  <script>
-    window.loggedIn = "{{req.session.user}}";
-
-  </script>
-
-  {{/if}} {{#if req.session.channels}}
-
-  <script>
-    window.channels = JSON.parse("{{json req.session.channels}}".split("&quot;").join('"'));
-
-  </script>
-
-  {{/if}}
-
-  <script src="/filter.js"></script>
-
-  {{#unless req.session.user}}
+  
+    {{#unless req.session.user}}
   <style>
     ul#chat {
       max-height: calc(100vh - 40px);
@@ -134,7 +104,7 @@
     <form action="/meta/userchannels" method="post">
       <div>
         <label>Channels:</label>
-        <p>Insert extra URLS you want to listen to messages from (comma seperated). Leave blank for just the local channel. Local channel is always returned.</p>
+        <p>Insert extra URLS you want to listen to messages from.</p>
         <div id="channelList">
         
           {{#each req.session.channels}}
@@ -156,6 +126,36 @@
   </section>
 
   {{/unless}}
+
+  <div id="tag-container">
+    <input id="tags" value="{{tagsJSON}}" />
+  </div>
+
+  MESSAGES {{#if req.session.user}}
+
+  <form id="postmessage" autocomplete="off" method="POST">
+
+    <textarea id="words" name="words"></textarea>
+    <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
+    <button type="submit">Send</button>
+
+  </form>
+
+  <script>
+    window.loggedIn = "{{req.session.user}}";
+
+  </script>
+
+  {{/if}} {{#if req.session.channels}}
+
+  <script>
+    window.channels = JSON.parse("{{json req.session.channels}}".split("&quot;").join('"'));
+
+  </script>
+
+  {{/if}}
+
+  <script src="/filter.js"></script>
 
 </body>
 
