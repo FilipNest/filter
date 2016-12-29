@@ -1487,6 +1487,14 @@ app.post("/:tags?", function (req, res, next) {
 
     if (filename) {
 
+      if (mimetype.indexOf("image") === -1) {
+
+        req.body.error = "bad file";
+        file.resume();
+        return false;
+
+      }
+
       var filePath = "/files/" + Date.now() + "_" + filename;
 
       req.body.file = filePath;

@@ -14,7 +14,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
       processData: false,
     });
 
-    $("#words").val("");
+    $(".fileUpload").css('background-image', 'url("/icons/image.svg")');
+
+    $("#postmessage")[0].reset();
 
     e.preventDefault();
 
@@ -25,13 +27,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#upload").on("change", function (e) {
 
     var file = this.files[0];
-        
+
     var reader = new FileReader();
 
     reader.addEventListener("load", function () {
-            
+
       $(".fileUpload").css('background-image', 'url("' + reader.result + '")');
-      
+
     }, false);
 
     if (file) {
