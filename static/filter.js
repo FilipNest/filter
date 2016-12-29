@@ -16,9 +16,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
-  $("#addChannel").click(function (event) {
+  $(".addChannel").click(function (event) {
 
-    $("#channelList").append('<div class="channel"><input type="text" name="channel" placeholder="http://..." /><button class="removeChannel">Remove</button></div>');
+    var number = $("#channelList").find(".channel").length;
+
+    $("#channelList").append('<fieldset class="channel"><input type="text" name="channel-number-' + number + '" placeholder="http://..." /><input type="password" name="channel-code-' + number + '" value="" placeholder="code" /><button class="removeChannel">Remove</button></fieldset>');
 
     event.preventDefault();
 

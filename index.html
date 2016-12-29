@@ -28,8 +28,8 @@
     <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
   </header>
-  
-    {{#unless req.session.user}}
+
+  {{#unless req.session.user}}
   <style>
     ul#chat {
       max-height: calc(100vh - 40px);
@@ -106,17 +106,18 @@
         <label>Channels:</label>
         <p>Insert extra URLS you want to listen to messages from.</p>
         <div id="channelList">
-        
+
           {{#each req.session.channels}}
-          
-          <div class="channel">
-            <input type="text" name="channel" value="{{this.raw}}" placeholder="http://..." />
+
+          <fieldset class="channel">
+            <input type="text" name="channel-number-{{@index}}" value="{{this.raw}}" placeholder="http://..." />
+            <input type="password" name="channel-code-{{@index}}" value="{{this.code}}" placeholder="code" />
             <button class="removeChannel">Remove</button>
-          </div>
-          
+          </fieldset>
+
           {{/each}}
         </div>
-        <button id="addChannel">Add a channel</button>
+        <button class="addChannel">Add a channel</button>
       </div>
       <div>
         <input type="submit" value="Submit" />

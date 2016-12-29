@@ -265,6 +265,22 @@ a.close {
   margin: auto;
   max-width: 100%;
 }
+.removeChannel,
+.addChannel {
+  border-style: none;
+  border-color: white;
+  padding: 5px;
+  cursor: pointer;
+}
+.addChannel {
+  margin-top:10px;
+  background: green;
+  color: white;
+}
+.removeChannel {
+  background: red;
+  color: white
+}
 div.tagsinput input {
   font-size: 1rem !important;
 }

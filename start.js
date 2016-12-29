@@ -243,30 +243,37 @@ app.post("/meta/userfilters", function (req, res) {
 var url = require("url");
 app.post("/meta/userchannels", function (req, res) {
 
-  if (!req.body.channel) {
+  var channels = [];
 
-    req.body.channel = [];
+  Object.keys(req.body).forEach(function (field) {
 
-  }
+    if (field.indexOf("channel-number") !== -1) {
 
-  if (!Array.isArray(req.body.channel)) {
+      var number = field.replace("channel-number-", "");
 
-    req.body.channel = [req.body.channel]
+      channels.push({
 
-  }
+        channel: req.body["channel-number-" + number],
+        code: req.body["channel-code-" + number]
+
+      })
+
+    }
+
+  })
 
   filters.dbUpdate("users", {
     username: req.session.user,
   }, {
     $set: {
-      channels: req.body.channel
+      channels: channels
     }
   }, {
     upsert: false,
     returnUpdatedDocs: true
   }).then(function (doc) {
 
-    req.session.channels = formatChanels(req.body.channel);
+    req.session.channels = formatChanels(channels);
     res.redirect("/");
 
   });
@@ -283,15 +290,16 @@ var formatChanels = function (channels) {
 
       // Add trailing slash.
 
-      if (element[element.length - 1] !== "/") {
+      if (element.channel[element.channel.length - 1] !== "/") {
 
-        element = element + "/";
+        element.channel = element.channel + "/";
 
       }
 
       output.push({
-        raw: element,
-        path: url.parse(element)
+        raw: element.channel,
+        path: url.parse(element.channel),
+        code: element.code
       });
 
     });
