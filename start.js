@@ -148,7 +148,7 @@ var NedbStore = require('express-nedb-session')(session);
 
 var crypto = require('crypto');
 
-var secret = crypto.randomBytes(8).toString('hex');
+var secret = filters.config.secret || crypto.randomBytes(8).toString('hex');
 
 var sessionStore = new NedbStore({
   filename: 'data/sessions.db'
