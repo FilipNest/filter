@@ -118,7 +118,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.scrollTop = function () {
 
-    $('#chat').scrollTop($('#chat')[0].scrollHeight);
+    window.setTimeout(function () {
+
+      $('#chat').scrollTop($('#chat')[0].scrollHeight);
+
+    }, 200)
+
 
   };
 
