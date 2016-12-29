@@ -246,6 +246,43 @@ app.use(flash());
 
 app.use(bodyParser.json());
 
+filters.apiCall = function (req) {
+
+  return new Promise(function (resolve, reject) {
+
+    if (req.query.code || req.body.code) {
+
+      filters.dbFetch("users", {
+        authCode: req.body.code || req.query.code
+      }).then(function (data) {
+
+        var user = data[0];
+
+        req.session.user = user.username;
+
+        req.session.authCode = user.authCode;
+
+        req.session.filters = user.filters;
+        req.session.channels = formatChanels(user.channels);
+
+        resolve();
+
+      }, function (fail) {
+
+        resolve();
+
+      });
+
+    } else {
+
+      resolve();
+
+    }
+
+  })
+
+};
+
 var bcrypt = require("bcrypt");
 
 // Create new user
@@ -982,50 +1019,54 @@ var messageTemplate = Handlebars.compile(messageTemplateFile);
 
 app.get("/:tags?", function (req, res) {
 
-  messagesFromTags(req.params.tags, req.session).then(function (messages) {
+  filters.apiCall(req).then(function () {
 
-    if (req.query.format === "json") {
+    messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
-      res.json(messages);
+      if (req.query.format === "json") {
 
-      return true;
+        res.json(messages);
 
-    }
+        return true;
 
-    var output = template({
-      tagsJSON: req.params.tags,
-      tags: req.params.tags ? req.params.tags.split(",") : null,
-      req: req
-    });
+      }
 
-    var messageBlock = messagesTemplate({
-      messages: messages,
-      tags: req.params.tags,
-      req: req
-    });
-
-    var innerBlock = "";
-
-    messages.forEach(function (message) {
-
-      innerBlock += messageTemplate({
-        message: message,
-        session: req.session
+      var output = template({
+        tagsJSON: req.params.tags,
+        tags: req.params.tags ? req.params.tags.split(",") : null,
+        req: req
       });
 
+      var messageBlock = messagesTemplate({
+        messages: messages,
+        tags: req.params.tags,
+        req: req
+      });
+
+      var innerBlock = "";
+
+      messages.forEach(function (message) {
+
+        innerBlock += messageTemplate({
+          message: message,
+          session: req.session
+        });
+
+      });
+
+      messageBlock = messageBlock.replace("MESSAGE", innerBlock);
+
+      output = output.replace("MESSAGES", messageBlock);
+
+      res.send(output);
+
+    }, function (reject) {
+
+      filters.debug(reject);
+
     });
 
-    messageBlock = messageBlock.replace("MESSAGE", innerBlock);
-
-    output = output.replace("MESSAGES", messageBlock);
-
-    res.send(output);
-
-  }, function (reject) {
-
-    filters.debug(reject);
-
-  });
+  })
 
 });
 
