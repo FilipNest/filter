@@ -861,7 +861,7 @@ var messagesFromTags = function (tags, session) {
 
     filters.dbFetch("messages", search, {
       date: -1
-    }, null).then(function (messages) {
+    }, filters.config.pageSize || 10).then(function (messages) {
 
       messages.forEach(function (message, index) {
 

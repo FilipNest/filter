@@ -34,7 +34,7 @@ filters.dbFetch = function (database, query, sort, limit) {
 
   return new Promise(function (resolve, reject) {
 
-    databases[database].find(query).sort(sort).exec(function (err, data) {
+    databases[database].find(query).sort(sort).limit(limit).exec(function (err, data) {
 
       if (err) {
 
