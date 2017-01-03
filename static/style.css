@@ -77,7 +77,6 @@ button:disabled:hover {
 #chat li {
   position: relative;
   border-radius: 5px;
-  background-color: white;
   padding: 10px;
   margin-bottom: 10px;
   margin-right: 5px;
@@ -172,6 +171,16 @@ header a img {
   opacity: 0.95;
   max-width: 500px;
   display: inline-block;
+}
+.message-wrapper {
+  background-color: white;
+}
+.message-wrapper.private {
+  /*  background-color: palegreen;*/
+}
+.message-audience {
+  padding-top: 15px;
+  font-size: 80%;
 }
 .message-channel {
   font-size: 50%;

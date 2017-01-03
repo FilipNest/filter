@@ -1,4 +1,4 @@
-<li data-channel="{{message.channel}}" class="message-wrapper" id="{{message.id}}" data-timestamp="{{message.timestamp}}">
+<li data-channel="{{message.channel}}" class="message-wrapper {{#if message.private}}private{{/if}}" id="{{message.id}}" data-timestamp="{{message.timestamp}}">
   <div class="message-info"><span class="message-author"><a href="/author={{message.author}}">{{message.author}}</a></span><span class="message-channel">{{#if message.channel}} ({{message.channel}}) {{/if}}</span>
     <span class="message-date">{{message.date}}</span> {{#if message.tags}}
     <div class="message-context"> + {{#each message.tags}}<span class="message-tag"> <a href="/{{this}}">{{this}}</a></span>{{/each}}
@@ -45,6 +45,9 @@
     <a class="reply" title="reply" href="/{{message.reply}}"><img class="icon" src="/icons/reply.svg" /></a>
     {{#if message.tags}}
     <a class="message-new-tags" title="filter" href="/{{message.parent}}"><img class="icon" src="/icons/filter.svg" /></a>
+    {{/if}}
+    {{#if message.audience}}
+    <a href="/{{#each message.audience}}@{{this}},{{/each}}" title="private"><img class="icon" src="/icons/lock.svg" /></a>
     {{/if}}
   </div>
 </li>

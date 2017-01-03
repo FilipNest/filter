@@ -572,7 +572,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   message.tags = message.tags.filter(function (item) {
 
-    return item !== "@" + message.author && item !== message.id && currentTags.indexOf(item) === -1;
+    return item !== "@" + message.author && (item[0] + item[1] !== "@@") && item !== message.id && currentTags.indexOf(item) === -1;
 
   });
 
@@ -683,6 +683,7 @@ filters.privateFilter = function (message, user) {
 
     if (!current.audience || !current.audience.length) {
 
+
       return true;
 
     } else {
@@ -692,6 +693,8 @@ filters.privateFilter = function (message, user) {
         return false;
 
       } else {
+
+        current.private = true;
 
         return (current.audience.indexOf(user) !== -1 || current.author === user);
 
@@ -716,6 +719,14 @@ filters.privateFilter = function (message, user) {
 };
 
 var messagesFromTags = function (tags, session) {
+
+  // Strip out traling comma if set
+
+  if (tags && tags[tags.length - 1] === ",") {
+
+    tags = tags.slice(0, -1);
+
+  }
 
   var user = session.user;
 
@@ -992,7 +1003,7 @@ var messagesFromTags = function (tags, session) {
           // Sort messages
 
           messages.sort(function (a, b) {
-            
+
             if (a.timestamp > b.timestamp) {
 
               return 1;
@@ -1010,7 +1021,7 @@ var messagesFromTags = function (tags, session) {
           });
 
           // Limit messages
-          
+
           messages.reverse();
 
           if (messages.length > filters.config.pageSize) {
@@ -1018,7 +1029,7 @@ var messagesFromTags = function (tags, session) {
             messages.length = filters.config.pageSize;
 
           }
-          
+
           messages.reverse();
 
           resolve(messages);
@@ -1645,6 +1656,10 @@ app.post("/:tags?", function (req, res) {
         var mentioned = tag.replace("@@", "");
 
         message.audience.push(mentioned);
+
+        // Push in the soft mention too so that it can be listed with other mentions.
+
+        message.tags.push("@" + mentioned);
 
       }
 
