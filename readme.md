@@ -2,7 +2,11 @@
 
 _Development site currently at [filters.social](http://filters.social)_
 
-Filters is a demo/concept of a decentralised social messaging platform with a focus on context filtering. 
+Filters is a demo/concept of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic.
+
+Each post has context tags set on it which you can use to have discussions in that same context but you can also filter by who wrote the post, how many upvotes/downvotes it's got, who upvoted/downvoted it and more. The bottom of this page has all the filters you can currently use.
+
+Have a play at filters.social or deploy your own instance (instructions below) and add any thoughts to the issue queue here on GitHub. Feedback and contributions would be hugely appreciated.
 
 ## Author's reasons for making this
 
