@@ -44,7 +44,7 @@ If you know of multiple instances/servers of the Filters software running you ca
 
 ### Formatting messages
 
-Italic HTML tags are allowed, URLS will be turned into links automatically, hashtags and mentions (`#tag @username`) will be turned into filter links. Everything else will be stripped out. Future plugins will allow images and other content, for now it's text only.
+Italic HTML tags are allowed, URLS will be turned into links automatically, hashtags and mentions (`#tag @username`) will be turned into filter links. Everything else will be stripped out. Basic image uploading is also supported (alt text and more coming soon).
 
 Messages are formatted using the [typogr](https://www.npmjs.com/package/typogr) typographical library so punctuation is curled and improved.
 
