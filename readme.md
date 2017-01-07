@@ -1,6 +1,6 @@
 # Filters
 
-_Experimental development site currently at [filters.social](https://filters.social) feedback/help hugely appreciated_
+_Experimental development site currently at [filters.social](https://filters.social). Feedback/help hugely appreciated_
 
 Filters is a demo/concept of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people etc...
 
