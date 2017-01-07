@@ -4,11 +4,11 @@ _Experimental development site currently at [filters.social](https://filters.soc
 
 Filters is a demo/concept of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people etc...
 
+Have a play at [filters.social](https://filters.social) or deploy your own instance (instructions below) and add any thoughts to the issue queue here on GitHub. Feedback and contributions would be hugely appreciated.
+
 Each post has context tags set on it which you can use to have discussions in that same context but you can also filter by who wrote the post, how many upvotes/downvotes it's got, who upvoted/downvoted it and more. The bottom of this page has all the filters you can currently use. You can use as many or as few as you want (zero filters will mean you just see everything in every context like most social media is now).
 
-The decentralised bit means you can run your own copy of it and communicate with other copies.
-
-Have a play at [filters.social](https://filters.social) or deploy your own instance (instructions below) and add any thoughts to the issue queue here on GitHub. Feedback and contributions would be hugely appreciated.
+The decentralised bit means you can run your own copy of it and communicate with other copies. You can even switch the database you want to use via the database API (documentation on this coming soon). Deploy a copy using the instructions in the deployment section and play around. There's also a REST and websockets API to help development.
 
 ## Author's reasons for making this
 
@@ -79,6 +79,10 @@ Messages can be voted up or down (or both currently, not sure if bug/feature!). 
 * `@@userid` is like mentions but only users with that user id will be able to see the message. Private messaging.
 
 All special filters can also be preceded by a `!` to negate the filter.
+
+## JSON feed of messages
+
+Add `?format=json` to a Filters url to get messages in JSON format.
 
 ## Deploying Filters yourself
 
