@@ -6,6 +6,8 @@ Filters is a demo/concept of a decentralised social messaging platform with a fo
 
 Each post has context tags set on it which you can use to have discussions in that same context but you can also filter by who wrote the post, how many upvotes/downvotes it's got, who upvoted/downvoted it and more. The bottom of this page has all the filters you can currently use. You can use as many or as few as you want (zero filters will mean you just see everything in every context like most social media is now).
 
+The decentralised bit means you can run your own copy of it and communicate with other copies.
+
 Have a play at [filters.social](https://filters.social) or deploy your own instance (instructions below) and add any thoughts to the issue queue here on GitHub. Feedback and contributions would be hugely appreciated.
 
 ## Author's reasons for making this
