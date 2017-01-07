@@ -24,7 +24,7 @@ Additional filters for things such as who wrote a post, who upvoted/downvoted it
 
 ### 2) Decentralisation
 
-Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This allows you to create copies of the same software (it's open source) that support different features or look different but still understand messages from other instances.
+Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This allows you to create copies of the same software (it's free and open source) that support different features or look different but still understand messages from other instances.
 
 ## How it works
 
