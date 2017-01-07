@@ -38,7 +38,7 @@ Users might want to have certain filters on by default while navigating through 
 
 ### Channels
 
-If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings (see the bit about decentralisation above for more info).
+If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings (see the bit about decentralisation above for more info). You can additionally authenticate to get private messages and more by typing in access tokens from one site to the other on the settings page.
 
 ### Formatting messages
 
