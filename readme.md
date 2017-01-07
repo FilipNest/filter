@@ -1,6 +1,6 @@
 # Filters
 
-_Development site currently at [filter.filipnest.com](http://filter.filipnest.com)_
+_Development site currently at [filters.social](http://filters.social)_
 
 Filters is a demo/concept of a decentralised social messaging platform with a focus on context filtering. 
 
@@ -78,9 +78,15 @@ All special filters can also be preceded by a `!` to negate the filter.
 
 * Git clone or download this.
 * Run `npm install`
-* Run `node start.js` (optionally run with a port parameter to specify which port the server should run on e.g `node start.js port=5555`
+* Run `node start.js`
 
-More configuration settings etc are probably going to come soon.
+### The config file
+
+Put in a file called `config.json` and in it (JSON format) put the following options if you want to configure your filters instance:
+
+* port - which port should filters run on?
+* secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
+* pageSize - how many messages to show in one page.
 
 ## Help!
 
