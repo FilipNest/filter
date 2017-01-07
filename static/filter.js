@@ -200,7 +200,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $('#tags').tagsInput({
     width: "100%",
     onChange: window.refresh(),
-    defaultText: "",
+    defaultText: "Add filters/context here",
     tagValidator: function (tag) {
 
       function isValid(str) {

@@ -116,6 +116,9 @@ header a {
 header b {
   text-transform: uppercase;
 }
+#tags_tag {
+  width: 200px
+}
 header a img {
   max-width: 100%;
   height: 20px;
