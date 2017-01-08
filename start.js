@@ -432,35 +432,50 @@ app.post("/meta/newUser", function (req, res) {
 
   };
 
-  var account = {
-    username: req.body.username.toLowerCase(),
-    password: req.body.password,
-    email: req.body.email.toLowerCase()
-  };
+  // Check if username exists
 
-  bcrypt.hash(account.password, 10, function (err, hash) {
+  filters.dbFetch("users", {
+    "username": req.body.username
+  }).then(function (user) {
 
-    if (err) {
+    if (user.length) {
 
-      filters.debug(err);
-
-      res.send(400);
-
-    } else {
-
-      account.password = hash;
-
-      filters.dbInsert("users", account).then(function (user) {
-
-        req.session.user = req.body.username.toLowerCase();
-
-        res.redirect("/");
-
-      });
+      req.flash("error", "Username " + req.body.username + " already in use.");
+      return res.redirect("/");
 
     }
 
-  });
+    var account = {
+      username: req.body.username.toLowerCase(),
+      password: req.body.password,
+      email: req.body.email.toLowerCase()
+    };
+
+    bcrypt.hash(account.password, 10, function (err, hash) {
+
+      if (err) {
+
+        filters.debug(err);
+
+        res.send(400);
+
+      } else {
+
+        account.password = hash;
+
+        filters.dbInsert("users", account).then(function (user) {
+
+          req.session.user = req.body.username.toLowerCase();
+
+          res.redirect("/");
+
+        });
+
+      }
+
+    });
+
+  })
 
 });
 
