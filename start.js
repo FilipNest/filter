@@ -418,9 +418,19 @@ app.post("/meta/newUser", function (req, res) {
 
   if (!req.body.username || !req.body.password || !req.body.email) {
 
+    req.flash("error", "Please fill in all registration fields");
+
     return res.redirect("/");
 
   }
+
+  if (!/^[a-z0-9]+$/i.test(req.body.username)) {
+
+    req.flash("error", "Only letters and numbers in usernames please");
+
+    return res.redirect("/");
+
+  };
 
   var account = {
     username: req.body.username.toLowerCase(),
