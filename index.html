@@ -20,6 +20,16 @@
 <body>
 
   <header>
+    
+    {{#if req.session.errors}}
+    
+    {{#each req.session.errors}}
+    
+    <div class="error">{{this}}</div>
+    
+    {{/each}}
+    
+    {{/if}}
 
     {{#unless req.session.user}}
 
