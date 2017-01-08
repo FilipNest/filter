@@ -435,12 +435,25 @@ app.post("/meta/newUser", function (req, res) {
   // Check if username exists
 
   filters.dbFetch("users", {
-    "username": req.body.username
+    $or: [{
+      "username": req.body.username
+    }, {
+      "email": req.body.email
+    }]
   }).then(function (user) {
 
     if (user.length) {
 
-      req.flash("error", "Username " + req.body.username + " already in use.");
+      if (user[0].email === req.body.email) {
+
+        req.flash("error", "Email already in use.");
+
+      } else {
+
+        req.flash("error", "Username " + req.body.username + " already in use.");
+
+      }
+
       return res.redirect("/");
 
     }
