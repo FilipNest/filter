@@ -151,17 +151,18 @@ header b {
   left: 0px;
   color: transparent !important;
 }
-div.tagsinput {
+#tagContainer {
+  position: relative;
+  width: 500px;
+  max-width: 100%;
   border-style: solid;
   border-color: black;
   border-width: 0.5px;
+}
+div.tagsinput {
+  border-style: none;
   color: white;
-  background-size: contain !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
-  width: 500px !important;
-  max-width: 100%;
-  margin: auto;
+  width: calc(100% - 50px) !important;
 }
 div.tagsinput input {
   font-size: 1rem !important;
@@ -343,4 +344,18 @@ form p {
   background-color: lightgray;
   cursor: pointer;
   top: 0px;
+}
+#filters {
+  width: 50px;
+  height: 100%;
+  border-style: none;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-image: url("icons/filter.svg");
+  background-color: transparent;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-size: 50%;
 }
