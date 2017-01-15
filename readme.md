@@ -95,7 +95,7 @@ Add `?format=json` to a Filters url to get messages in JSON format. If you pass 
 
 ## Help!
 
-Filters is free and open source and I would very much like your help. Whether it's suggestions, code or design, everything would be very much appreciated. Even saying _this whole thing is silly don't do it_.
+Filters is free and open source and I would very much like your help. Whether it's suggestions, code or design, everything would be very much appreciated.
 
 The code is still being tidied up after the initial get-all-the-features-in so if you want to make improvements to anything please do so and put in a pull request so they can be merged in. Or just say what's awful in an issue. 
 
