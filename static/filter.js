@@ -160,9 +160,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var currentTags = $('#tags').val();
 
+    currentTags = currentTags.split("#").join("");
+    
     document.title = "| Filters | " + currentTags;
 
-    jQuery.get("/meta/refresh/" + $('#tags').val(), function (result) {
+    jQuery.get("/meta/refresh/" + currentTags, function (result) {
 
       $("#chat")[0].outerHTML = result;
 
@@ -205,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       if (tag[0] === "#") {
 
         tag = tag.substring(1);
-        
+
       }
 
       function isValid(str) {
