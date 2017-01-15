@@ -86,7 +86,7 @@ button:disabled:hover {
 ul#chat {
   padding: 0px;
   margin-top: 80px;
-  padding-bottom: 100px;
+  padding-bottom: 84px;
 }
 header {
   position: fixed;
@@ -170,7 +170,6 @@ div.tagsinput input {
 .message-wrapper {
   position: relative;
   padding: 10px;
-  margin-bottom: 10px;
   padding-bottom: 20px;
   display: block;
   list-style: none;
@@ -220,7 +219,7 @@ div.tagsinput input {
   overflow-x: hidden;
   line-height: 1.4em;
   font-family: "fira";
-  padding: 10px 0 10px 0;
+  padding: 20px 0 10px 0;
   width: 100%;
   font-size: 1.2em;
 }
@@ -356,6 +355,5 @@ form p {
   background-color: transparent;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: contain;
   background-size: 50%;
 }
