@@ -200,6 +200,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
     defaultText: "",
     tagValidator: function (tag) {
 
+      // Remove # if added
+
+      if (tag[0] === "#") {
+
+        tag = tag.substring(1);
+        
+      }
+
       function isValid(str) {
         return /^[a-z\d\-_=@!]+$/i.test(str);
       }
