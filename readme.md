@@ -110,6 +110,7 @@ Filters is released under the ISC license.
 ### Icons (via Noun Project)
 
 * Reply icon by Jan-Christoph Borchardt
+* Account icon by Symbolon
 * Filter icon by Ismael Ruiz
 * Picture icon by Suavis
 * Lock icon by Edward Boatman

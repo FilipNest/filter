@@ -20,22 +20,26 @@
 <body>
 
   <header>
-    
-    {{#if req.session.errors}}
-    
-    {{#each req.session.errors}}
-    
-    <div class="error">{{this}}</div>
-    
-    {{/each}}
-    
-    {{/if}}
 
-    {{#unless req.session.user}}
+    <div class="inner">
 
-    <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
+      {{#if req.session.errors}} {{#each req.session.errors}}
 
-    <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
+      <div class="error">{{this}}</div>
+
+      {{/each}} {{/if}} {{#unless req.session.user}}
+
+      <nav>
+
+        <a href="#login">Login</a> | <a href="#register">Register</a>{{else}}
+
+        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
+
+      </nav>
+
+      <input id="tags" value="{{tagsJSON}}" />
+
+    </div>
 
   </header>
 
@@ -143,25 +147,22 @@
 
   </section>
 
-  {{/unless}}
+  {{/unless}} MESSAGES {{#if req.session.user}}
 
-  <div id="tag-container">
-    <input id="tags" value="{{tagsJSON}}" />
-  </div>
+  <section id="posting">
 
-  MESSAGES {{#if req.session.user}}
+    <form id="postmessage" autocomplete="off" method="POST">
 
+      <textarea id="words" name="words"></textarea>
+      <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
+      <div class="fileUpload">
+        <input name="file" id="upload" type="file" class="upload" />
+      </div>
+      <button type="submit">Send</button>
 
-  <form id="postmessage" autocomplete="off" method="POST">
+    </form>
 
-    <textarea id="words" name="words"></textarea>
-    <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
-    <div class="fileUpload">
-      <input name="file" id="upload" type="file" class="upload" />
-    </div>
-    <button type="submit">Send</button>
-
-  </form>
+  </section>
 
   <script>
     window.loggedIn = "{{req.session.user}}";

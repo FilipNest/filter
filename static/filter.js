@@ -118,12 +118,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.scrollTop = function () {
 
-    window.setTimeout(function () {
-
-      $('#chat').scrollTop($('#chat')[0].scrollHeight);
-
-    }, 200)
-
+    $("html, body").animate({
+      scrollTop: $(document).height()
+    }, 200);
 
   };
 
@@ -198,9 +195,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
   }
 
   $('#tags').tagsInput({
-    width: "100%",
+    height: "54px",
     onChange: window.refresh(),
-    defaultText: "Add filters/context here",
+    defaultText: "",
     tagValidator: function (tag) {
 
       function isValid(str) {

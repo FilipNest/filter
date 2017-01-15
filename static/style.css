@@ -1,5 +1,11 @@
+@font-face {
+  font-family: 'fira';
+  src: url('/fonts/firasans-regular-webfont.woff2') format('woff2'), url('/fonts/firasans-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
 * {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   max-width: 100%;
   -webkit-overflow-scrolling: touch;
 }
@@ -22,17 +28,15 @@
 }
 body,
 input {
-  font-family: sans-serif;
+  font-family: "fira";
 }
 html,
 body {
+  position: relative;
   font-size: 16px;
-  background-color: #333333;
   width: 500px;
-  padding: 0px 5px 0 5px;
-  box-sizing: border-box;
+  max-width: 100%;
   margin: auto;
-  color: #333333;
 }
 a:link,
 a:visited {
@@ -79,40 +83,31 @@ button:disabled:hover {
   opacity: 0.2;
   cursor: initial;
 }
-#chat li {
-  position: relative;
-  border-radius: 5px;
-  padding: 10px;
-  margin-bottom: 10px;
-  margin-right: 5px;
-  padding-bottom: 20px;
-  display: block;
-  list-style: none;
-}
 ul#chat {
-  z-index: 0;
-  margin: 0 0 5px 0;
-  width: 100%;
   padding: 0px;
-  position: relative;
-  top: 35px;
-  padding-top: 110px;
-  overflow-y: scroll;
-  max-height: calc(100vh - 145px);
+  margin-top: 80px;
+  padding-bottom: 100px;
 }
 header {
-  color: white;
-  background-color: cadetblue;
+  position: fixed;
+  top: 0px;
+  z-index: 2;
+  background-color: white;
+}
+header .inner {
+  color: black;
   z-index: 50;
-  text-align: center;
-  padding-left: 10px;
-  padding-right: 10px;
+  text-align: right;
   line-height: 30px;
   box-sizing: border-box;
-  position: fixed;
-  width: 100%;
   left: 0px;
   font-size: 80%;
+  width: 500px;
+  max-width: 100%;
+  margin: auto;
+}
+header nav {
+  text-align: right;
 }
 header a {
   text-decoration: none;
@@ -120,20 +115,18 @@ header a {
 header b {
   text-transform: uppercase;
 }
-#tags_tag {
-  width: 200px
-}
-header a img {
-  max-width: 100%;
-  height: 20px;
-  width: auto;
-  vertical-align: middle;
+#posting {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
 }
 #postmessage {
+  border-style: none;
   position: relative;
-  margin: 0px;
+  margin: auto;
+  width: 500px;
   height: 100px;
-  top: 30px;
 }
 #postmessage textarea {
   height: 70%;
@@ -141,24 +134,12 @@ header a img {
 }
 #postmessage button {
   height: 30%;
-  border: solid #333333;
-  border-width: 4px 0 0 0;
-  outline: 0px;
-  background-color: white;
+  border-style: none;
   color: #333333;
   font-size: 1rem;
   cursor: pointer;
 }
-#tag-container {
-  z-index: 1;
-  position: absolute;
-  left: 0px;
-  top: 30px;
-  width: 100%;
-  text-align: center;
-}
 .tag {
-  opacity: 0.95;
   position: relative;
 }
 .tag a {
@@ -170,20 +151,31 @@ header a img {
   left: 0px;
   color: transparent !important;
 }
-.tagsinput {
-  background-image: url("/icons/filterheader.svg") !important;
+div.tagsinput {
+  border-style: solid;
+  border-color: black;
+  border-width: 0.5px;
+  color: white;
   background-size: contain !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  opacity: 0.95;
-  max-width: 500px;
-  display: inline-block;
+  width: 500px !important;
+  max-width: 100%;
+  margin: auto;
+}
+div.tagsinput input {
+  font-size: 1rem !important;
 }
 .message-wrapper {
+  position: relative;
+  padding: 10px;
+  margin-bottom: 10px;
+  padding-bottom: 20px;
+  display: block;
+  list-style: none;
   background-color: white;
-}
-.message-wrapper.private {
-  /*  background-color: palegreen;*/
+  border-style: solid;
+  border-width: 0.5px;
 }
 .message-audience {
   padding-top: 15px;
@@ -226,7 +218,7 @@ header a img {
 .message {
   overflow-x: hidden;
   line-height: 1.4em;
-  font-family: georgia;
+  font-family: "fira";
   padding: 10px 0 10px 0;
   width: 100%;
   font-size: 1.2em;
@@ -248,19 +240,15 @@ button {
   text-align: center;
   padding-left: 10px;
   padding-right: 10px;
+  background-color: white;
   box-sizing: border-box;
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: #333333;
   z-index: 10;
   padding-top: 50px;
 }
-.form-block p {
-  color: white;
-}
 a.close {
-  color: white;
   text-align: center;
   display: block;
 }
@@ -274,8 +262,7 @@ a.close {
 .form-block h1,
 .form-block h2,
 .form-block label {
-  color: white;
-  font-family: "georgia"
+  font-family: "fira"
 }
 .form-block input[type=submit] {
   color: black;
@@ -325,9 +312,6 @@ form p {
 .removeChannel {
   background: red;
   color: white
-}
-div.tagsinput input {
-  font-size: 1rem !important;
 }
 .fileUpload {
   position: relative;

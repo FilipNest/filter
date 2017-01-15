@@ -582,7 +582,7 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
   // Sanitise
 
   message.words = sanitizeHtml(message.words, {
-    allowedTags: ['i', 'em'],
+    allowedTags: [],
     allowedAttributes: {}
   });
 
