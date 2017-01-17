@@ -107,6 +107,7 @@ header .inner {
   margin: auto;
 }
 header nav {
+  padding: 10px;
   text-align: right;
 }
 header a {
