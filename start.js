@@ -241,7 +241,15 @@ passport.deserializeUser(function (id, done) {
     username: id
   }).then(function (data) {
 
-    done(null, data[0]);
+    if (data.length) {
+
+      done(null, data[0]);
+
+    } else {
+
+      done(false, null);
+
+    }
 
   }, function (fail) {
 

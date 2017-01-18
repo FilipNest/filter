@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  // Popup theme
+
+  vex.defaultOptions.className = 'vex-theme-plain';
+
+
   $("#postmessage").submit(function (e) {
 
     var form = document.querySelector('#postmessage');
@@ -44,25 +49,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $("#authCodeReveal").click(function (event) {
 
-    var password = prompt("Enter your password to get the API code");
+    vex.dialog.open({
+      "message": "Enter your password to get the API code",
+      input: "<input type='password' name='password'/>",
+      callback: function (password) {
 
-    $.post("/meta/getAuthCode", {
-        password: password
-      })
-      .done(function (data) {
+        if (password) {
 
-        if (data === "error") {
+          $.post("/meta/getAuthCode", {
+              password: password.password
+            })
+            .done(function (data) {
 
-          alert("Wrong info");
+              if (data === "error") {
 
-        } else {
+                vex.dialog.alert("Wrong info");
 
-          $("#authCodeReveal").hide();
-          $(".authcode").show().html(data);
+              } else {
+                $("#authCodeReveal").hide();
+                $(".authcode").show().html(data);
+
+              }
+
+            });
 
         }
-
-      });
+      }
+    });
 
     event.preventDefault;
     return false;
@@ -161,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var currentTags = $('#tags').val();
 
     currentTags = currentTags.split("#").join("");
-    
+
     document.title = "| Filters | " + currentTags;
 
     jQuery.get("/meta/refresh/" + currentTags, function (result) {
