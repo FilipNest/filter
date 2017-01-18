@@ -4,6 +4,12 @@
   font-weight: normal;
   font-style: normal;
 }
+html {
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
 * {
   box-sizing: border-box !important;
   max-width: 100%;
@@ -123,7 +129,7 @@ header b {
   left: 0px;
 }
 #postmessage {
-  border-style:none;
+  border-style: none;
   border-color: #333333;
   position: relative;
   margin: auto;
@@ -140,7 +146,7 @@ header b {
   color: white;
   font-size: 1rem;
   cursor: pointer;
-  background-color:#333333;
+  background-color: #333333;
 }
 .tag {
   position: relative;
