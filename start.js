@@ -492,7 +492,11 @@ app.post("/meta/newUser", function (req, res) {
 
           req.session.user = req.body.username.toLowerCase();
 
-          res.redirect("/");
+          filters.generateAuthCode(req.session.user).then(function () {
+
+            res.redirect("/");
+
+          });
 
         });
 
