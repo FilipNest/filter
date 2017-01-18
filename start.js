@@ -90,15 +90,9 @@ var server = http.createServer(),
   app = express(),
   bodyParser = require('body-parser');
 
-// Local require
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
-var localRequire = function (moduleName) {
-
-  app.use("/" + moduleName, express.static(require.resolve(moduleName)));
-
-};
-
-localRequire("jquery");
+app.use('/vex', express.static(__dirname + '/node_modules/vex-js/dist/'));
 
 var busboy = require('connect-busboy');
 
