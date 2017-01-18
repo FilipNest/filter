@@ -90,6 +90,16 @@ var server = http.createServer(),
   app = express(),
   bodyParser = require('body-parser');
 
+// Local require
+
+var localRequire = function (moduleName) {
+
+  app.use("/" + moduleName, express.static(require.resolve(moduleName)));
+
+};
+
+localRequire("jquery");
+
 var busboy = require('connect-busboy');
 
 app.use(busboy({
