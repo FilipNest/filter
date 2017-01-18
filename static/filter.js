@@ -7,8 +7,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#login").click(function () {
 
     vex.dialog.open({
-      "message": "Enter your password to get the API code",
-      input: "<input type='text' name='username'/><br /><input type='password' name='password'/>",
+      "message": "Login",
+      input: "<input type='text' placeholder='username or email' name='username'/><br /><input type='password' placeholder='password' name='password'/>",
       callback: function (response) {
 
         if (response.password) {
@@ -22,6 +22,40 @@ document.addEventListener("DOMContentLoaded", function (event) {
               if (data === "error") {
 
                 vex.dialog.alert("Wrong info");
+
+              } else {
+
+                window.location.href = window.location.href;
+
+              }
+
+            });
+
+        }
+      }
+    });
+
+  })
+
+  $("#register").click(function () {
+
+    vex.dialog.open({
+      "message": "Register for an account",
+      input: "<input type='email' placeholder='email' name='email'/><br /><input placeholder='username' type='text' name='username'/><br /><input type='password' name='password'/>",
+      callback: function (response) {
+
+        if (response.password) {
+
+          $.post("/meta/newuser", {
+              username: response.username,
+              password: response.password,
+              email: response.email
+            })
+            .done(function (data) {
+
+              if (data.error) {
+
+                vex.dialog.alert(data.error);
 
               } else {
 

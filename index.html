@@ -34,7 +34,7 @@
         {{#unless req.session.user}}
 
 
-        <a id="login">Login</a> | <a href="#register">Register</a> {{else}}
+        <a id="login">Login</a> | <a id="register">Register</a> {{else}}
 
         <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
@@ -55,55 +55,6 @@
     }
 
   </style>
-
-  <section class="form-block" id="login">
-
-    <a class="close" href="#">Back</a>
-
-    <form action="/meta/login" method="post">
-      <h2>Sign in</h2>
-      <div>
-        <label>Username/email:</label>
-        <input type="text" name="username" />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password" />
-      </div>
-      <div>
-        <input type="submit" value="Sign In" />
-      </div>
-    </form>
-
-  </section>
-
-  <section class="form-block" id="register">
-
-    <a class="close" href="#">Back</a>
-
-    <form action="/meta/newUser" method="post">
-      <h2>Create a new account</h2>
-      <div>
-        <label>Username:</label>
-        <p>Letters and numbers only please.</p>
-        <input type="text" name="username" />
-      </div>
-      <div>
-        <label>Email:</label>
-        <p>For forgot password reminders once they're implemented. Nothing else. Kept secret.</p>
-        <input type="email" name="email" />
-      </div>
-      <div>
-        <label>Password:</label>
-        <p>Hashed and stored securely but as this is an experimental app, please use something you don't use elsewhere.</p>
-        <input type="password" name="password" />
-      </div>
-      <div>
-        <input type="submit" value="Register" />
-      </div>
-    </form>
-
-  </section>
 
   {{else}}
 

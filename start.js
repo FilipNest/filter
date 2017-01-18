@@ -430,17 +430,21 @@ app.post("/meta/newUser", function (req, res) {
 
   if (!req.body.username || !req.body.password || !req.body.email) {
 
-    req.flash("error", "Please fill in all registration fields");
+    res.json({
+      "error": "Please fill in all registration fields"
+    });
 
-    return res.redirect("/");
+    return false;
 
   }
 
   if (!/^[a-z0-9]+$/i.test(req.body.username)) {
 
-    req.flash("error", "Only letters and numbers in usernames please");
+    res.json({
+      "error": "Only letters and numbers in usernames please"
+    });
 
-    return res.redirect("/");
+    return false;
 
   };
 
@@ -458,15 +462,19 @@ app.post("/meta/newUser", function (req, res) {
 
       if (user[0].email === req.body.email) {
 
-        req.flash("error", "Email already in use.");
+        res.json({
+          "error": "Email address already in use"
+        });
 
       } else {
 
-        req.flash("error", "Username " + req.body.username + " already in use.");
+        res.json({
+          "error": "Username already in use"
+        });
 
       }
 
-      return res.redirect("/");
+      return false;
 
     }
 
@@ -495,7 +503,12 @@ app.post("/meta/newUser", function (req, res) {
           filters.generateAuthCode(req.session.user).then(function (data) {
 
             req.session.authCode = data.authCode;
-            res.redirect("/");
+
+            res.json({
+              "message": "OK"
+            });
+
+            return false;
 
           });
 
