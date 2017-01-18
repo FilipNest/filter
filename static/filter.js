@@ -4,6 +4,38 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   vex.defaultOptions.className = 'vex-theme-plain';
 
+  $("#login").click(function () {
+
+    vex.dialog.open({
+      "message": "Enter your password to get the API code",
+      input: "<input type='text' name='username'/><br /><input type='password' name='password'/>",
+      callback: function (response) {
+
+        if (response.password) {
+
+          $.post("/meta/login", {
+              username: response.username,
+              password: response.password
+            })
+            .done(function (data) {
+
+              if (data === "error") {
+
+                vex.dialog.alert("Wrong info");
+
+              } else {
+
+                window.location.href = window.location.href;
+
+              }
+
+            });
+
+        }
+      }
+    });
+
+  })
 
   $("#postmessage").submit(function (e) {
 

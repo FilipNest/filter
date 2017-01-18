@@ -499,7 +499,6 @@ app.post("/meta/newUser", function (req, res) {
 
           });
 
-
         });
 
       }
@@ -1476,13 +1475,25 @@ app.post("/points/:message", function (req, res) {
 
 });
 
-app.post('/meta/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/',
-    failureFlash: true
-  })
-);
+app.post('/meta/login', function (req, res, next) {
+  passport.authenticate('local', function (err, user, info) {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      res.send("error");
+    } else {
+
+      req.logIn(user, function (err) {
+        if (err) {
+          return next(err);
+        }
+        return res.send("ok");
+      });
+
+    }
+  })(req, res, next);
+});
 
 
 app.post("/meta/getAuthCode", function (req, res) {
