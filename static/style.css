@@ -9,7 +9,6 @@ html {
   background-size: cover;
   background-repeat: no-repeat;
 }
-
 * {
   box-sizing: border-box !important;
   max-width: 100%;
@@ -113,8 +112,14 @@ header .inner {
   margin: auto;
 }
 header nav {
-  padding: 5px;
+  padding: 10px;
   text-align: right;
+  line-height: 25px;
+}
+header nav img {
+  vertical-align:bottom;
+  height: 25px;
+  width: auto;
 }
 header a {
   text-decoration: none;
