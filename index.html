@@ -36,7 +36,8 @@
 
         <a id="login">Login</a> | <a id="register">Register</a> {{else}}
 
-        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
+        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> |
+        <a id="userFilters"><img src="/icons/filter.svg" /></a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
       </nav>
 
@@ -61,18 +62,6 @@
   <section class="form-block" id="settings">
 
     <a class="close" href="#">Back</a>
-
-    <form action="/meta/userfilters" method="post">
-      <h2>Settings</h2>
-      <div>
-        <label>Personal filters:</label>
-        <p>Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc) only takes special filters (the ones with = in them). Comma seperated.</p>
-        <textarea type="text" name="filters" placeholder="E.g minpoints=0">{{req.session.filters}}</textarea>
-      </div>
-      <div>
-        <input type="submit" value="Submit" />
-      </div>
-    </form>
 
     <form action="/meta/userchannels" method="post">
       <div>
@@ -133,6 +122,10 @@
   </script>
 
   {{/if}}
+
+  <script>
+    window.userFilters = "{{req.session.filters}}";
+  </script>
 
   <script src="/filter.js"></script>
   <script src="/vex/js/vex.combined.min.js"></script>

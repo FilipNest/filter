@@ -71,6 +71,37 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   })
 
+  $("#userFilters").click(function () {
+
+    vex.dialog.open({
+      "message": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc) only takes special filters (the ones with = in them). Comma seperated.",
+      input: '<textarea type="text" name="filters" placeholder="e.g. minpoints=0">' + window.userFilters + '</textarea>',
+      callback: function (response) {
+
+        if (response.filters) {
+
+          $.post("/meta/userfilters", {
+              filters: response.filters
+            })
+            .done(function (data) {
+
+              if (data.error) {
+
+                vex.dialog.alert(data.error);
+
+              } else {
+
+                window.location.href = window.location.href;
+
+              }
+
+            });
+        }
+      }
+    });
+
+  })
+
   $("#postmessage").submit(function (e) {
 
     var form = document.querySelector('#postmessage');
