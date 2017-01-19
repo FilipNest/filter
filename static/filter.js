@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       input: '<textarea type="text" name="filters" placeholder="e.g. minpoints=0">' + window.userFilters + '</textarea>',
       callback: function (response) {
 
-        if (response.filters) {
+        if (response) {
 
           $.post("/meta/userfilters", {
               filters: response.filters
