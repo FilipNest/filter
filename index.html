@@ -36,8 +36,8 @@
 
         <a id="login">Login</a> | <a id="register">Register</a> {{else}}
 
-        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> |
-        <a id="userFilters"><img src="/icons/filter.svg" /></a> | <a href="#settings">Settings</a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
+        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> <a href="@{{req.session.user}},!author={{req.session.user}}"> <img src="/icons/mentions.svg"/> </a>
+        <a id="userFilters"><img src="/icons/filter.svg" /></a> <a href="#settings"><img src="/icons/settings.svg"/></a>{{/unless}} | <a href="https://github.com/FilipNest/filters/blob/master/readme.md">?</a>
 
       </nav>
 

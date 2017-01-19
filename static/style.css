@@ -117,8 +117,10 @@ header nav {
   line-height: 25px;
 }
 header nav img {
-  vertical-align:bottom;
+  vertical-align: bottom;
   height: 25px;
+  margin-left: 2px;
+  margin-right: 2px;
   width: auto;
 }
 header a {
