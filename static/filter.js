@@ -228,9 +228,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.scrollTop = function () {
 
-    $("html, body").animate({
-      scrollTop: $(document).height()
-    }, 200);
+    $('body').imagesLoaded(function () {
+      $("html, body").scrollTop($(document).height());
+    })
 
   };
 

@@ -94,6 +94,8 @@ app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use('/vex', express.static(__dirname + '/node_modules/vex-js/dist/'));
 
+app.use('/imagesloaded', express.static(__dirname + '/node_modules/imagesloaded/'));
+
 var busboy = require('connect-busboy');
 
 app.use(busboy({
