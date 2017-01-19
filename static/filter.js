@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   // Popup theme
 
-  vex.defaultOptions.className = 'vex-theme-plain';
+  vex.defaultOptions.className = 'vex-theme-top';
 
   $("#login").click(function () {
 
