@@ -113,5 +113,3 @@ Filters is released under the ISC license.
 * Filter icon by Ismael Ruiz
 * Picture icon by Suavis
 * Lock icon by Edward Boatman
-* @ icon by Icon Island
-* Settings cog by Aya Sofya
