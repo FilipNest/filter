@@ -90,7 +90,7 @@ button:disabled:hover {
 }
 ul#chat {
   padding: 0px;
-  margin-top: 100px;
+  margin-top: 120px;
   padding-bottom: 84px;
 }
 header {
@@ -112,15 +112,15 @@ header .inner {
   margin: auto;
 }
 header nav {
-  padding: 10px;
+  padding: 15px;
   text-align: right;
   line-height: 25px;
 }
 header nav img {
   vertical-align: bottom;
   height: 25px;
-  margin-left: 2px;
-  margin-right: 2px;
+  margin-left: 5px;
+  margin-right: 5px;
   width: auto;
 }
 header a {
