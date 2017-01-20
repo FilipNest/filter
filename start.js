@@ -1149,6 +1149,8 @@ app.get("/:tags?", function (req, res) {
   req.session.errors = req.flash('error');
 
   filters.apiCall(req).then(function () {
+    
+    console.log("hi");
 
     messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
