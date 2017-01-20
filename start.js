@@ -1150,9 +1150,9 @@ app.get("/:tags?", function (req, res) {
 
   filters.apiCall(req).then(function () {
     
-    console.log("hi");
-
     messagesFromTags(req.params.tags, req.session).then(function (messages) {
+      
+      console.log(messages.length);
 
       if (req.query.format === "json") {
 
