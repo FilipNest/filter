@@ -296,6 +296,9 @@ filters.apiCall = function (req) {
         req.session.authCode = user.authCode;
 
         req.session.filters = user.filters;
+        
+        // This is odd for API call. Could cause channel feedback?
+        
         req.session.channels = formatChanels(user.channels);
 
         resolve();
@@ -363,7 +366,7 @@ app.post("/meta/userchannels", function (req, res) {
 
       var number = field.replace("channel-number-", "");
 
-      if (!req.body["channel-code-" + number]) {
+      if (!req.body["channel-code-" + number] && req.session.channels[number]) {
 
         req.body["channel-code-" + number] = req.session.channels[number].code;
 

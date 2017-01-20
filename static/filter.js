@@ -102,6 +102,28 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   })
 
+  $("#channelsMenu").click(function () {
+
+    vex.dialog.open({
+      "message": "Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there.",
+      input: $("#channelsForm").html(),
+      callback: function (response) {
+
+        if (response) {
+
+          $.post("/meta/userchannels", response)
+            .done(function (data) {
+
+              window.location.href = window.location.href;
+
+            });
+
+        }
+      }
+    });
+
+  })
+
   $("#postmessage").submit(function (e) {
 
     var form = document.querySelector('#postmessage');
@@ -144,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   })
 
-  $("#authCodeReveal").click(function (event) {
+  $("body").on("click", ".authCodeReveal", function (event) {
 
     vex.dialog.open({
       "message": "Enter your password to get the API code",
@@ -179,11 +201,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   })
 
-  $(".addChannel").click(function (event) {
+  $("body").on("click", ".addChannel", function (event) {
 
-    var number = $("#channelList").find(".channel").length;
+    var number = $(".channelList").find(".channel").length;
 
-    $("#channelList").append('<fieldset class="channel"><input type="text" name="channel-number-' + number + '" placeholder="http://..." /><input type="password" name="channel-code-' + number + '" value="" placeholder="Set authcode" /><button class="removeChannel">Remove</button></fieldset>');
+    $(".channelList").append('<fieldset class="channel"><input type="text" name="channel-number-' + number + '" placeholder="http://..." /><input type="password" name="channel-code-' + number + '" value="" placeholder="Set authcode" /><button class="removeChannel">Remove</button></fieldset>');
 
     event.preventDefault();
 
@@ -191,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
-  $("#channelList").on("click", ".removeChannel", function (event) {
+  $("body").on("click", ".removeChannel", function (event) {
 
     var input = $(event.target).parent().remove();
 
