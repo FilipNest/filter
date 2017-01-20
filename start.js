@@ -296,9 +296,9 @@ filters.apiCall = function (req) {
         req.session.authCode = user.authCode;
 
         req.session.filters = user.filters;
-        
+
         // This is odd for API call. Could cause channel feedback?
-        
+
         req.session.channels = formatChanels(user.channels);
 
         resolve();
@@ -995,6 +995,12 @@ var messagesFromTags = function (tags, session) {
 
                   var fetchedMessages = JSON.parse(str);
 
+                  fetchedMessages = fetchedMessages.filter(function (message) {
+
+                    return message && message.words;
+
+                  })
+
                   if (fetchedMessages.length) {
 
                     fetchedMessages.forEach(function (message, index) {
@@ -1010,7 +1016,6 @@ var messagesFromTags = function (tags, session) {
                   }
 
                 } catch (e) {
-
 
                 }
 
@@ -1149,9 +1154,9 @@ app.get("/:tags?", function (req, res) {
   req.session.errors = req.flash('error');
 
   filters.apiCall(req).then(function () {
-    
+
     messagesFromTags(req.params.tags, req.session).then(function (messages) {
-      
+
       if (req.query.format === "json") {
 
         res.json(messages);
