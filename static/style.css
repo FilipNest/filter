@@ -369,3 +369,6 @@ form p {
   background-repeat: no-repeat;
   background-size: 50%;
 }
+body.vex-open {
+  overflow: inherit !important;
+}
