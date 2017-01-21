@@ -4,11 +4,6 @@
   font-weight: normal;
   font-style: normal;
 }
-html {
-  background-attachment: fixed;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
 * {
   box-sizing: border-box !important;
   max-width: 100%;
