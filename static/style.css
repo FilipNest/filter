@@ -286,11 +286,13 @@ a.close {
 }
 #authCodeReveal {
   margin: auto;
+  margin-top: 20px;
   margin-bottom: 20px;
   color: black;
   border-style: solid;
   background-color: white;
-  width: 200px;
+  padding: 10px;
+  width: auto;
 }
 .authCode {
   display: none;
