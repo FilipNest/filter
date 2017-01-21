@@ -292,18 +292,41 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var currentTags = $('#tags').val();
 
+    // Split into words
+
+    currentTags = currentTags.split(",");
+
+    // Remove special filters
+
+    currentTags = currentTags.filter(function (tag) {
+
+      return (tag.indexOf("!") === -1) && (tag.indexOf("=") === -1);
+
+    })
+
     var placeholder = "Write anything ";
 
-    if (currentTags.length) {
+    if (currentTags.length && currentTags[0].length) {
 
-      placeholder += "about " + currentTags;
+      var last = currentTags.pop();
+
+
+      if (currentTags.length) {
+
+        placeholder += "about " + currentTags.join(', ') + ' and ' + last;
+
+      } else {
+
+        placeholder += "about " + last;
+
+      }
 
     }
 
     $("#words").attr("placeholder", placeholder);
 
   };
-  
+
   placeHolderRefresh();
 
   window.refresh = function () {
