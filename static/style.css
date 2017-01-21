@@ -15,6 +15,7 @@ html {
   -webkit-overflow-scrolling: touch;
 }
 .points {
+  width: 20px;
   display: inline-block;
 }
 .icon {
@@ -59,7 +60,7 @@ a:visited {
   top: 6px;
   right: 0px;
   box-sizing: border-box;
-  width: 100px;
+  width: 120px;
 }
 .vote button {
   margin: auto;
