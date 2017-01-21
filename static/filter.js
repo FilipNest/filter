@@ -250,6 +250,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   window.scrollTop = function () {
 
+    $("html, body").scrollTop($(document).height());
+
     $('body').imagesLoaded(function () {
       $("html, body").scrollTop($(document).height());
     })
