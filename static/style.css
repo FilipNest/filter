@@ -136,24 +136,16 @@ header b {
   left: 0px;
 }
 #postmessage {
+  background-color: white;
   border-style: none;
   border-color: #333333;
   position: relative;
   margin: auto;
   width: 500px;
-  height: 100px;
 }
 #postmessage textarea {
-  height: 70%;
-  width: calc(100% - 40px);
-}
-#postmessage button {
-  height: 30%;
-  border-style: none;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  background-color: #333333;
+  height: 100px;
+  width: 100%;
 }
 .tag {
   position: relative;
@@ -344,20 +336,25 @@ form p {
   opacity: 0;
   filter: alpha(opacity=0);
 }
-.fileUpload {
-  background-image: url("icons/image.svg");
-  position: absolute;
+.send-icon {
+  height: 40px;
   width: 40px;
-  height: 70%;
+  display: inline-block;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
-  padding: 5px;
-  right: 0px;
-  color: white;
-  background-color: #333333;
   cursor: pointer;
-  top: 0px;
+}
+#postmessage button {
+  float: right;
+  width: 100px;
+  border-style: none;
+  color: white;
+  font-size: 1rem;
+  background-color: #333333;
+}
+.fileUpload {
+  background-image: url("icons/image.svg");
 }
 #filters {
   width: 50px;
