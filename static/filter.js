@@ -288,9 +288,29 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   };
 
+  window.placeHolderRefresh = function () {
+
+    var currentTags = $('#tags').val();
+
+    var placeholder = "Write anything ";
+
+    if (currentTags.length) {
+
+      placeholder += "about " + currentTags;
+
+    }
+
+    $("#words").attr("placeholder", placeholder);
+
+  };
+  
+  placeHolderRefresh();
+
   window.refresh = function () {
 
     var currentTags = $('#tags').val();
+
+    placeHolderRefresh();
 
     currentTags = currentTags.split("#").join("");
 
