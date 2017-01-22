@@ -1,5 +1,24 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  // Detect commas or spaces in tag field
+
+  $("body").on("keyup", "#tags_tag", function (event) {
+
+    if (event.keyCode == 32 || event.keyCode == 44) {
+
+      var e = $.Event("keypress", {
+        which: 13,
+        keyCode: 13
+      });
+      $("#tags_tag").trigger(e);
+
+      event.preventDefault();
+
+    }
+
+  });
+
+
   // Popup theme
 
   vex.defaultOptions.className = 'vex-theme-top';
@@ -581,14 +600,15 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $("#words").focus();
 
-  document.getElementById("words").onkeyup = function (e) {
-    e = e || event;
-    if (e.keyCode === 13 && !e.shiftKey) {
+  if (document.getElementById("words")) {
+    document.getElementById("words").onkeyup = function (e) {
+      e = e || event;
+      if (e.keyCode === 13 && !e.shiftKey) {
 
-      $("#postmessage").submit();
+        $("#postmessage").submit();
 
-    }
-    return true;
-  };
-
+      }
+      return true;
+    };
+  }
 });
