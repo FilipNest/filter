@@ -695,7 +695,7 @@ filters.specialFilters["minpoints"] = {
 
 filters.specialFilters["author"] = {
 
-  or: true,
+  or: false,
   fetch: function (value) {
 
     return {
@@ -711,7 +711,7 @@ filters.specialFilters["author"] = {
 };
 
 filters.specialFilters["upvoted"] = {
-  or: true,
+  or: false,
   fetch: function (value) {
 
     return {
@@ -729,7 +729,7 @@ filters.specialFilters["upvoted"] = {
 };
 
 filters.specialFilters["downvoted"] = {
-  or: true,
+  or: false,
   fetch: function (value) {
 
     return {
