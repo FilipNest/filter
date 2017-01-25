@@ -129,8 +129,8 @@ document.addEventListener("DOMContentLoaded", function (event) {
       })
 
       form += "<fieldset class='filterBox'>";
-      form += "<button class='positive switch'>Include</button>";
       form += "<label>" + key + "</label>";
+      form += "<button class='positive switch'>Include</button>";
 
       form += '<textarea class="positive" name="+' + key + '">' + positive.map(function (item) {
         return item.value
