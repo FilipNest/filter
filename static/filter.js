@@ -1,5 +1,25 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  if (window.loggedIn) {
+
+    // Request permission for notifactions if not granted
+
+    if (Notification.permission === "granted") {
+
+      window.notifyOn = true;
+
+    } else if (Notification.permission !== 'denied') {
+
+      Notification.requestPermission(function (permission) {
+        if (permission === "granted") {
+          window.notifyOn = true;
+        }
+      });
+
+    }
+
+  }
+
   window.filterCategories = {
     "tags": [],
     "author": [],
@@ -263,9 +283,9 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#userFilters").click(function () {
 
     // Format userfilters
-    
+
     var form = window.friendlyFilters($("<textarea/>").html(window.userFilters).text());
-    
+
     vex.dialog.open({
       "message": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc).",
       input: form,
@@ -274,7 +294,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
         if (response) {
 
           window.parseFriendlyFilters(response, function (filters) {
-            
+
             $.post("/meta/userfilters", {
                 filters: filters
               })
@@ -673,7 +693,14 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           if (message.type === "mention") {
 
-            //Mentioned
+            if (message.message.author !== window.loggedIn) {
+
+              new Notification("Mentioned by " + message.message.author, {
+                body: message.message.words,
+                icon: "/icons/favicon.png"
+              });
+
+            }
 
           } else if (message.type === "points") {
 
