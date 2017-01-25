@@ -370,6 +370,7 @@ form p {
   background-image: url("icons/image.svg");
 }
 #filters {
+  cursor: pointer;
   width: 50px;
   height: 100%;
   border-style: none;
