@@ -1,8 +1,8 @@
 # Filters
 
-_Experimental development site currently at [filters.social](https://filters.social). Feedback/help hugely appreciated._
+Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points (votes) the post has and more.
 
-Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points the post has and more.
+_Don't like reading instructions? Go to [filters.social](https://filters.social), register and/or hit the filter button to play around. Post, read and then come back here to help make this better._
 
 You can switch contexts easily by typing tags into a big context box at the top of the page but can also set default contexts and filters for yourself to only show content by specific users (or not by specific users) or content that has a certain amount of points throughout the whole system.
 
@@ -88,6 +88,7 @@ Put in a file called `config.json` and in it (JSON format) put the following opt
 * secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
 * pageSize - how many messages to show in one page.
 * database - the name of a JavaScript file to handle database queries/storage. Look at nedb.js for example functions.
+* fileSize - Max file upload size in bytes
 
 ## JSON feed of messages
 
