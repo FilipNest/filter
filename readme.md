@@ -2,33 +2,6 @@
 
 Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised.
 
-<!-- toc -->
-
-- [Quick start!](#quick-start)
-- [Main, slower about](#main-slower-about)
-  * [Automatically added tags](#automatically-added-tags)
-  * [Manually adding tags](#manually-adding-tags)
-  * [Points](#points)
-  * [Special filters](#special-filters)
-  * [Navigating through a message](#navigating-through-a-message)
-  * [Channels](#channels)
-  * [Formatting messages](#formatting-messages)
-- [Author's reasons for making this](#authors-reasons-for-making-this)
-  * [1) Context and control over what's on your feed](#1-context-and-control-over-whats-on-your-feed)
-  * [2) Decentralisation](#2-decentralisation)
-- [Developer instructions](#developer-instructions)
-- [Deploying Filters yourself](#deploying-filters-yourself)
-  * [The config file](#the-config-file)
-- [JSON feed of messages](#json-feed-of-messages)
-- [Help!](#help)
-- [License](#license)
-- [Credits](#credits)
-  * [Font](#font)
-  * [Libraries](#libraries)
-  * [Icons (via Noun Project)](#icons-via-noun-project)
-
-<!-- tocstop -->
-
 ## Quick start!
 
 * [filters.social](https://filters.social)
