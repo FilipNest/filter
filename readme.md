@@ -1,6 +1,6 @@
 # Filters
 
-Social messaging based around context, people and quality filters. Free and open source. Decentralised.
+Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised.
 
 ## Quick start!
 
