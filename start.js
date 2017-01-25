@@ -101,7 +101,7 @@ var busboy = require('connect-busboy');
 app.use(busboy({
   limit: {
     files: 1,
-    fileSize: 3000
+    fileSize: filters.config.fileSize || 3000
   }
 }));
 
@@ -625,9 +625,9 @@ var messageParse = function (rawMessage, currentTags, currentUser) {
 
   message.words = message.words.split("@@").join("@PRIVATEPRIVATEPRIVATE");
 
-  if (message.file) {
+  if (message.file && message.file.path) {
 
-    message.words += "<img class='' src='" + message.file + "'/>";
+    message.words += "<img alt='" + message.file.alt + "' class='' src='" + message.file.path + "'/>";
 
   }
 
@@ -1709,7 +1709,10 @@ app.post("/:tags?", function (req, res) {
     var message = {
       words: req.body.words,
       author: req.session.user,
-      file: req.body.file,
+      file: {
+        path: req.body.file,
+        alt: req.body.fileAlt
+      },
       id: "msg-" + id,
       date: Date.now(),
       tags: tags,

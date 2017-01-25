@@ -334,9 +334,14 @@ form p {
   opacity: 0;
   filter: alpha(opacity=0);
 }
+.send-icon.done {
+  border-color: black;
+}
 .send-icon {
-  height: 40px;
-  width: 40px;
+  border-style: solid;
+  border-color: transparent;
+  height: 28px;
+  width: 28px;
   display: inline-block;
   background-size: contain;
   background-position: center;

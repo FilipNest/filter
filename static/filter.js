@@ -18,7 +18,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   });
 
-
   // Popup theme
 
   vex.defaultOptions.className = 'vex-theme-top';
@@ -171,11 +170,32 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     var file = this.files[0];
 
+    if (!file) {
+
+      $(".fileUpload").removeClass('done');
+      $(".fileUpload").css('background-image', '');
+
+    }
+
     var reader = new FileReader();
 
     reader.addEventListener("load", function () {
 
+      vex.dialog.prompt({
+        "unsafeMessage": "<img class='preview' src='" + reader.result + "'><p>Describe this image (alt text)</p>",
+        callback: function (data) {
+
+          if (data) {
+
+            $("#fileAlt").val(data);
+
+          }
+
+        }
+      })
+
       $(".fileUpload").css('background-image', 'url("' + reader.result + '")');
+      $(".fileUpload").addClass('done');
 
     }, false);
 
