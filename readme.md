@@ -107,6 +107,14 @@ Filters is released under the ISC license.
 
 ## Credits
 
+### Font
+
+The main font used by Filters is [Fira Sans](https://github.com/mozilla/Fira).
+
+### Libraries
+
+See `package.json` file for libraries used. Additionally using a fork of [jQuery Tags Input](https://github.com/xoxco/jQuery-Tags-Input). 
+
 ### Icons (via Noun Project)
 
 * Reply icon by Jan-Christoph Borchardt
