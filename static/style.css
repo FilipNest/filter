@@ -290,7 +290,7 @@ a.close {
   margin: auto;
   max-width: 100%;
 }
-#authCodeReveal {
+.authCodeReveal {
   margin: auto;
   margin-top: 20px;
   margin-bottom: 20px;
