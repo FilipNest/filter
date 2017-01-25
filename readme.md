@@ -15,7 +15,7 @@ Social messaging/chat based around context, people and quality filters. Free and
 * You can set global filters for your username to filter out stuff regardless of current context.
 * You can listen to other instances of filters (that's the decentralised part).
 
-## Main, slower about
+## Main, slower, about
 
 Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points (votes) the post has and more.
 
