@@ -693,7 +693,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           if (message.type === "mention") {
 
-            if (message.message.author !== window.loggedIn) {
+            if (message.message.author !== window.loggedIn && !document.hasFocus()) {
 
               new Notification("Mentioned by " + message.message.author, {
                 body: message.message.words,
