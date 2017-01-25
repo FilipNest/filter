@@ -393,6 +393,8 @@ body.vex-open {
   padding: 10px;
 }
 .switch {
+  border-style: none;
+  cursor: pointer;
   padding: 10px;
   color: white;
 }
