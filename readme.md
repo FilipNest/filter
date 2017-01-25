@@ -1,8 +1,23 @@
 # Filters
 
-Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points (votes) the post has and more.
+Social messaging based around context, people and quality filters. Free and open source. Decentralised.
 
-_Don't like reading instructions? Go to [filters.social](https://filters.social), register and/or hit the filter button to play around. Post, read and then come back here to help make this better._
+## Quick start!
+
+* [filters.social](https://filters.social)
+* Register for an account (you can read posts without)
+* Put in tags in the top box to switch contexts.
+* Messages automatically get tagged with the context they're in. Plus things like author and a message id for replies.
+* You can use special filters like `author=` to filter down further. There's a big button to help you with all of these (and they're listed below).
+* All filters/tags can be reversed/negated with an exclamation point `!author=filipnest` or `!poetry`.
+* You can vote on posts. And filter based on who's voted on them using `upvoted=username` and `downvoted=username` filters. Or only show posts that have a certain number of votes with the `minpoints=` filter.
+* `#hashtags` work within messages (the same as switching/adding contexts). As do `@mentions`. `@@username` is a private message.
+* You can set global filters for your username to filter out stuff regardless of current context.
+* You can listen to other instances of filters (that's the decentralised part).
+
+## Main, slower about
+
+Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points (votes) the post has and more.
 
 You can switch contexts easily by typing tags into a big context box at the top of the page but can also set default contexts and filters for yourself to only show content by specific users (or not by specific users) or content that has a certain amount of points throughout the whole system.
 
