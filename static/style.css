@@ -385,3 +385,26 @@ form p {
 body.vex-open {
   overflow: inherit !important;
 }
+.filterBox {
+  text-align: center;
+}
+.filterBox label {
+  display: block;
+  padding: 10px;
+}
+.switch {
+  padding: 10px;
+  color: white;
+}
+.switch.positive {
+  background-color: green
+}
+.switch.negative {
+  background-color: red;
+}
+.switch.positive ~ .negative {
+  display: none;
+}
+.switch.negative ~ .positive {
+  display: none;
+}

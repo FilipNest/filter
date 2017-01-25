@@ -1,5 +1,176 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  window.filterCategories = {
+    "tags": [],
+    "author": [],
+    "minpoints": [],
+    "upvoted": [],
+    "downvoted": []
+  }
+
+  window.parseFriendlyFilters = function (form, callback) {
+
+    var output = [];
+
+    Object.keys(form).forEach(function (key) {
+
+      var negate = 0;
+
+      if (key[0] === "!") {
+
+        negate = 0;
+
+      }
+
+      var type = key.substring(1);
+
+      var values = form[key];
+
+      // Remove whitespace
+
+      values.replace(/\s/g, '');
+
+      var valuesList = values.split(",");
+
+      valuesList.forEach(function (value) {
+
+        var formattedFilter = "";
+
+        if (type === "tags") {
+
+          formattedFilter = value;
+
+        } else {
+
+          formattedFilter = type + "=" + value;
+
+        }
+
+        if (negate) {
+
+          formattedFilter = "!" + formattedFilter;
+
+        }
+
+        output.push(formattedFilter);
+
+      })
+
+    })
+
+    callback(output.join(","));
+
+  }
+
+  window.friendlyFilters = function (filters) {
+
+    var filtersList = filters.split(",");
+
+    filtersList.forEach(function (filter) {
+
+      if (!filter) {
+
+        return false;
+
+      }
+
+      var negate;
+
+      if (filter[0] === "!") {
+
+        filter = filter.substring(1);
+        negate = true;
+
+      }
+
+      if (filter.indexOf("=") !== -1) {
+
+        var parts = filter.split("=");
+
+        var type = parts[0];
+        var value = parts[1];
+
+        if (window.filterCategories[type]) {
+
+          window.filterCategories[type].push({
+            value: value,
+            negate: negate
+          })
+
+        }
+
+      } else {
+
+        window.filterCategories.tags.push({
+          value: filter,
+          negate: negate
+        })
+
+      }
+
+    })
+
+    // Generate form
+
+    var form = "";
+
+    Object.keys(window.filterCategories).forEach(function (key) {
+
+      var positive = window.filterCategories[key].filter(function (item) {
+
+        return !item.negate;
+
+      })
+
+      var negative = window.filterCategories[key].filter(function (item) {
+
+        return item.negate;
+
+      })
+
+      form += "<fieldset class='filterBox'>";
+      form += "<button class='positive switch'>+</button>";
+      form += "<label>" + key + "</label>";
+
+      form += '<textarea class="positive" name="+' + key + '">' + positive.map(function (item) {
+        return item.value
+      }).join(",") + '</textarea>';
+
+      form += '<textarea class="negative" name="!' + key + '">' + negative.map(function (item) {
+        return item.value
+      }).join(",") + '</textarea>';
+
+      form += "</fieldset>";
+
+    })
+
+    return form;
+
+  }
+
+  $("body").on("click", ".switch", function (e) {
+
+    var button = $(e.target);
+
+    button.toggleClass("positive");
+    button.toggleClass("negative");
+
+    if (button.hasClass("positive")) {
+
+      button.html("+");
+
+    } else {
+
+      button.html("-");
+
+    }
+
+    e.preventDefault();
+
+    return false;
+
+  })
+
   // Detect commas or spaces in tag field
 
   $("body").on("keyup", "#tags_tag", function (event) {
@@ -631,4 +802,28 @@ document.addEventListener("DOMContentLoaded", function (event) {
       return true;
     };
   }
+
+  $("#filters").click(function () {
+
+    var currentTags = $('#tags').val();
+
+    // Get form
+    var form = window.friendlyFilters(currentTags);
+
+    vex.dialog.open({
+      message: "Helper for filters",
+      input: form,
+      callback: function (value) {
+
+        window.parseFriendlyFilters(value, function (output) {
+
+          window.location.pathname = output;
+
+        })
+
+      }
+    })
+
+  })
+
 });
