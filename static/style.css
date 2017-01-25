@@ -89,6 +89,16 @@ ul#chat {
   margin-top: 120px;
   padding-bottom: 130px;
 }
+ul#chat + .placeholder {
+  display: none;
+}
+ul#chat:empty + .placeHolder {
+  display: block;
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  top: 0px;
+}
 header {
   position: fixed;
   top: 0px;
