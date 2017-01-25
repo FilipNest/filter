@@ -80,8 +80,7 @@
       </div>
     </form>
 
-  {{/unless}} MESSAGES {{#if req.session.user}}
-  <div class="placeholder">No messages</div>
+  {{/unless}} MESSAGES<div class="placeholder">No messages</div>{{#if req.session.user}}
 
   <section id="posting">
 
