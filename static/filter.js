@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       if (key[0] === "!") {
 
-        negate = 0;
+        negate = true;
 
       }
 
@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       })
 
       form += "<fieldset class='filterBox'>";
-      form += "<button class='positive switch'>+</button>";
+      form += "<button class='positive switch'>Include</button>";
       form += "<label>" + key + "</label>";
 
       form += '<textarea class="positive" name="+' + key + '">' + positive.map(function (item) {
@@ -157,11 +157,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     if (button.hasClass("positive")) {
 
-      button.html("+");
+      button.html("Include");
 
     } else {
 
-      button.html("-");
+      button.html("Exclude");
 
     }
 
@@ -262,29 +262,37 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   $("#userFilters").click(function () {
 
+    // Format userfilters
+    
+    var form = window.friendlyFilters($("<textarea/>").html(window.userFilters).text());
+    
     vex.dialog.open({
-      "message": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc) only takes special filters (the ones with = in them). Comma seperated.",
-      input: '<textarea type="text" name="filters" placeholder="e.g. minpoints=0">' + window.userFilters + '</textarea>',
+      "message": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc).",
+      input: form,
       callback: function (response) {
 
         if (response) {
 
-          $.post("/meta/userfilters", {
-              filters: response.filters
-            })
-            .done(function (data) {
+          window.parseFriendlyFilters(response, function (filters) {
+            
+            $.post("/meta/userfilters", {
+                filters: filters
+              })
+              .done(function (data) {
 
-              if (data.error) {
+                if (data.error) {
 
-                vex.dialog.alert(data.error);
+                  vex.dialog.alert(data.error);
 
-              } else {
+                } else {
 
-                window.location.href = window.location.href;
+                  window.location.href = window.location.href;
 
-              }
+                }
 
-            });
+              });
+
+          })
         }
       }
     });
@@ -811,7 +819,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var form = window.friendlyFilters(currentTags);
 
     vex.dialog.open({
-      message: "Helper for filters",
+      message: "Helper for filters. Toggle include and exclude buttons and put in comma seperated values.",
       input: form,
       callback: function (value) {
 
