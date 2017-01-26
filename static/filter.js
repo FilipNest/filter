@@ -2,7 +2,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   var __ = function (words) {
 
-    return window.translations[words];
+    if (window.translations[words]) {
+      return window.translations[words];
+    } else {
+
+      return words;
+
+    }
 
   };
 
@@ -701,7 +707,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             if (message.message.author !== window.loggedIn && !document.hasFocus()) {
 
-              new Notification(__("Mentioned by") +" "+ message.message.author, {
+              new Notification(__("Mentioned by") + " " + message.message.author, {
                 body: message.message.words,
                 icon: "/icons/favicon.png"
               });
