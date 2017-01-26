@@ -1,3 +1,5 @@
+#! /usr/bin/env node
+
 // Register global object
 
 global.filters = {};
