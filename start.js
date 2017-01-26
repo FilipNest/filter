@@ -18,7 +18,7 @@ filters.config = {
   port: 80,
   database: "db_nedb",
   pageSize: "40",
-  configFile: "config.json",
+  config: "config.json",
   data: __dirname + "/data"
 };
 
@@ -43,12 +43,12 @@ process.argv.forEach(function (val, index, array) {
 
 try {
 
-  Object.assign(filters.config, JSON.parse(fs.readFileSync(filters.config.configFile), "utf8"));
-
+  Object.assign(filters.config, JSON.parse(fs.readFileSync(filters.config.config), "utf8"));
+  
 } catch (e) {
 
   if (e.code && e.code === "ENOENT") {
-
+    
     // File doesn't exist, ignore
 
   } else {
