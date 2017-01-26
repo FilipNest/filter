@@ -90,14 +90,16 @@ Storing all messages on one company's servers means you're forced to follow what
 
 ## Developers
 
-### As a global NPM module
+### Deploying
+
+#### As a global NPM module
 
 * Run `npm install -g filters.social`
 * Run `filters` + optional config parameters
 
 If this doesn't work you may need to run `npm link`.
 
-### From git/files
+#### From git/files
 
 * Clone or download this via git or otherwise
 * Run `npm install` in the root directory to install dependencies
@@ -105,9 +107,9 @@ If this doesn't work you may need to run `npm link`.
 
 ### Config settings
 
-This will run on port 80 and put files and data in an automatically created `/data` directory. You can pass a `config` argument to point to a JSON file with settings. For example `npm start config=myconfig.json`. Or pass these parameters in directly as arguments.
+Launching filters without any config parameters will run a server on port 80 and put files and data in an automatically created `/data` directory. You can pass a `config` argument to point to a JSON file with settings for example `npm start config=myconfig.json` or pass these parameters in directly as arguments.
 
-All of these are optional/have defaults
+All of these options are optional/have defaults
 
 * port - which port should filters run on?
 * secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
