@@ -30,7 +30,16 @@ If this doesn't work you may need to run `npm link`.
 * Run `npm install` in the root directory to install dependencies
 * Run `npm start` + config parameters
 
-This will run on port 80 and put files and data in an automatically created `/data` directory. See config file section lower down for more information on settings you can pass in as arguments. You can pass a `config` argument to point to a JSON file with these set. For example `npm start config=myconfig.json`.
+### Config settings
+
+This will run on port 80 and put files and data in an automatically created `/data` directory. You can pass a `config` argument to point to a JSON file with settings. For example `npm start config=myconfig.json`. Or pass these parameters in directly as arguments.
+
+* port - which port should filters run on?
+* secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
+* pageSize - how many messages to show in one page.
+* database - the name of a JavaScript file to handle database queries/storage. Look at nedb.js for example functions.
+* fileSize - Max file upload size in bytes
+* data - Directory where the database and files will be stored
 
 ## Main, slower, about
 
@@ -102,22 +111,9 @@ Additional filters for things such as who wrote a post, who upvoted/downvoted it
 
 Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This allows you to create copies of the same software (it's free and open source) that support different features or look different but still understand messages from other instances.
 
-## Developer instructions
+## Database
 
-Filters is built using Node.js. It uses the NedB JavaScript database but has a database API so you can slot in other databases if you want.
-
-### The config file
-
-Put in a file called `config.json` and in it (JSON format) put the following options if you want to configure your filters instance:
-
-* port - which port should filters run on?
-* secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
-* pageSize - how many messages to show in one page.
-* database - the name of a JavaScript file to handle database queries/storage. Look at nedb.js for example functions.
-* fileSize - Max file upload size in bytes
-* data - Directory where the database and files will be stored
-
-You can pass any of these as arguments as well so `npm start port=100` for example.
+Filters uses the NedB JavaScript database but has a database API so you can slot in other databases if you want.
 
 ## Translations
 
