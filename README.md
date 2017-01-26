@@ -18,6 +18,7 @@ Social messaging/chat based around context, people and quality filters. Free and
 ## Quick start for developers
 
 * `npm install filters.social`
+* `cd node_modules\filters.social`
 * `npm start`
 
 This will run on port 80 and put files and data in an automatically created `/data` directory. See config file section lower down for more information on settings you can pass in as arguments. You can pass a `config` argument to point to a JSON file with these set. For example `npm start config=myconfig.json`.
