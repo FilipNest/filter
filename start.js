@@ -44,11 +44,11 @@ process.argv.forEach(function (val, index, array) {
 try {
 
   Object.assign(filters.config, JSON.parse(fs.readFileSync(filters.config.config), "utf8"));
-  
+
 } catch (e) {
 
   if (e.code && e.code === "ENOENT") {
-    
+
     // File doesn't exist, ignore
 
   } else {
@@ -74,6 +74,14 @@ Handlebars.registerHelper('json', function (obj) {
   return JSON.stringify(obj);
 });
 
+Handlebars.registerHelper('__', function (words,options) {
+    
+  var translate = options.data.root.res;
+
+  return translate.__(words);
+
+})
+
 var linkify = require('linkifyjs');
 require('linkifyjs/plugins/hashtag')(linkify);
 require('linkifyjs/plugins/mention')(linkify);
@@ -95,6 +103,14 @@ var server = http.createServer(),
   express = require('express'),
   app = express(),
   bodyParser = require('body-parser');
+
+var i18n = require("i18n");
+
+i18n.configure({
+  directory: __dirname + '/locales',
+});
+
+app.use(i18n.init);
 
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
@@ -557,9 +573,9 @@ app.use(function (req, res, next) {
         req.session.channels = formatChanels(doc.channels);
 
       } else {
-        
+
         req.session.user = undefined;
-        
+
       }
 
       next();
@@ -1179,13 +1195,15 @@ app.get("/:tags?", function (req, res) {
       var output = template({
         tagsJSON: req.params.tags,
         tags: req.params.tags ? req.params.tags.split(",") : null,
-        req: req
+        req: req,
+        res: res
       });
 
       var messageBlock = messagesTemplate({
         messages: messages,
         tags: req.params.tags,
-        req: req
+        req: req,
+        res: res
       });
 
       var innerBlock = "";
@@ -1194,7 +1212,8 @@ app.get("/:tags?", function (req, res) {
 
         innerBlock += messageTemplate({
           message: message,
-          session: req.session
+          session: req.session,
+          res: res
         });
 
       });
@@ -1577,7 +1596,8 @@ app.get("/meta/refresh/:tags?", function (req, res) {
 
       innerBlock += messageTemplate({
         message: message,
-        session: req.session
+        session: req.session,
+        res: res
       });
 
     });

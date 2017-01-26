@@ -1,5 +1,5 @@
 <html>
-
+  
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/icons/favicon.png" rel="icon" type="icons/x-icon">
 
@@ -18,7 +18,7 @@
 </head>
 
 <body>
-
+  
   <header>
 
     <div class="inner">
@@ -34,9 +34,9 @@
         {{#unless req.session.user}}
 
 
-        <a id="login">Login</a> | <a id="register">Register</a> {{else}}
+        <a id="login">{{__ "Login"}}</a> | <a id="register">{{__ "Register"}}</a> {{else}}
 
-        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">Mentions</a> | <a id="userFilters">Filters</a> | <a id="channelsMenu">Channels</a>{{/unless}} | <a href="https://github.com/FilipNest/filters.social/blob/master/readme.md">?</a>
+        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">{{__ "Mentions"}}</a> | <a id="userFilters">{{__ "Filters"}}</a> | <a id="channelsMenu">{{__ "Channels"}}</a>{{/unless}} | <a href="https://github.com/FilipNest/filters.social/blob/master/readme.md">?</a>
 
       </nav>
 
