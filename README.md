@@ -19,8 +19,8 @@ Social messaging/chat based around context, people and quality filters. Free and
 
 ### As a global NPM module
 
-* `npm install -g filters.social`
-* `filters` + config parameters
+* Run `npm install -g filters.social`
+* Run `filters` + config parameters
 
 If this doesn't work you may need to run `npm link`.
 
