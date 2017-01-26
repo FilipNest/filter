@@ -1,6 +1,6 @@
 # Filters
 
-Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised.
+Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable.
 
 ## Quick start for users
 
@@ -108,6 +108,10 @@ Put in a file called `config.json` and in it (JSON format) put the following opt
 * data - Directory where the database and files will be stored
 
 You can pass any of these as arguments as well so `npm start port=100` for example.
+
+## Translations
+
+There's a basic locales directory with English at the moment. All the strings should be in there. If you understand another language and would want to contribute pull requests with translations would be amazing.
 
 ## JSON feed of messages
 
