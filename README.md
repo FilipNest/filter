@@ -17,9 +17,18 @@ Social messaging/chat based around context, people and quality filters. Free and
 
 ## Quick start for developers
 
-* `npm install filters.social`
-* `cd node_modules\filters.social`
-* `npm start`
+### As a global NPM module
+
+* `npm install -g filters.social`
+* `filters` + config parameters
+
+If this doesn't work you may need to run `npm link`.
+
+### From git/files
+
+* Clone or download this
+* Run `npm install` in the root directory to install dependencies
+* Run `npm start` + config parameters
 
 This will run on port 80 and put files and data in an automatically created `/data` directory. See config file section lower down for more information on settings you can pass in as arguments. You can pass a `config` argument to point to a JSON file with these set. For example `npm start config=myconfig.json`.
 
