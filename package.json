@@ -30,9 +30,9 @@
     "vex-js": "^3.0.0",
     "ws": "^1.1.1"
   },
-  "bin": {
+  "scripts": {
 
-    "startfilters": "./start.js"
+    "start": "./start.js"
 
   }
 }
