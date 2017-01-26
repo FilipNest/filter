@@ -17,8 +17,10 @@ Social messaging/chat based around context, people and quality filters. Free and
 
 ## Quick start for developers
 
-`npm install filters.social`
-`node start` (will run on port 80 and put files and data in /data directory. See config section lower down for more information on settings you can pass in)
+* `npm install filters.social`
+* `npm start`
+
+This will run on port 80 and put files and data in an automatically created `/data` directory. See config file section lower down for more information on settings you can pass in as arguments. You can pass a `config` argument to point to a JSON file with these set. For example `npm start config=myconfig.json`.
 
 ## Main, slower, about
 
@@ -94,12 +96,6 @@ Storing all messages on one company's servers means you're forced to follow what
 
 Filters is built using Node.js. It uses the NedB JavaScript database but has a database API so you can slot in other databases if you want.
 
-## Deploying Filters yourself
-
-* Git clone or download this.
-* Run `npm install`
-* Run `node start.js`
-
 ### The config file
 
 Put in a file called `config.json` and in it (JSON format) put the following options if you want to configure your filters instance:
@@ -109,6 +105,9 @@ Put in a file called `config.json` and in it (JSON format) put the following opt
 * pageSize - how many messages to show in one page.
 * database - the name of a JavaScript file to handle database queries/storage. Look at nedb.js for example functions.
 * fileSize - Max file upload size in bytes
+* data - Directory where the database and files will be stored
+
+You can pass any of these as arguments as well so `npm start port=100` for example.
 
 ## JSON feed of messages
 
