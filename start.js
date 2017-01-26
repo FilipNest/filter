@@ -74,8 +74,8 @@ Handlebars.registerHelper('json', function (obj) {
   return JSON.stringify(obj);
 });
 
-Handlebars.registerHelper('__', function (words,options) {
-    
+Handlebars.registerHelper('__', function (words, options) {
+
   var translate = options.data.root.res;
 
   return translate.__(words);
@@ -1192,11 +1192,14 @@ app.get("/:tags?", function (req, res) {
 
       }
 
+      var translations = i18n.getCatalog(i18n.getLocale(req));
+
       var output = template({
         tagsJSON: req.params.tags,
         tags: req.params.tags ? req.params.tags.split(",") : null,
         req: req,
-        res: res
+        res: res,
+        translations: translations
       });
 
       var messageBlock = messagesTemplate({

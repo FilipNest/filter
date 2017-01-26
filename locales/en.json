@@ -1,7 +1,23 @@
 {
-	"Login": "Login",
-	"Register": "Register",
-	"Filters": "Filters",
-	"Channels": "Channels",
-	"Mentions": "Mentions"
+  "Login": "Login",
+  "Register": "Register",
+  "Filters": "Filters",
+  "Channels": "Channels",
+  "Mentions": "Mentions",
+  "Get your authcode for this channel": "Get your authcode for this channel",
+  "Add a channel": "Add a channel",
+  "No messages in this context yet": "No messages in this context yet",
+  "Send": "Send",
+  "Include": "Include",
+  "Exclude": "Exclude",
+  "Wrong info": "Wrong info",
+  "Register for an account": "Register for an account",
+  "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc).": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc).",
+  "Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there.": "Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there.",
+  "Describe this image (alt text)": "Describe this image (alt text)",
+  "Enter your password to get the API code": "Enter your password to get the API code",
+  "Write anything": "write anything",
+  "about": "about",
+  "Mentioned by": "Mentioned by",
+  "Helper for filters. Toggle include and exclude buttons and put in comma seperated values.": "Helper for filters. Toggle include and exclude buttons and put in comma seperated values."
 }

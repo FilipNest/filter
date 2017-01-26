@@ -1,5 +1,11 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
+  __ = function (words) {
+
+    return window.translations[words];
+
+  }
+
   if (window.loggedIn) {
 
     // Request permission for notifactions if not granted
@@ -150,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       form += "<fieldset class='filterBox'>";
       form += "<label>" + key + "</label>";
-      form += "<button class='positive switch'>Include</button>";
+      form += "<button class='positive switch'>" + __("Include") + "</button>";
 
       form += '<textarea class="positive" name="+' + key + '">' + positive.map(function (item) {
         return item.value
@@ -177,11 +183,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     if (button.hasClass("positive")) {
 
-      button.html("Include");
+      button.html(__("Include"));
 
     } else {
 
-      button.html("Exclude");
+      button.html(__("Exclude"));
 
     }
 
@@ -216,7 +222,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#login").click(function () {
 
     vex.dialog.open({
-      "message": "Login",
+      "message": __("Login"),
       input: "<input type='text' placeholder='username or email' name='username'/><br /><input type='password' placeholder='password' name='password'/>",
       callback: function (response) {
 
@@ -230,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
               if (data === "error") {
 
-                vex.dialog.alert("Wrong info");
+                vex.dialog.alert(__("Wrong info"));
 
               } else {
 
@@ -249,7 +255,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#register").click(function () {
 
     vex.dialog.open({
-      "message": "Register for an account",
+      "message": __("Register for an account"),
       input: "<input type='email' placeholder='email' name='email'/><br /><input placeholder='username' type='text' name='username'/><br /><input type='password' name='password'/>",
       callback: function (response) {
 
@@ -287,7 +293,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var form = window.friendlyFilters($("<textarea/>").html(window.userFilters).text());
 
     vex.dialog.open({
-      "message": "Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc).",
+      "message": __("Filters that are always applied when you're logged in, useful for blocking specific users, downvoted posts etc)."),
       input: form,
       callback: function (response) {
 
@@ -322,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("#channelsMenu").click(function () {
 
     vex.dialog.open({
-      "message": "Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there.",
+      "message": __("Insert extra URLS you want to listen to messages from. Get an Authcode from the settings page of the channel site itself once logged in there."),
       input: $("#channelsForm").html(),
       callback: function (response) {
 
@@ -381,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     reader.addEventListener("load", function () {
 
       vex.dialog.prompt({
-        "unsafeMessage": "<img class='preview' src='" + reader.result + "'><p>Describe this image (alt text)</p>",
+        "unsafeMessage": "<img class='preview' src='" + reader.result + "'><p>" + __("Describe this image (alt text)") + "</p>",
         callback: function (data) {
 
           if (data) {
@@ -407,7 +413,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
   $("body").on("click", ".authCodeReveal", function (event) {
 
     vex.dialog.open({
-      "message": "Enter your password to get the API code",
+      "message": __("Enter your password to get the API code"),
       input: "<input type='password' name='password'/>",
       callback: function (password) {
 
@@ -544,7 +550,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     })
 
-    var placeholder = "Write anything ";
+    var placeholder = __("Write anything") + " ";
 
     if (currentTags.length && currentTags[0].length) {
 
@@ -553,11 +559,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       if (currentTags.length) {
 
-        placeholder += "about " + currentTags.join(', ') + ' and ' + last;
+        placeholder += __("about") + " " + currentTags.join(', ') + ' & ' + last;
 
       } else {
 
-        placeholder += "about " + last;
+        placeholder += __("about") + " " + last;
 
       }
 
@@ -695,7 +701,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
             if (message.message.author !== window.loggedIn && !document.hasFocus()) {
 
-              new Notification("Mentioned by " + message.message.author, {
+              new Notification(__("Mentioned by") +" "+ message.message.author, {
                 body: message.message.words,
                 icon: "/icons/favicon.png"
               });
@@ -846,7 +852,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var form = window.friendlyFilters(currentTags);
 
     vex.dialog.open({
-      message: "Helper for filters. Toggle include and exclude buttons and put in comma seperated values.",
+      message: __("Helper for filters. Toggle include and exclude buttons and put in comma seperated values."),
       input: form,
       callback: function (value) {
 

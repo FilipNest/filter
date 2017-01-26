@@ -61,7 +61,7 @@
     <form id="channelsForm" style="display:none;">
       <div>
 
-        <button class="authCodeReveal">Get your authcode for this channel</button>
+        <button class="authCodeReveal">{{__ "Get your authcode for this channel"}}</button>
         <div class="authcode"></div>
 
         <div class="channelList">
@@ -76,11 +76,11 @@
 
           {{/each}}
         </div>
-        <button class="addChannel">Add a channel</button>
+        <button class="addChannel">{{__ "Add a channel"}}</button>
       </div>
     </form>
 
-  {{/unless}} MESSAGES<div class="placeholder">No messages in this context yet</div>{{#if req.session.user}}
+  {{/unless}} MESSAGES<div class="placeholder">{{__ "No messages in this context yet"}}</div>{{#if req.session.user}}
 
   <section id="posting">
 
@@ -92,7 +92,7 @@
       <div class="send-icon fileUpload">
         <input name="file" id="upload" type="file" class="upload" />
       </div>
-      <button class="send-icon" type="submit">Send</button>
+      <button class="send-icon" type="submit">{{__ "Send"}}</button>
 
     </form>
 
@@ -106,7 +106,7 @@
   {{/if}} {{#if req.session.channels}}
 
   <script>
-    window.channels = JSON.parse("{{json req.session.channels}}".split("&quot;").join('"'));
+    window.channels = {{{json req.session.channels}}};
 
   </script>
 
@@ -114,7 +114,7 @@
 
   <script>
     window.userFilters = "{{req.session.filters}}";
-
+    window.translations = {{{json translations}}}
   </script>
 
   <script src="/filter.js"></script>
