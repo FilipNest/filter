@@ -2,7 +2,7 @@
 
 Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised.
 
-## Quick start!
+## Quick start for users
 
 * [filters.social](https://filters.social)
 * Register for an account (you can read posts without)
@@ -14,6 +14,11 @@ Social messaging/chat based around context, people and quality filters. Free and
 * `#hashtags` work within messages (the same as switching/adding contexts). As do `@mentions`. `@@username` is a private message.
 * You can set global filters for your username to filter out stuff regardless of current context.
 * You can listen to other instances of filters (that's the decentralised part).
+
+## Quick start for developers
+
+`npm install filters.social`
+`node start` (will run on port 80 and put files and data in /data directory. See config section lower down for more information on settings you can pass in)
 
 ## Main, slower, about
 
