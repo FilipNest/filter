@@ -16,6 +16,8 @@ filters.debug = function (thing) {
 
 };
 
+// Default config
+
 filters.config = {
   port: 80,
   database: "db_nedb",
@@ -43,6 +45,8 @@ process.argv.forEach(function (val, index, array) {
 
 });
 
+// Check config file if set
+
 try {
 
   Object.assign(filters.config, JSON.parse(fs.readFileSync(filters.config.config), "utf8"));
@@ -67,7 +71,11 @@ if (!fs.existsSync(filters.config.data)) {
   fs.mkdirSync(filters.config.data);
 }
 
+// Require database file set in config
+
 require("./" + filters.config.database);
+
+// Register translation and JSON Handlebars helpers
 
 var Handlebars = require('handlebars');
 var moment = require("moment");
@@ -82,7 +90,7 @@ Handlebars.registerHelper('__', function (words, options) {
 
   return translate.__(words);
 
-})
+});
 
 var linkify = require('linkifyjs');
 require('linkifyjs/plugins/hashtag')(linkify);
@@ -158,7 +166,7 @@ filters.generateAuthCode = function (username) {
     });
 
 
-  })
+  });
 
 };
 
@@ -255,13 +263,11 @@ app.use(passport.initialize());
 
 app.use(passport.session());
 
-// used to serialize the user for the session
 passport.serializeUser(function (user, done) {
 
   done(null, user.username);
 });
 
-// used to deserialize the user
 passport.deserializeUser(function (id, done) {
 
   filters.dbFetch("users", {
@@ -340,7 +346,7 @@ filters.apiCall = function (req) {
 
     }
 
-  })
+  });
 
 };
 
@@ -402,11 +408,11 @@ app.post("/meta/userchannels", function (req, res) {
         channel: req.body["channel-number-" + number],
         code: req.body["channel-code-" + number]
 
-      })
+      });
 
     }
 
-  })
+  });
 
   filters.dbUpdate("users", {
     username: req.session.user,
@@ -476,7 +482,7 @@ app.post("/meta/newUser", function (req, res) {
 
     return false;
 
-  };
+  }
 
   // Check if username exists
 
@@ -548,7 +554,7 @@ app.post("/meta/newUser", function (req, res) {
 
     });
 
-  })
+  });
 
 });
 
@@ -1028,7 +1034,7 @@ var messagesFromTags = function (tags, session) {
 
                     return message && message.words;
 
-                  })
+                  });
 
                   if (fetchedMessages.length) {
 
@@ -1235,7 +1241,7 @@ app.get("/:tags?", function (req, res) {
 
     });
 
-  })
+  });
 
 });
 
@@ -1579,10 +1585,10 @@ app.post("/meta/getAuthCode", function (req, res) {
 
         }
 
-      })
+      });
     }
-  })
-})
+  });
+});
 
 
 app.get("/meta/refresh/:tags?", function (req, res) {
@@ -1631,7 +1637,7 @@ app.post("/:tags?", function (req, res, next) {
 
     req.body.error = "File too big";
 
-  })
+  });
 
   req.busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
 

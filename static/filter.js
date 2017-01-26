@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", function (event) {
 
-  __ = function (words) {
+  var __ = function (words) {
 
     return window.translations[words];
 
-  }
+  };
 
   if (window.loggedIn) {
 
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
     "minpoints": [],
     "upvoted": [],
     "downvoted": []
-  }
+  };
 
   window.parseFriendlyFilters = function (form, callback) {
 
@@ -80,13 +80,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         output.push(formattedFilter);
 
-      })
+      });
 
-    })
+    });
 
     callback(output.join(","));
 
-  }
+  };
 
   window.friendlyFilters = function (filters) {
 
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
           window.filterCategories[type].push({
             value: value,
             negate: negate
-          })
+          });
 
         }
 
@@ -130,11 +130,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
         window.filterCategories.tags.push({
           value: filter,
           negate: negate
-        })
+        });
 
       }
 
-    })
+    });
 
     // Generate form
 
@@ -146,33 +146,33 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
         return !item.negate;
 
-      })
+      });
 
       var negative = window.filterCategories[key].filter(function (item) {
 
         return item.negate;
 
-      })
+      });
 
       form += "<fieldset class='filterBox'>";
       form += "<label>" + key + "</label>";
       form += "<button class='positive switch'>" + __("Include") + "</button>";
 
       form += '<textarea class="positive" name="+' + key + '">' + positive.map(function (item) {
-        return item.value
+        return item.value;
       }).join(",") + '</textarea>';
 
       form += '<textarea class="negative" name="!' + key + '">' + negative.map(function (item) {
-        return item.value
+        return item.value;
       }).join(",") + '</textarea>';
 
       form += "</fieldset>";
 
-    })
+    });
 
     return form;
 
-  }
+  };
 
   $("body").on("click", ".switch", function (e) {
 
@@ -195,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     return false;
 
-  })
+  });
 
   // Detect commas or spaces in tag field
 
@@ -250,7 +250,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     });
 
-  })
+  });
 
   $("#register").click(function () {
 
@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     });
 
-  })
+  });
 
   $("#userFilters").click(function () {
 
@@ -318,12 +318,12 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
               });
 
-          })
+          });
         }
       }
     });
 
-  })
+  });
 
   $("#channelsMenu").click(function () {
 
@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     });
 
-  })
+  });
 
   $("#postmessage").submit(function (e) {
 
@@ -397,7 +397,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
           }
 
         }
-      })
+      });
 
       $(".fileUpload").css('background-image', 'url("' + reader.result + '")');
       $(".fileUpload").addClass('done');
@@ -408,7 +408,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
       reader.readAsDataURL(file);
     }
 
-  })
+  });
 
   $("body").on("click", ".authCodeReveal", function (event) {
 
@@ -440,10 +440,10 @@ document.addEventListener("DOMContentLoaded", function (event) {
       }
     });
 
-    event.preventDefault;
+    event.preventDefault();
     return false;
 
-  })
+  });
 
   $("body").on("click", ".addChannel", function (event) {
 
@@ -498,7 +498,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     $('body').imagesLoaded(function () {
       $("html, body").scrollTop($(document).height());
-    })
+    });
 
   };
 
@@ -548,7 +548,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
       return (tag.indexOf("!") === -1) && (tag.indexOf("=") === -1);
 
-    })
+    });
 
     var placeholder = __("Write anything") + " ";
 
@@ -573,13 +573,13 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
   };
 
-  placeHolderRefresh();
+  window.placeHolderRefresh();
 
   window.refresh = function () {
 
     var currentTags = $('#tags').val();
 
-    placeHolderRefresh();
+    window.placeHolderRefresh();
 
     currentTags = currentTags.split("#").join("");
 
@@ -860,11 +860,11 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
           window.location.pathname = output;
 
-        })
+        });
 
       }
-    })
+    });
 
-  })
+  });
 
 });

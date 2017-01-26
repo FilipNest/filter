@@ -1,6 +1,6 @@
 {
   "undef": true,
-  "predef":["filters","$"],
+  "predef":["filters","$","jQuery","vex","__"],
   "unused": false,
   "node" : true,
   "browser": true,
