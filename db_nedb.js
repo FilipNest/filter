@@ -5,12 +5,12 @@ var Datastore = require('nedb');
 var databases = {};
 
 databases.messages = new Datastore({
-  filename: 'data/words.db',
+  filename: filters.config.data + "/words.db",
   autoload: true
 });
 
 databases.users = new Datastore({
-  filename: 'data/users.db',
+  filename: filters.config.data + "/users.db",
   autoload: true
 });
 

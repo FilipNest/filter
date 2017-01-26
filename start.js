@@ -17,30 +17,12 @@ filters.debug = function (thing) {
 filters.config = {
   port: 80,
   database: "db_nedb",
-  pageSize: "40"
+  pageSize: "40",
+  configFile: "config.json",
+  data: __dirname + "/data"
 };
 
 var fs = require("fs");
-
-// Load in config file if 
-
-try {
-
-  Object.assign(filters.config, JSON.parse(fs.readFileSync("./config.json", "utf8")));
-
-} catch (e) {
-
-  if (e.code && e.code === "ENOENT") {
-
-    // File doesn't exist, ignore
-
-  } else {
-
-    filters.debug(e);
-
-  }
-
-}
 
 // Check command line arguments
 
@@ -58,6 +40,30 @@ process.argv.forEach(function (val, index, array) {
   }
 
 });
+
+try {
+
+  Object.assign(filters.config, JSON.parse(fs.readFileSync(filters.config.configFile), "utf8"));
+
+} catch (e) {
+
+  if (e.code && e.code === "ENOENT") {
+
+    // File doesn't exist, ignore
+
+  } else {
+
+    filters.debug(e);
+
+  }
+
+}
+
+// Create data directory if it doesn't exist
+
+if (!fs.existsSync(filters.config.data)) {
+  fs.mkdirSync(filters.config.data);
+}
 
 require("./" + filters.config.database);
 
@@ -233,6 +239,7 @@ app.use(passport.session());
 
 // used to serialize the user for the session
 passport.serializeUser(function (user, done) {
+
   done(null, user.username);
 });
 
@@ -532,23 +539,27 @@ var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 
 app.use(function (req, res, next) {
 
-  if (req.session.passport && req.session.passport.user) {
-
-    req.session.user = req.session.passport.user;
+  if (req.session.user || req.session.passport && req.session.passport.user) {
 
     filters.dbFetch("users", {
-      username: req.session.user
+      username: req.session.passport.user || req.session.user
     }).then(function (data) {
 
       if (data && data.length) {
 
         var doc = data[0];
 
+        req.session.user = req.session.passport.user;
+
         req.session.authCode = doc.authCode;
 
         req.session.filters = doc.filters;
         req.session.channels = formatChanels(doc.channels);
 
+      } else {
+        
+        req.session.user = undefined;
+        
       }
 
       next();
@@ -748,7 +759,7 @@ filters.specialFilters["downvoted"] = {
 
 app.use(express.static('static'));
 
-app.use("/files", express.static("data/files"));
+app.use("/files", express.static(filters.config.data + "/files"));
 
 filters.privateFilter = function (message, user) {
 
@@ -1619,7 +1630,7 @@ app.post("/:tags?", function (req, res, next) {
 
       req.body.file = filePath;
 
-      var fstream = fs.createWriteStream(__dirname + "/data" + filePath);
+      var fstream = fs.createWriteStream(filters.config.data + filePath);
       file.pipe(fstream);
       fstream.on('close', function () {
 
