@@ -88,7 +88,7 @@ Storing all messages on one company's servers means you're forced to follow what
 * You can set global filters for your username to filter out stuff regardless of current context.
 * You can listen to other instances of filters (that's the decentralised part).
 
-## For developers
+## Developers
 
 ### As a global NPM module
 
