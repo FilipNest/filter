@@ -2,46 +2,10 @@
 
 Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable.
 
-## Quick start for users
+* [Quick start for users](#quick-start-for-users)
+* [For developers](#developers)
 
-* [filters.social](https://filters.social)
-* Register for an account (you can read posts without)
-* Put in tags in the top box to switch contexts.
-* Messages automatically get tagged with the context they're in. Plus things like author and a message id for replies.
-* You can use special filters like `author=` to filter down further. There's a big button to help you with all of these (and they're listed below).
-* All filters/tags can be reversed/negated with an exclamation point `!author=filipnest` or `!poetry`.
-* You can vote on posts. And filter based on who's voted on them using `upvoted=username` and `downvoted=username` filters. Or only show posts that have a certain number of votes with the `minpoints=` filter.
-* `#hashtags` work within messages (the same as switching/adding contexts). As do `@mentions`. `@@username` is a private message.
-* You can set global filters for your username to filter out stuff regardless of current context.
-* You can listen to other instances of filters (that's the decentralised part).
-
-## Quick start for developers
-
-### As a global NPM module
-
-* Run `npm install -g filters.social`
-* Run `filters` + config parameters
-
-If this doesn't work you may need to run `npm link`.
-
-### From git/files
-
-* Clone or download this
-* Run `npm install` in the root directory to install dependencies
-* Run `npm start` + config parameters
-
-### Config settings
-
-This will run on port 80 and put files and data in an automatically created `/data` directory. You can pass a `config` argument to point to a JSON file with settings. For example `npm start config=myconfig.json`. Or pass these parameters in directly as arguments.
-
-* port - which port should filters run on?
-* secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
-* pageSize - how many messages to show in one page.
-* database - the name of a JavaScript file to handle database queries/storage. Look at nedb.js for example functions.
-* fileSize - Max file upload size in bytes
-* data - Directory where the database and files will be stored
-
-## Main, slower, about
+## About
 
 Filters is a demo/concept/experiment of a decentralised social messaging platform with a focus on context. It's a bit like Twitter if you could filter away all the things you did and didn't want to read and have discussions on a specific topic with specific people while filtering out content you don't want based on topic, author, points (votes) the post has and more.
 
@@ -87,7 +51,7 @@ All special filters can also be preceded by a `!` to negate the filter.
 
 ### Channels
 
-If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings (see the bit about decentralisation above for more info). You can additionally authenticate to get private messages and more by typing in access tokens from one site to the other on the settings page.
+If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings. You can additionally authenticate to get private messages and more by typing in access tokens from one site to the other on the settings page.
 
 ### Formatting messages
 
@@ -111,15 +75,56 @@ Additional filters for things such as who wrote a post, who upvoted/downvoted it
 
 Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This allows you to create copies of the same software (it's free and open source) that support different features or look different but still understand messages from other instances.
 
-## Database
+## Quick start for users
 
-Filters uses the NedB JavaScript database but has a database API so you can slot in other databases if you want.
+* [filters.social](https://filters.social)
+* Register for an account (you can read posts without)
+* Put in tags in the top box to switch contexts.
+* Messages automatically get tagged with the context they're in. Plus things like author and a message id for replies.
+* You can use special filters like `author=` to filter down further. There's a big button to help you with all of these (and they're listed below).
+* All filters/tags can be reversed/negated with an exclamation point `!author=filipnest` or `!poetry`.
+* You can vote on posts. And filter based on who's voted on them using `upvoted=username` and `downvoted=username` filters. Or only show posts that have a certain number of votes with the `minpoints=` filter.
+* `#hashtags` work within messages (the same as switching/adding contexts). As do `@mentions`. `@@username` is a private message.
+* You can set global filters for your username to filter out stuff regardless of current context.
+* You can listen to other instances of filters (that's the decentralised part).
 
-## Translations
+## For developers
 
-There's a basic locales directory with English at the moment. All the strings should be in there. If you understand another language and would want to contribute pull requests with translations would be amazing.
+### As a global NPM module
 
-## JSON feed of messages
+* Run `npm install -g filters.social`
+* Run `filters` + optional config parameters
+
+If this doesn't work you may need to run `npm link`.
+
+### From git/files
+
+* Clone or download this via git or otherwise
+* Run `npm install` in the root directory to install dependencies
+* Run `npm start` + optional config parameters
+
+### Config settings
+
+This will run on port 80 and put files and data in an automatically created `/data` directory. You can pass a `config` argument to point to a JSON file with settings. For example `npm start config=myconfig.json`. Or pass these parameters in directly as arguments.
+
+All of these are optional/have defaults
+
+* port - which port should filters run on?
+* secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
+* pageSize - how many messages to show in one page.
+* database - the name of a JavaScript file to handle database queries/storage if you don't want to use the default. Look at `db_nedb.js` for example functions as that's the default file.
+* fileSize - Max file upload size in bytes
+* data - Directory where the database and files will be stored
+
+### Database
+
+Filters uses the NedB JavaScript database but has a database API so you can slot in other databases if you want. Look at the `db_nedb.js` for all the functions that uses and then put your new file in the config `database` parameter.
+
+### Translations
+
+There's a basic locales directory with the English text at the moment. All the text strings should be in there. If you understand another language and would want to contribute pull requests with translations that would be amazing.
+
+### JSON feed of messages
 
 Add `?format=json` to a Filters url to get messages in JSON format. If you pass a `code` parameter in (you can get this from your settings screen once logged in) you can make REST calls while logged in.
 
