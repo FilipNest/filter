@@ -17,7 +17,9 @@ Have a play at [filters.social](https://filters.social) or deploy your own insta
 
 The decentralised bit means you can run your own copy of it (it's free and open source) and communicate with other copies. 
 
-Developers can even switch the database they want to use via a database API. Deploy a copy using the instructions in the deployment section and play around. There's also a REST and websockets API to help development.
+_Developers can also play with a REST and websockets API and even switch database types through a database abstraction layer._
+
+## Tags
 
 ### Automatically added tags
 
@@ -29,11 +31,11 @@ Developers can even switch the database they want to use via a database API. Dep
 
 Aside from changing the context in the context box, you can add extra tags by prefixing words with the `#` symbol. Mentions are pretty much the same prefixed with a `@` and are also added to the message's tags. Double `@@` is a private message.
 
-### Points
+## Points
 
 Messages can be voted up or down (or both currently, not sure if bug/feature!). This is useful for filtering away good or bad content. One upvote and one downvote per user per message.
 
-### Special filters
+## Filters
 
 * `!tag` negates the tag so makes sure it's not there.  `!world,hello` would show all things tagged with `hello` but not `world`.
 * `minpoints=value` only shows posts with points greater or equal to the value field. So `minpoints=10` would only show posts with points greater or equal to 10.
@@ -44,18 +46,18 @@ Messages can be voted up or down (or both currently, not sure if bug/feature!). 
 
 All special filters can also be preceded by a `!` to negate the filter.
 
-### Navigating through a message
+## Navigating through a message
 
 * Author will lead you to a filter for them. All their messages will appear here. It's kinda like a profile page but there are no profile pages. Just discussion contexts.
 * Reply button will add a filter for the message id and mention the author.
 * Filter button will lead you to the filtered context of this message (if it's different from the current context. It's not visible if the context is the same).
 * Any tags that aren't in the current context appear above the message preceded by a `+` sign. You can click on them to go to that context.
 
-### Channels
+## Channels
 
 If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings. You can additionally authenticate to get private messages as well by typing in access tokens from one site to the other on the settings page.
 
-### Formatting messages
+## Formatting messages
 
 URLS will be turned into links automatically, hashtags and mentions (`#tag @username`) will be turned into filter links. Basic image uploading is also supported (alt text and more coming soon).
 
