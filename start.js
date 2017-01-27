@@ -122,6 +122,14 @@ i18n.configure({
 
 app.use(i18n.init);
 
+// Check if custom stylesheet passed in
+
+if (filters.config.stylesheet) {
+
+  app.use('/custom.css', express.static(filters.config.stylesheet));
+
+}
+
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
 
 app.use('/vex', express.static(__dirname + '/node_modules/vex-js/dist/'));
@@ -1207,7 +1215,8 @@ app.get("/:tags?", function (req, res) {
         tags: req.params.tags ? req.params.tags.split(",") : null,
         req: req,
         res: res,
-        translations: translations
+        translations: translations,
+        stylesheet: filters.config.stylesheet || undefined
       });
 
       var messageBlock = messagesTemplate({

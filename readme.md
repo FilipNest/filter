@@ -1,6 +1,6 @@
 # Filters
 
-Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable.
+Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable. Themeable.
 
 * [Quick start for users](#quick-start-for-users)
 * [For developers](#developers)
@@ -115,6 +115,7 @@ All of these options are optional/have defaults
 
 * port - which port should filters run on?
 * secret - a secret key used for signing cookies, if you don't specify this a random one will be created on startup but that means your sessions won't be persistent between server restarts.
+* stylesheet - A path to a custom stylesheet to load into the template
 * pageSize - how many messages to show in one page.
 * database - the name of a JavaScript file to handle database queries/storage if you don't want to use the default. Look at `db_nedb.js` for example functions as that's the default file.
 * fileSize - Max file upload size in bytes
