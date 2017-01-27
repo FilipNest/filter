@@ -132,6 +132,8 @@ There's a basic locales directory with the English text at the moment. All the t
 
 Add `?format=json` to a Filters url to get messages in JSON format. If you pass a `code` parameter in (you can get this from your settings screen once logged in) you can make REST calls while logged in.
 
+For example: https://filters.social/kittens?format=json
+
 ## Help!
 
 Filters is free and open source and I would very much like your help. Whether it's suggestions, code or design, everything would be very much appreciated.
