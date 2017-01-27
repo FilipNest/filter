@@ -117,7 +117,6 @@ var server = http.createServer(),
 var i18n = require("i18n");
 
 i18n.configure({
-  locales: ['en'],
   directory: __dirname + '/locales',
 });
 
@@ -790,7 +789,7 @@ filters.specialFilters["downvoted"] = {
   }
 };
 
-app.use(express.static('static'));
+app.use(express.static(__dirname + "/static"));
 
 app.use("/files", express.static(filters.config.data + "/files"));
 
