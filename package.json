@@ -1,8 +1,13 @@
 {
   "name": "filters.social",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "description": "Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable. Easy to deploy.",
-  "keywords": ["chat", "social", "messaging", "decentralised"],
+  "keywords": [
+    "chat",
+    "social",
+    "messaging",
+    "decentralised"
+  ],
   "main": "core.js",
   "author": "FilipNest",
   "license": "ISC",
