@@ -1,5 +1,6 @@
 # Filters
 
+Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable. Themeable. Easy to deploy.
 
 * [Quick start for users](#quick-start-for-users)
 * [For developers](#developers)
