@@ -1221,6 +1221,8 @@ app.get("/:tags?", function (req, res) {
     messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
       if (req.query.format === "json") {
+        
+        console.log(messages);
 
         res.json(messages);
 
