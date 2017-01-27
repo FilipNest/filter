@@ -572,9 +572,9 @@ var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 app.use(function (req, res, next) {
 
   if (req.session.user || req.session.passport && req.session.passport.user) {
-
+        
     filters.dbFetch("users", {
-      username: req.session.passport.user || req.session.user
+      username: req.session.user || req.session.passport.user
     }).then(function (data) {
 
       if (data && data.length) {
