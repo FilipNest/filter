@@ -1159,15 +1159,11 @@ var messagesFromTags = function (tags, session) {
 
           messages.reverse();
 
-//          Fiiter out empty messages TODO work out why null messages appearing
-          
+          //          Fiiter out empty messages TODO work out why null messages appearing
+
           messages = messages.filter(function (message) {
 
-            if (message) {
-
-              return true;
-
-            }
+            return message;
 
           });
 
@@ -1183,11 +1179,7 @@ var messagesFromTags = function (tags, session) {
 
         messages = messages.filter(function (message) {
 
-          if (message) {
-
-            return true;
-
-          }
+          return message;
 
         });
 
