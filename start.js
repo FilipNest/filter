@@ -1159,14 +1159,6 @@ var messagesFromTags = function (tags, session) {
 
           messages.reverse();
 
-          //          Fiiter out empty messages TODO work out why null messages appearing
-
-          messages = messages.filter(function (message) {
-
-            return message;
-
-          });
-
           resolve(messages);
 
         }, function (fail) {
@@ -1177,15 +1169,11 @@ var messagesFromTags = function (tags, session) {
 
       } else {
 
-        messages = messages.filter(function (message) {
-
-          return message;
-
-        });
-
         messages = filters.privateFilter(messages, user);
 
-        messages.length = filters.config.pageSize;
+        if (messages.length > filters.config.pageSize) {
+          messages.length = filters.config.pageSize;
+        }
 
         resolve(messages);
 
@@ -1221,8 +1209,6 @@ app.get("/:tags?", function (req, res) {
     messagesFromTags(req.params.tags, req.session).then(function (messages) {
 
       if (req.query.format === "json") {
-        
-        console.log(messages);
 
         res.json(messages);
 
