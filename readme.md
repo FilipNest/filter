@@ -1,11 +1,11 @@
-<img src="https://cloud.githubusercontent.com/assets/4625324/22355151/f19f0ea0-e420-11e6-9cfc-82ba64baa05a.gif" alt="screen capture of filters searching for music in 2017 and kittens" width="300"/>
-
 # Filters
 
 Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable.
 
 * [Quick start for users](#quick-start-for-users)
 * [For developers](#developers)
+
+<img src="https://cloud.githubusercontent.com/assets/4625324/22355151/f19f0ea0-e420-11e6-9cfc-82ba64baa05a.gif" alt="screen capture of filters searching for music in 2017 and kittens" width="300"/>
 
 ## About
 
