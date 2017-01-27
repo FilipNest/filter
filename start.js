@@ -23,7 +23,7 @@ filters.config = {
   database: "db_nedb",
   pageSize: "40",
   config: "config.json",
-  data: "/data"
+  data: process.cwd() + "/data"
 };
 
 var fs = require("fs");
@@ -74,7 +74,7 @@ if (!fs.existsSync(filters.config.data)) {
 // Create files directory if it doesn't exist
 
 if (!fs.existsSync(filters.config.data + "/files")) {
-  fs.mkdirSync(filters.config.data+ "/files");
+  fs.mkdirSync(filters.config.data + "/files");
 }
 
 // Require database file set in config
@@ -587,7 +587,7 @@ app.use(function (req, res, next) {
 
         var doc = data[0];
 
-        req.session.user = req.session.passport.user;
+        req.session.user = doc.username;
 
         req.session.authCode = doc.authCode;
 
