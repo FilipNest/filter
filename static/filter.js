@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     // Request permission for notifactions if not granted
 
-    if (Notification.permission === "granted") {
+    if (window.Notification && window.Notification.permission === "granted") {
 
       window.notifyOn = true;
 
