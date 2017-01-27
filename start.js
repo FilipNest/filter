@@ -23,7 +23,7 @@ filters.config = {
   database: "db_nedb",
   pageSize: "40",
   config: "config.json",
-  data: __dirname + "/data"
+  data: "/data"
 };
 
 var fs = require("fs");
@@ -69,6 +69,12 @@ try {
 
 if (!fs.existsSync(filters.config.data)) {
   fs.mkdirSync(filters.config.data);
+}
+
+// Create files directory if it doesn't exist
+
+if (!fs.existsSync(filters.config.data + "/files")) {
+  fs.mkdirSync(filters.config.data+ "/files");
 }
 
 // Require database file set in config
@@ -572,7 +578,7 @@ var hashids = new Hashids('', 0, 'abcdefghijklmnopqrstuvwxyz1234567890');
 app.use(function (req, res, next) {
 
   if (req.session.user || req.session.passport && req.session.passport.user) {
-        
+
     filters.dbFetch("users", {
       username: req.session.user || req.session.passport.user
     }).then(function (data) {
