@@ -1,5 +1,5 @@
 <html>
-  
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="/icons/favicon.png" rel="icon" type="icons/x-icon">
 
@@ -11,17 +11,13 @@
 
   <link rel="stylesheet" href="/libraries/tagsinput/jquery.tagsinput.css">
 
-  <link rel="stylesheet" href="/style.css" />
-  
-    {{#if stylesheet}}
-  
-    <link rel="stylesheet" href="/custom.css"/>
+  <link rel="stylesheet" href="/style.css" /> {{#if stylesheet}}
 
-    {{/if}}
-  
+  <link rel="stylesheet" href="/custom.css" /> {{/if}}
+
   <title>Filters</title>
-  
-    <noscript>
+
+  <noscript>
 
     <style>
       #tagContainer {
@@ -39,7 +35,7 @@
 </head>
 
 <body>
-  
+
   <header>
 
     <div class="inner">
@@ -57,13 +53,14 @@
 
         <a id="login">{{__ "Login"}}</a> | <a id="register">{{__ "Register"}}</a> {{else}}
 
-        <a href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">{{__ "Mentions"}}</a> | <a id="userFilters">{{__ "Filters"}}</a> | <a id="channelsMenu">{{__ "Channels"}}</a>{{/unless}} | <a href="https://github.com/FilipNest/filters.social/blob/master/readme.md">?</a>
+        <a title="logout" href="meta/logout">&#10005;</a> | <b>{{req.session.user}}</b> | <a href="@{{req.session.user}},!author={{req.session.user}}">{{__ "Mentions"}}</a> | <a id="userFilters">{{__ "Filters"}}</a> | <a id="channelsMenu">{{__ "Channels"}}</a>{{/unless}} | <a title="about/help" href="https://github.com/FilipNest/filters.social/blob/master/readme.md">?</a>
 
       </nav>
 
       <div id="tagContainer">
+        <label for="tags" class="visuallyhidden">Tags and filters</label>
         <input id="tags" value="{{tagsJSON}}" />
-        <a id="filters" title="filters"></a>
+        <a id="filters" title="filters helper"></a>
       </div>
     </div>
 
@@ -79,38 +76,44 @@
 
   {{else}}
 
-    <form id="channelsForm" style="display:none;">
-      <div>
+  <form id="channelsForm" style="display:none;">
+    <div>
 
-        <button class="authCodeReveal">{{__ "Get your authcode for this channel"}}</button>
-        <div class="authcode"></div>
+      <button title="get authcode" class="authCodeReveal">{{__ "Get your authcode for this channel"}}</button>
+      <div class="authcode"></div>
 
-        <div class="channelList">
+      <div class="channelList">
 
-          {{#each req.session.channels}}
+        {{#each req.session.channels}}
 
-          <fieldset class="channel">
-            <input type="text" name="channel-number-{{@index}}" value="{{this.raw}}" placeholder="http://..." />
-            <input type="password" name="channel-code-{{@index}}" value="" placeholder="{{#if this.code}} Change Authcode {{else}} Set Authcode {{/if}}" />
-            <button class="removeChannel">Remove</button>
-          </fieldset>
+        <fieldset class="channel">
+          <label class="visuallyhidden" for="channel-number-{{@index}}">channel number {{@index}}</label>
+          <input type="text" name="channel-number-{{@index}}" value="{{this.raw}}" placeholder="http://..." />
+          <label class="visuallyhidden" for="channel-code-{{@index}}">Channel code. Leave blank to leave unchanged. {{@index}}</label>
+          <input type="password" name="channel-code-{{@index}}" value="" placeholder="{{#if this.code}} Change Authcode {{else}} Set Authcode {{/if}}" />
+          <button class="removeChannel">Remove</button>
+        </fieldset>
 
-          {{/each}}
-        </div>
-        <button class="addChannel">{{__ "Add a channel"}}</button>
+        {{/each}}
       </div>
-    </form>
+      <button class="addChannel">{{__ "Add a channel"}}</button>
+    </div>
+  </form>
 
-  {{/unless}} MESSAGES<div class="placeholder">{{__ "No messages in this context yet"}}</div>{{#if req.session.user}}
+  {{/unless}} MESSAGES
+  <div class="placeholder">{{__ "No messages in this context yet"}}</div>{{#if req.session.user}}
 
   <section id="posting">
 
     <form id="postmessage" autocomplete="off" method="POST">
 
+      <label class="visuallyhidden" for="words">Your message</label>
       <textarea id="words" name="words"></textarea>
       <input hidden id="tagField" name="tags" value="{{tagsJSON}}" />
-      <input type="hidden" id="fileAlt" name="fileAlt"/>
+      <input type="hidden" id="fileAlt" name="fileAlt" />
       <div class="send-icon fileUpload">
+        <label class="visuallyhidden" for="file">File upload</label>
+
         <input name="file" id="upload" type="file" class="upload" />
       </div>
       <button class="send-icon" type="submit">{{__ "Send"}}</button>
@@ -136,6 +139,7 @@
   <script>
     window.userFilters = "{{req.session.filters}}";
     window.translations = {{{json translations}}}
+
   </script>
 
   <script src="/filter.js"></script>
