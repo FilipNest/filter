@@ -1159,6 +1159,18 @@ var messagesFromTags = function (tags, session) {
 
           messages.reverse();
 
+//          Fiiter out empty messages TODO work out why null messages appearing
+          
+          messages = messages.filter(function (message) {
+
+            if (message) {
+
+              return true;
+
+            }
+
+          });
+
           resolve(messages);
 
         }, function (fail) {
@@ -1168,6 +1180,16 @@ var messagesFromTags = function (tags, session) {
         });
 
       } else {
+
+        messages = messages.filter(function (message) {
+
+          if (message) {
+
+            return true;
+
+          }
+
+        });
 
         messages = filters.privateFilter(messages, user);
 
