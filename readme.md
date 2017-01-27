@@ -53,7 +53,7 @@ All special filters can also be preceded by a `!` to negate the filter.
 
 ### Channels
 
-If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings. You can additionally authenticate to get private messages and more by typing in access tokens from one site to the other on the settings page.
+If you know of multiple instances/servers of the Filters software running you can listen to all of them just by adding the urls to the external channel box in your settings. You can additionally authenticate to get private messages as well by typing in access tokens from one site to the other on the settings page.
 
 ### Formatting messages
 
@@ -65,7 +65,7 @@ Messages are formatted using the [typogr](https://www.npmjs.com/package/typogr) 
 
 ### 1) Context and control over what's on your feed
 
-I love Twitter, everyone keeps wanting to replace it but I still love it. One thing that annoys me though is that sometimes the lack of a context behind a feed makes it seem like everyone's just shouting over each other about things. I mostly tweet about music but, in a year of a lot of big political events and other things, my tweets about music seem a bit funny next to everything else. I've even seen people get annoyed with others about tweeting something irrelevant to what they want to hear about.
+I love Twitter but the main thing that annoys me is that sometimes the lack of a context behind a feed makes it seem like everyone's just shouting over each other about things. I mostly tweet about music but, in a time of a lot of big political events, my tweets about music seem a bit funny next to everything else. I've even seen people get annoyed with others about tweeting something irrelevant to what they want to hear about.
 
 I grew up on message boards (mostly music ones) and chat rooms (games). Both had closed contexts and communities where you could discuss one thing without being distracted or pushed into discussing other things.
 
@@ -75,7 +75,7 @@ Additional filters for things such as who wrote a post, who upvoted/downvoted it
 
 ### 2) Decentralisation
 
-Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your personal preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This allows you to create copies of the same software (it's free and open source) that support different features or look different but still understand messages from other instances.
+Storing all messages on one company's servers means you're forced to follow whatever advertising, privacy and content policies that company puts forward. Filters is decentralised. Any instance can listen to messages from any other instance (go into your channels preferences and type some urls in for channels you want to read, if they're hosting Filters instances the messages will be pulled into your feed and filtered just like the other messages). This also allows you to create copies of the same software that support different features or look different but still understand messages from other instances.
 
 ## Quick start for users
 
