@@ -99,9 +99,10 @@ Storing all messages on one company's servers means you're forced to follow what
 #### As a global NPM module
 
 * Run `npm install -g filters.social`
+* Navigate to a directory you want to store stuff like message data and files in.
 * Run `filters` + optional config parameters
 
-If this doesn't work you may need to run `npm link`.
+If this doesn't work you may need to run `npm link` before running the last command.
 
 #### From git/files
 
