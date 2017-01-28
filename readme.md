@@ -147,7 +147,7 @@ Thank you!
 
 ## License
 
-Filters is released under the ISC license.
+Filters is released under the ISC license. This shouldn't be restrictive in any way but if you want me to release it under another license just let me now in the issue queue and I'll probably be able to fork it for you.
 
 ## Credits
 
