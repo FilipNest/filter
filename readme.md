@@ -102,8 +102,6 @@ Storing all messages on one company's servers means you're forced to follow what
 * Navigate to a directory you want to store stuff like message data and files in.
 * Run `filters` + optional config parameters
 
-If this doesn't work you may need to run `npm link` before running the last command.
-
 #### From git/files
 
 * Clone or download this via git or otherwise
