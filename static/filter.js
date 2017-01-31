@@ -262,7 +262,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 
     vex.dialog.open({
       "message": __("Register for an account"),
-      input: "<input type='email' placeholder='email' name='email'/><br /><input placeholder='username' type='text' name='username'/><br /><input type='password' name='password'/>",
+      input: "<input type='email' placeholder='email' name='email'/><br /><input placeholder='username' type='text' name='username'/><br /><input placeholder='password' type='password' name='password'/>",
       callback: function (response) {
 
         if (response.password) {
