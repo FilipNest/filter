@@ -2,6 +2,9 @@
 
 Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable. Themeable. Easy to deploy.
 
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+
+
 * [Quick start for users](#quick-start-for-users)
 * [For developers](#developers)
 
