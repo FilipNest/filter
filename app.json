@@ -10,9 +10,6 @@
       "url": "https://github.com/heroku/heroku-buildpack-nodejs"
     }
   ],
-  "scripts": {
-    "postdeploy": "node start"
-  },
   "env": {
     "COOKIE_SECRET": {
       "description": "Cookie secret to validate sessions against"
