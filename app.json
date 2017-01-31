@@ -13,7 +13,7 @@
   "env": {
     "COOKIE_SECRET": {
       "description": "Cookie secret to validate sessions against",
-      required: false
+      "required": false
     },
     "REMOTE_STYLESHEET": {
       "description": "URL of a stylesheet to use"
