@@ -15,7 +15,7 @@
   },
   "env": {
     "COOKIE_SECRET": {
-      "description": "Cookie secret",
+      "description": "Cookie secret"
     },
     "STYLESHEET": {
       "description": "URL of stylesheet"
