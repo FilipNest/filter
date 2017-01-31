@@ -16,7 +16,8 @@
       "required": false
     },
     "REMOTE_STYLESHEET": {
-      "description": "URL of a stylesheet to use"
+      "description": "URL of a stylesheet to use",
+      "required": false
     }
   }
 }
