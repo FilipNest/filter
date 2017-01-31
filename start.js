@@ -19,7 +19,7 @@ filters.debug = function (thing) {
 // Default config
 
 filters.config = {
-  port: 80,
+  port: process.env.PORT || 80,
   database: "db_nedb",
   pageSize: "40",
   config: "config.json",
