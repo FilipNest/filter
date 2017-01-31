@@ -15,10 +15,10 @@
   },
   "env": {
     "COOKIE_SECRET": {
-      "description": "Cookie secret"
+      "description": "Cookie secret to validate sessions against"
     },
-    "STYLESHEET": {
-      "description": "URL of stylesheet"
+    "REMOTE_STYLESHEET": {
+      "description": "URL of a stylesheet to use"
     }
   }
 }

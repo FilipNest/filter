@@ -23,7 +23,8 @@ filters.config = {
   database: "db_nedb",
   pageSize: "40",
   config: "config.json",
-  data: process.cwd() + "/data"
+  data: process.cwd() + "/data",
+  remoteStylesheet: process.env.REMOTE_STYLESHEET || undefined
 };
 
 var fs = require("fs");
@@ -129,6 +130,8 @@ i18n.configure({
 app.use(i18n.init);
 
 // Check if custom stylesheet passed in
+
+var url = require("url");
 
 if (filters.config.stylesheet) {
 
@@ -1224,7 +1227,7 @@ app.get("/:tags?", function (req, res) {
         req: req,
         res: res,
         translations: translations,
-        stylesheet: filters.config.stylesheet || undefined
+        config: filters.config
       });
 
       var messageBlock = messagesTemplate({

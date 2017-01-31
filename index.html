@@ -11,9 +11,15 @@
 
   <link rel="stylesheet" href="/libraries/tagsinput/jquery.tagsinput.css">
 
-  <link rel="stylesheet" href="/style.css" /> {{#if stylesheet}}
+  <link rel="stylesheet" href="/style.css" /> {{#if config.stylesheet}}
 
   <link rel="stylesheet" href="/custom.css" /> {{/if}}
+  
+  {{#if config.remoteStylesheet}}
+  
+  <link rel="stylesheet" href="{{config.remoteStylesheet}}" />
+  
+  {{/if}}
 
   <title>Filters</title>
 
