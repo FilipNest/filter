@@ -1,0 +1,16 @@
+{
+  "name": "Filters",
+  "description": "Social messaging/chat based around context, people and quality filters. Free and open source. Decentralised. Translatable. Easy to deploy.",
+  "website": "https://filters.social",
+  "repository": "https://github.com/FilipNest/filters.social",
+  "logo": "https://filters.social/icons/filter.svg",
+  "keywords": ["node", "chat"],
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-nodejs"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "node start"
+  },
+}
