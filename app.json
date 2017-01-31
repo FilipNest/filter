@@ -12,5 +12,13 @@
   ],
   "scripts": {
     "postdeploy": "node start"
+  },
+  "env": {
+    "COOKIE_SECRET": {
+      "description": "Cookie secret",
+    },
+    "STYLESHEET": {
+      "description": "URL of stylesheet"
+    }
   }
 }
