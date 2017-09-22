@@ -367,7 +367,7 @@ filters.apiCall = function (req) {
 
 };
 
-var bcrypt = require("bcrypt");
+var bcrypt = require("bcrypt-nodejs");
 
 // Create new user
 
